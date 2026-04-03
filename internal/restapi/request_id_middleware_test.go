@@ -12,6 +12,8 @@ import (
 )
 
 func TestRequestIDMiddleware(t *testing.T) {
+	t.Parallel()
+
 	t.Run("should generate request ID if missing", func(t *testing.T) {
 		nextHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			reqID, ok := r.Context().Value(RequestIDKey).(string)
@@ -108,6 +110,8 @@ func TestRequestIDMiddleware(t *testing.T) {
 }
 
 func TestRequestIDLoggingIntegration(t *testing.T) {
+	t.Parallel()
+
 	var logBuf bytes.Buffer
 
 	testLogger := slog.New(slog.NewJSONHandler(&logBuf, nil))

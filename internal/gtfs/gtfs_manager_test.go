@@ -52,7 +52,7 @@ func TestManager_RoutesForAgencyID(t *testing.T) {
 }
 
 func TestManager_GetStopsForLocation_UsesSpatialIndex(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 
 	testCases := []struct {
 		name          string
@@ -160,7 +160,7 @@ func TestGetVehicleForTrip_DirectTripIDLookup(t *testing.T) {
 	}
 	manager.rebuildMergedRealtimeLocked()
 
-	ctx := context.Background()
+	ctx := t.Context()
 	got := manager.GetVehicleForTrip(ctx, tripID)
 	require.NotNil(t, got)
 	assert.Equal(t, vehicleID, got.ID.ID)
@@ -286,7 +286,7 @@ func TestManager_IsServiceActiveOnDate(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			assert.Equal(t, tc.weekday, tc.date.Weekday().String())
 
-			active, err := manager.IsServiceActiveOnDate(context.Background(), serviceID, tc.date)
+			active, err := manager.IsServiceActiveOnDate(t.Context(), serviceID, tc.date)
 			if err == nil {
 				assert.GreaterOrEqual(t, active, int64(0))
 			}
@@ -295,7 +295,7 @@ func TestManager_IsServiceActiveOnDate(t *testing.T) {
 }
 
 func TestManager_GetVehicleForTrip(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 
 	gtfsConfig := Config{
 		GtfsURL:      models.GetFixturePath(t, "raba.zip"),
@@ -321,14 +321,14 @@ func TestManager_GetVehicleForTrip(t *testing.T) {
 
 	manager.rebuildMergedRealtimeLocked()
 
-	vehicle := manager.GetVehicleForTrip(context.Background(), "5735633")
+	vehicle := manager.GetVehicleForTrip(t.Context(), "5735633")
 	if vehicle != nil {
 		assert.NotNil(t, vehicle)
 		assert.Equal(t, "vehicle1", vehicle.ID.ID)
 	}
 
 	// Test Not Found
-	nilVehicle := manager.GetVehicleForTrip(context.Background(), "nonexistent")
+	nilVehicle := manager.GetVehicleForTrip(t.Context(), "nonexistent")
 	assert.Nil(t, nilVehicle)
 }
 
@@ -398,7 +398,7 @@ func TestManager_FindRoute_UsesMap(t *testing.T) {
 }
 
 func TestRoutesForAgencyID_MapOptimization(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 
 	gtfsConfig := Config{
 		GtfsURL:      models.GetFixturePath(t, "raba.zip"),
@@ -435,7 +435,7 @@ func TestRoutesForAgencyID_MapOptimization(t *testing.T) {
 }
 
 func TestRoutesForAgencyID_ConcurrentAccess(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 
 	gtfsConfig := Config{
 		GtfsURL:      models.GetFixturePath(t, "raba.zip"),
@@ -446,7 +446,7 @@ func TestRoutesForAgencyID_ConcurrentAccess(t *testing.T) {
 	require.NoError(t, err)
 	defer manager.Shutdown()
 
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	ctx, cancel := context.WithTimeout(t.Context(), 2*time.Second)
 	defer cancel()
 
 	var wg sync.WaitGroup
@@ -529,7 +529,7 @@ func BenchmarkRoutesForAgencyID_MapLookup(b *testing.B) {
 }
 
 func TestInitGTFSManager_RetryLogic(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Use an ultra-fast backoff schedule for the test to prevent it from hanging
 	backoffs := []time.Duration{
@@ -560,7 +560,7 @@ func TestInitGTFSManager_RetryLogic(t *testing.T) {
 }
 
 func TestParseAndLogFeedExpiryLocked(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// In-memory sqlite db to mock
 	db, err := sql.Open(gtfsdb.DriverName, ":memory:")
@@ -650,7 +650,7 @@ func TestManager_DataFreshnessTracking(t *testing.T) {
 }
 
 func TestActiveServiceIDsCacheInvalidation(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 
 	tempDir := t.TempDir()
 	gtfsConfig := Config{
@@ -711,11 +711,11 @@ func TestActiveServiceIDsCache_ErrorPathLeavesNothingCached(t *testing.T) {
 		GTFSDataPath: ":memory:",
 		Env:          appconf.Test,
 	}
-	manager, err := InitGTFSManager(context.Background(), gtfsConfig)
+	manager, err := InitGTFSManager(t.Context(), gtfsConfig)
 	require.NoError(t, err)
 	defer manager.Shutdown()
 
-	cancelledCtx, cancel := context.WithCancel(context.Background())
+	cancelledCtx, cancel := context.WithCancel(t.Context())
 	cancel()
 
 	_, queryErr := manager.GetActiveServiceIDsForDateCached(cancelledCtx, "20240101")
@@ -735,7 +735,7 @@ func TestActiveServiceIDsCache_ErrorPathLeavesNothingCached(t *testing.T) {
 
 func TestActiveServiceIDsCacheRace(t *testing.T) {
 	manager, _ := getSharedTestComponents(t)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// The primary goal is to exercise the race detector on the double-checked locking
 	// path; the equality assertions confirm all goroutines see consistent data.
@@ -761,7 +761,7 @@ func TestActiveServiceIDsCacheNilDB(t *testing.T) {
 		activeServiceIDsCache: make(map[string][]string),
 		// GtfsDB is intentionally nil.
 	}
-	_, err := manager.GetActiveServiceIDsForDateCached(context.Background(), "20240101")
+	_, err := manager.GetActiveServiceIDsForDateCached(t.Context(), "20240101")
 	require.Error(t, err, "nil GtfsDB should return an error, not panic")
 }
 
@@ -773,11 +773,11 @@ func TestActiveServiceIDsCacheMutationSafety(t *testing.T) {
 		GTFSDataPath: ":memory:",
 		Env:          appconf.Test,
 	}
-	manager, err := InitGTFSManager(context.Background(), gtfsConfig)
+	manager, err := InitGTFSManager(t.Context(), gtfsConfig)
 	require.NoError(t, err)
 	defer manager.Shutdown()
 
-	ctx := context.Background()
+	ctx := t.Context()
 	date := "20240101"
 
 	// First call: cache miss path — result must be a defensive copy.
@@ -803,7 +803,7 @@ func TestActiveServiceIDsCacheMutationSafety(t *testing.T) {
 
 func TestActiveServiceIDsCacheEmptyDate(t *testing.T) {
 	manager, _ := getSharedTestComponents(t)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// An empty date string is syntactically invalid for the calendar CTE. The call must
 	// return an error or an empty slice; it must never panic or cache garbage.
@@ -821,7 +821,7 @@ func TestActiveServiceIDsCacheEmptyDate(t *testing.T) {
 }
 
 func TestActiveServiceIDsCacheConcurrentForceUpdate(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 
 	tempDir := t.TempDir()
 	gtfsConfig := Config{
@@ -886,9 +886,9 @@ func TestActiveServiceIDsCacheConcurrentErrorAndReaders(t *testing.T) {
 	// Clear the cache so the cancelled-context goroutine reaches the DB query path
 	// rather than returning a warm-cache hit before the context is inspected.
 	manager.MockClearServiceIDsCache()
-	ctx := context.Background()
+	ctx := t.Context()
 
-	cancelledCtx, cancel := context.WithCancel(context.Background())
+	cancelledCtx, cancel := context.WithCancel(t.Context())
 	cancel()
 
 	// One goroutine queries with a cancelled context; all others use a valid context.

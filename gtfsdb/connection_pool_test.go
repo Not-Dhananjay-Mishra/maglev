@@ -1,7 +1,6 @@
 package gtfsdb
 
 import (
-	"context"
 	"database/sql"
 	"testing"
 
@@ -11,6 +10,8 @@ import (
 )
 
 func TestDatabaseConnectionPoolSettings(t *testing.T) {
+	t.Parallel()
+
 	// Test that database connection pool is configured with appropriate settings
 	config := Config{
 		DBPath:  ":memory:",
@@ -36,6 +37,8 @@ func TestDatabaseConnectionPoolSettings(t *testing.T) {
 }
 
 func TestConnectionPoolBehavior(t *testing.T) {
+	t.Parallel()
+
 	// Test connection pool behavior - note that :memory: databases use only 1 connection
 	// so concurrent queries will be serialized
 	config := Config{
@@ -51,7 +54,7 @@ func TestConnectionPoolBehavior(t *testing.T) {
 	db := client.DB
 
 	// Test that we can make sequential queries since :memory: uses 1 connection
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Make sequential queries to test that the single connection works
 	for i := 0; i < 10; i++ {
@@ -70,6 +73,8 @@ func TestConnectionPoolBehavior(t *testing.T) {
 }
 
 func TestConnectionLifetime(t *testing.T) {
+	t.Parallel()
+
 	// Test that connection max lifetime is configured
 	config := Config{
 		DBPath:  ":memory:",
@@ -87,7 +92,7 @@ func TestConnectionLifetime(t *testing.T) {
 	initialStats := db.Stats()
 
 	// Make a query to create at least one connection
-	ctx := context.Background()
+	ctx := t.Context()
 	row := db.QueryRowContext(ctx, "SELECT 1")
 	var result int
 	err = row.Scan(&result)
@@ -101,6 +106,8 @@ func TestConnectionLifetime(t *testing.T) {
 }
 
 func TestConnectionPoolConfiguration(t *testing.T) {
+	t.Parallel()
+
 	// Test the specific configuration values for in-memory databases
 	db, err := sql.Open(DriverName, ":memory:")
 	require.NoError(t, err, "Should open database")
@@ -115,7 +122,7 @@ func TestConnectionPoolConfiguration(t *testing.T) {
 	assert.Equal(t, 1, stats.MaxOpenConnections, "MaxOpenConns should be 1 for :memory: databases")
 
 	// Test that we can ping the database
-	ctx := context.Background()
+	ctx := t.Context()
 	err = db.PingContext(ctx)
 	assert.NoError(t, err, "Should be able to ping configured database")
 }

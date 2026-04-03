@@ -8,6 +8,8 @@ import (
 )
 
 func TestStopCreation(t *testing.T) {
+	t.Parallel()
+
 	code := "22005"
 	direction := UnknownValue
 	id := "unitrans_22005"
@@ -36,6 +38,8 @@ func TestStopCreation(t *testing.T) {
 }
 
 func TestStopJSON(t *testing.T) {
+	t.Parallel()
+
 	stop := Stop{
 		Code:               "22005",
 		Direction:          UnknownValue,
@@ -71,6 +75,8 @@ func TestStopJSON(t *testing.T) {
 }
 
 func TestStopWithEmptyValues(t *testing.T) {
+	t.Parallel()
+
 	stop := NewStop("", "", "", "", "", "", 0, 0, 0, nil, nil)
 
 	assert.Equal(t, "", stop.Code)
@@ -87,6 +93,8 @@ func TestStopWithEmptyValues(t *testing.T) {
 }
 
 func TestStopsResponseJSON(t *testing.T) {
+	t.Parallel()
+
 	stop1 := NewStop("22005", UnknownValue, "unitrans_22005", "2nd St & B St (EB)", "", UnknownValue,
 		38.542661, -121.743914, 0, []string{"unitrans_FMS"}, []string{"unitrans_FMS"})
 	stop2 := NewStop("22002", UnknownValue, "unitrans_22002", "1st St & C St / Downtown (EB)", "", UnknownValue,
@@ -111,6 +119,8 @@ func TestStopsResponseJSON(t *testing.T) {
 }
 
 func TestStopsResponseWithEmptyList(t *testing.T) {
+	t.Parallel()
+
 	response := StopsResponse{
 		List:       []Stop{},
 		OutOfRange: true,

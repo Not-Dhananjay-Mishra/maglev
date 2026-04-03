@@ -1,7 +1,6 @@
 package restapi
 
 import (
-	"context"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
@@ -15,6 +14,8 @@ import (
 )
 
 func TestExtractAndValidateID(t *testing.T) {
+	t.Parallel()
+
 	api := &RestAPI{
 		Application: &app.Application{
 			Clock: &clock.RealClock{},
@@ -49,7 +50,7 @@ func TestExtractAndValidateID(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			req, err := http.NewRequestWithContext(context.Background(), "GET", tt.url, nil)
+			req, err := http.NewRequestWithContext(t.Context(), "GET", tt.url, nil)
 			require.NoError(t, err)
 			req.SetPathValue("id", tt.idParam)
 
@@ -76,6 +77,8 @@ func TestExtractAndValidateID(t *testing.T) {
 }
 
 func TestExtractAndValidateAgencyCodeID(t *testing.T) {
+	t.Parallel()
+
 	api := &RestAPI{
 		Application: &app.Application{
 			Clock: &clock.RealClock{},
@@ -122,7 +125,7 @@ func TestExtractAndValidateAgencyCodeID(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			req, err := http.NewRequestWithContext(context.Background(), "GET", tt.url, nil)
+			req, err := http.NewRequestWithContext(t.Context(), "GET", tt.url, nil)
 			require.NoError(t, err)
 			req.SetPathValue("id", tt.idParam)
 

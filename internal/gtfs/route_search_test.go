@@ -1,7 +1,6 @@
 package gtfs
 
 import (
-	"context"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -85,7 +84,7 @@ func TestBuildRouteSearchQuery(t *testing.T) {
 }
 
 func TestSearchRoutes_MatchingResults(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 	manager, _ := getSharedTestComponents(t)
 	require.NotNil(t, manager)
 
@@ -104,7 +103,7 @@ func TestSearchRoutes_MatchingResults(t *testing.T) {
 }
 
 func TestSearchRoutes_NoMatch(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 	manager, _ := getSharedTestComponents(t)
 	require.NotNil(t, manager)
 
@@ -117,7 +116,7 @@ func TestSearchRoutes_NoMatch(t *testing.T) {
 }
 
 func TestSearchRoutes_EmptyInput(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 	manager, _ := getSharedTestComponents(t)
 	require.NotNil(t, manager)
 
@@ -130,7 +129,7 @@ func TestSearchRoutes_EmptyInput(t *testing.T) {
 }
 
 func TestSearchRoutes_WhitespaceOnlyInput(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 	manager, _ := getSharedTestComponents(t)
 	require.NotNil(t, manager)
 
@@ -143,7 +142,7 @@ func TestSearchRoutes_WhitespaceOnlyInput(t *testing.T) {
 }
 
 func TestSearchRoutes_DefaultLimit(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 	manager, _ := getSharedTestComponents(t)
 	require.NotNil(t, manager)
 

@@ -9,6 +9,7 @@ import (
 )
 
 func TestLoadFromFile_ValidConfig(t *testing.T) {
+	t.Parallel()
 	config, err := LoadFromFile("../../testdata/config_valid.json")
 	require.NoError(t, err)
 	require.NotNil(t, config)
@@ -28,6 +29,7 @@ func TestLoadFromFile_ValidConfig(t *testing.T) {
 }
 
 func TestLoadFromFile_FullConfig(t *testing.T) {
+	t.Parallel()
 	config, err := LoadFromFile("../../testdata/config_full.json")
 	require.NoError(t, err)
 	require.NotNil(t, config)
@@ -56,6 +58,7 @@ func TestLoadFromFile_FullConfig(t *testing.T) {
 }
 
 func TestLoadFromFile_MalformedJSON(t *testing.T) {
+	t.Parallel()
 	config, err := LoadFromFile("../../testdata/config_malformed.json")
 	assert.Error(t, err)
 	assert.Nil(t, config)
@@ -63,6 +66,7 @@ func TestLoadFromFile_MalformedJSON(t *testing.T) {
 }
 
 func TestLoadFromFile_InvalidConfig(t *testing.T) {
+	t.Parallel()
 	config, err := LoadFromFile("../../testdata/config_invalid.json")
 	assert.Error(t, err)
 	assert.Nil(t, config)
@@ -70,6 +74,7 @@ func TestLoadFromFile_InvalidConfig(t *testing.T) {
 }
 
 func TestLoadFromFile_FileNotFound(t *testing.T) {
+	t.Parallel()
 	config, err := LoadFromFile("nonexistent.json")
 	assert.Error(t, err)
 	assert.Nil(t, config)
@@ -77,6 +82,7 @@ func TestLoadFromFile_FileNotFound(t *testing.T) {
 }
 
 func TestValidate_InvalidPort(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name string
 		port int
@@ -88,6 +94,7 @@ func TestValidate_InvalidPort(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			config := &JSONConfig{
 				Port:             tt.port,
 				Env:              "development",
@@ -103,6 +110,7 @@ func TestValidate_InvalidPort(t *testing.T) {
 }
 
 func TestValidate_InvalidEnv(t *testing.T) {
+	t.Parallel()
 	config := &JSONConfig{
 		Port:             4000,
 		Env:              "staging",
@@ -116,6 +124,7 @@ func TestValidate_InvalidEnv(t *testing.T) {
 }
 
 func TestValidate_InvalidRateLimit(t *testing.T) {
+	t.Parallel()
 	config := &JSONConfig{
 		Port:             4000,
 		Env:              "development",
@@ -129,6 +138,7 @@ func TestValidate_InvalidRateLimit(t *testing.T) {
 }
 
 func TestValidate_InvalidLogLevel(t *testing.T) {
+	t.Parallel()
 	config := &JSONConfig{
 		Port:             4000,
 		Env:              "development",
@@ -146,6 +156,7 @@ func TestValidate_InvalidLogLevel(t *testing.T) {
 }
 
 func TestValidate_InvalidLogFormat(t *testing.T) {
+	t.Parallel()
 	config := &JSONConfig{
 		Port:             4000,
 		Env:              "development",
@@ -163,6 +174,7 @@ func TestValidate_InvalidLogFormat(t *testing.T) {
 }
 
 func TestValidate_EmptyApiKeys(t *testing.T) {
+	t.Parallel()
 	config := &JSONConfig{
 		Port:             4000,
 		Env:              "development",
@@ -176,6 +188,7 @@ func TestValidate_EmptyApiKeys(t *testing.T) {
 }
 
 func TestValidate_EmptyApiKeyString(t *testing.T) {
+	t.Parallel()
 	config := &JSONConfig{
 		Port:             4000,
 		Env:              "development",
@@ -189,6 +202,7 @@ func TestValidate_EmptyApiKeyString(t *testing.T) {
 }
 
 func TestValidate_DuplicateApiKeys(t *testing.T) {
+	t.Parallel()
 	config := &JSONConfig{
 		Port:             4000,
 		Env:              "development",
@@ -202,6 +216,7 @@ func TestValidate_DuplicateApiKeys(t *testing.T) {
 }
 
 func TestToAppConfig(t *testing.T) {
+	t.Parallel()
 	jsonConfig := &JSONConfig{
 		Port:          8080,
 		Env:           "production",
@@ -221,6 +236,7 @@ func TestToAppConfig(t *testing.T) {
 }
 
 func TestToAppConfig_EnvironmentConversion(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name        string
 		envString   string
@@ -233,6 +249,7 @@ func TestToAppConfig_EnvironmentConversion(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			jsonConfig := &JSONConfig{
 				Port:             4000,
 				Env:              tt.envString,
@@ -247,6 +264,7 @@ func TestToAppConfig_EnvironmentConversion(t *testing.T) {
 }
 
 func TestToGtfsConfigData_NoFeeds(t *testing.T) {
+	t.Parallel()
 	jsonConfig := &JSONConfig{
 		Port: 4000,
 		Env:  "development",
@@ -274,6 +292,7 @@ func TestToGtfsConfigData_NoFeeds(t *testing.T) {
 }
 
 func TestToGtfsConfigData_WithMultipleFeeds(t *testing.T) {
+	t.Parallel()
 	jsonConfig := &JSONConfig{
 		Port: 4000,
 		Env:  "production",
@@ -321,6 +340,7 @@ func TestToGtfsConfigData_WithMultipleFeeds(t *testing.T) {
 }
 
 func TestSetDefaults(t *testing.T) {
+	t.Parallel()
 	config := &JSONConfig{}
 	config.setDefaults()
 
@@ -336,6 +356,7 @@ func TestSetDefaults(t *testing.T) {
 }
 
 func TestSetDefaults_PartialConfig(t *testing.T) {
+	t.Parallel()
 	config := &JSONConfig{
 		Port:    8080,
 		ApiKeys: []string{"custom-key"},
@@ -353,6 +374,7 @@ func TestSetDefaults_PartialConfig(t *testing.T) {
 }
 
 func TestValidate_PathTraversalDataPath(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name      string
 		dataPath  string
@@ -369,6 +391,7 @@ func TestValidate_PathTraversalDataPath(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			config := &JSONConfig{
 				Port:             4000,
 				Env:              "development",
@@ -391,6 +414,7 @@ func TestValidate_PathTraversalDataPath(t *testing.T) {
 }
 
 func TestValidate_FileURLNotAllowed(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name    string
 		gtfsURL string
@@ -403,6 +427,7 @@ func TestValidate_FileURLNotAllowed(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			config := &JSONConfig{
 				Port:             4000,
 				Env:              "development",
@@ -423,6 +448,7 @@ func TestValidate_FileURLNotAllowed(t *testing.T) {
 }
 
 func TestValidate_PathTraversalGtfsURL(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name      string
 		gtfsURL   string
@@ -441,6 +467,7 @@ func TestValidate_PathTraversalGtfsURL(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			config := &JSONConfig{
 				Port:             4000,
 				Env:              "development",
@@ -465,6 +492,7 @@ func TestValidate_PathTraversalGtfsURL(t *testing.T) {
 }
 
 func TestValidate_ValidAbsolutePaths(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name    string
 		gtfsURL string
@@ -477,6 +505,7 @@ func TestValidate_ValidAbsolutePaths(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			config := &JSONConfig{
 				Port:             4000,
 				Env:              "development",
@@ -501,6 +530,7 @@ func TestValidate_ValidAbsolutePaths(t *testing.T) {
 }
 
 func TestValidate_PartialAuthHeaders(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name        string
 		authName    string
@@ -515,6 +545,7 @@ func TestValidate_PartialAuthHeaders(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			config := &JSONConfig{
 				Port:             4000,
 				Env:              "development",
@@ -542,6 +573,7 @@ func TestValidate_PartialAuthHeaders(t *testing.T) {
 }
 
 func TestLoadFromFile_FileSizeLimit(t *testing.T) {
+	t.Parallel()
 	// Create a test config file that's too large (> 10MB)
 	// We'll just test the error case with a mock by checking file size validation works
 
@@ -648,6 +680,7 @@ func TestLoadFromFile_EnvVarOverrides(t *testing.T) {
 }
 
 func TestToGtfsConfigData_NoDuplicates(t *testing.T) {
+	t.Parallel()
 	// Passing unique IDs
 	j := &JSONConfig{
 		GtfsRtFeeds: []GtfsRtFeed{
@@ -663,6 +696,7 @@ func TestToGtfsConfigData_NoDuplicates(t *testing.T) {
 }
 
 func TestToGtfsConfigData_DuplicateIDs(t *testing.T) {
+	t.Parallel()
 	// Passing duplicate IDs
 	j := &JSONConfig{
 		GtfsRtFeeds: []GtfsRtFeed{

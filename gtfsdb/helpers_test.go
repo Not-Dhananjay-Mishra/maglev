@@ -24,7 +24,7 @@ func TestPerformDatabaseMigration_Idempotency(t *testing.T) {
 		}
 	})
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// 1. First run should succeed and create tables
 	err = performDatabaseMigration(ctx, db)
@@ -52,7 +52,7 @@ func TestPerformDatabaseMigration_ErrorHandling(t *testing.T) {
 	// Inject malformed SQL to simulate a corrupted migration file
 	ddl = "CREATE TABLE valid_table (id INT); -- migrate\n THIS IS INVALID SQL;"
 
-	ctx := context.Background()
+	ctx := t.Context()
 	err = performDatabaseMigration(ctx, db)
 
 	assert.Error(t, err, "Migration should fail on invalid SQL")
@@ -68,7 +68,7 @@ func TestProcessAndStoreGTFSData_ValidationFailurePreservesData(t *testing.T) {
 		}
 	})
 
-	ctx := context.Background()
+	ctx := t.Context()
 	err = performDatabaseMigration(ctx, db)
 	assert.NoError(t, err)
 
@@ -143,7 +143,7 @@ func TestSlowQueryDB_LogsSlowQueries(t *testing.T) {
 	// Capture slog output via a custom handler.
 	logger, captured := newCaptureLogger(t)
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Threshold of 0 → logging disabled; no records should be emitted.
 	wrapper := newSlowQueryDB(db, 0)
@@ -193,7 +193,7 @@ func TestSlowQueryDB_LogsSlowExecContext(t *testing.T) {
 		return t0.Add(time.Duration(call) * 10 * time.Millisecond)
 	}
 
-	_, err = wrapper.ExecContext(context.Background(), "INSERT INTO t(v) VALUES (1)")
+	_, err = wrapper.ExecContext(t.Context(), "INSERT INTO t(v) VALUES (1)")
 	require.NoError(t, err)
 	require.Len(t, *captured, 1)
 	rec := (*captured)[0]
@@ -220,7 +220,7 @@ func TestSlowQueryDB_LogsSlowQueryRowContext(t *testing.T) {
 	}
 
 	var v int
-	err = wrapper.QueryRowContext(context.Background(), "SELECT 1").Scan(&v)
+	err = wrapper.QueryRowContext(t.Context(), "SELECT 1").Scan(&v)
 	require.NoError(t, err)
 	assert.Equal(t, 1, v)
 	require.Len(t, *captured, 1)
@@ -247,7 +247,7 @@ func TestSlowQueryDB_LogsSlowErrorsWithErrorAttribute(t *testing.T) {
 		return t0.Add(time.Duration(call) * 10 * time.Millisecond)
 	}
 
-	_, err = wrapper.QueryContext(context.Background(), "SELECT * FROM missing_table")
+	_, err = wrapper.QueryContext(t.Context(), "SELECT * FROM missing_table")
 	require.Error(t, err)
 	require.Len(t, *captured, 1)
 	rec := (*captured)[0]
@@ -283,7 +283,7 @@ func TestSlowQueryDB_RecordsQueryMetrics(t *testing.T) {
 	require.NoError(t, err)
 	defer func() { _ = db.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 	recorder := &testQueryMetricsRecorder{}
 
 	wrapper := newSlowQueryDB(db, 0)
@@ -342,7 +342,7 @@ func TestNewClient_RecordsQueryMetricsWhenOnlyMetricsEnabled(t *testing.T) {
 		require.NoError(t, client.Close())
 	})
 
-	agencies, err := client.Queries.ListAgencies(context.Background())
+	agencies, err := client.Queries.ListAgencies(t.Context())
 	require.NoError(t, err)
 	assert.Empty(t, agencies)
 

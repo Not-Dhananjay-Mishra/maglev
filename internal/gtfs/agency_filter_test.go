@@ -1,7 +1,6 @@
 package gtfs
 
 import (
-	"context"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -283,7 +282,7 @@ func TestAgencyFilterIntegration_UpdateFeedRealtime(t *testing.T) {
 		RefreshInterval:     30,
 		Enabled:             true,
 	}
-	ctx := context.Background()
+	ctx := t.Context()
 	unfilteredManager.updateFeedRealtime(ctx, unfilteredFeed)
 	allVehicles := unfilteredManager.GetRealTimeVehicles()
 	require.NotEmpty(t, allVehicles, "RABA feed should have vehicles")
@@ -368,7 +367,7 @@ func TestAgencyFilterIntegration_NoFilterPassesAll(t *testing.T) {
 		// No AgencyIDs — no filter
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 	manager.updateFeedRealtime(ctx, feed)
 
 	vehicles := manager.GetRealTimeVehicles()
@@ -633,7 +632,7 @@ func TestAgencyFilterIntegration_TripUpdates(t *testing.T) {
 	}))
 	defer server.Close()
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// First, load unfiltered to discover route IDs
 	unfilteredManager := newTestManager()

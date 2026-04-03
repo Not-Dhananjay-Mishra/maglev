@@ -10,6 +10,7 @@ import (
 func fptr(v float64) *float64 { return &v }
 
 func TestGetRegionBounds(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name            string
 		shapes          []gtfs.Shape
@@ -120,7 +121,9 @@ func TestGetRegionBounds(t *testing.T) {
 	}
 
 	for _, tc := range tests {
+		tc := tc
 		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
 			bounds := ComputeRegionBounds(tc.shapes, tc.stops)
 
 			var lat, lon, latSpan, lonSpan float64

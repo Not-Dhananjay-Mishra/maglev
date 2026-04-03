@@ -1,7 +1,6 @@
 package gtfsdb
 
 import (
-	"context"
 	"database/sql"
 	"testing"
 
@@ -23,7 +22,7 @@ func createFrequencyTestClient(t *testing.T) *Client {
 	client, err := NewClient(config)
 	require.NoError(t, err)
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	_, err = client.Queries.CreateAgency(ctx, CreateAgencyParams{
 		ID:       "test_agency",
@@ -94,7 +93,7 @@ func TestBulkInsertFrequencies(t *testing.T) {
 			client := createFrequencyTestClient(t)
 			defer func() { _ = client.Close() }()
 
-			ctx := context.Background()
+			ctx := t.Context()
 
 			var frequencies []CreateFrequencyParams
 			if tc.name == "Multiple windows for one trip" {
@@ -172,7 +171,7 @@ func TestBulkInsertFrequencies_MultipleTrips(t *testing.T) {
 	client := createFrequencyTestClient(t)
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	frequencies := []CreateFrequencyParams{
 		{TripID: "trip_1", StartTime: int64(6 * 3600 * 1e9), EndTime: int64(9 * 3600 * 1e9), HeadwaySecs: 600, ExactTimes: 0},
@@ -207,7 +206,7 @@ func TestBulkInsertFrequencies_DuplicatePrimaryKey(t *testing.T) {
 	client := createFrequencyTestClient(t)
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	startTime := int64(6 * 3600 * 1e9)
 	frequencies := []CreateFrequencyParams{
@@ -229,7 +228,7 @@ func TestGetFrequencyTripIDs(t *testing.T) {
 	client := createFrequencyTestClient(t)
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	frequencies := []CreateFrequencyParams{
 		{TripID: "trip_1", StartTime: int64(6 * 3600 * 1e9), EndTime: int64(9 * 3600 * 1e9), HeadwaySecs: 600, ExactTimes: 0},
@@ -251,7 +250,7 @@ func TestClearFrequencies(t *testing.T) {
 	client := createFrequencyTestClient(t)
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	frequencies := []CreateFrequencyParams{
 		{TripID: "trip_1", StartTime: int64(6 * 3600 * 1e9), EndTime: int64(9 * 3600 * 1e9), HeadwaySecs: 600, ExactTimes: 0},
@@ -281,7 +280,7 @@ func TestGetFrequenciesForTrips(t *testing.T) {
 	client := createFrequencyTestClient(t)
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	frequencies := []CreateFrequencyParams{
 		{TripID: "trip_1", StartTime: int64(6 * 3600 * 1e9), EndTime: int64(9 * 3600 * 1e9), HeadwaySecs: 600, ExactTimes: 0},

@@ -14,6 +14,8 @@ import (
 )
 
 func TestRecoveryMiddleware_Panic(t *testing.T) {
+	t.Parallel()
+
 	logger := slog.New(slog.NewTextHandler(io.Discard, nil))
 	mockClock := clock.NewMockClock(time.Date(2025, 1, 15, 12, 0, 0, 0, time.UTC))
 
@@ -64,6 +66,8 @@ func TestRecoveryMiddleware_Panic(t *testing.T) {
 }
 
 func TestRecoveryMiddleware_NoPanic(t *testing.T) {
+	t.Parallel()
+
 	logger := slog.New(slog.NewTextHandler(io.Discard, nil))
 	mockClock := clock.NewMockClock(time.Now())
 
@@ -88,6 +92,8 @@ func TestRecoveryMiddleware_NoPanic(t *testing.T) {
 }
 
 func TestRecoveryMiddleware_PanicAfterWriteDoesNotOverrideResponse(t *testing.T) {
+	t.Parallel()
+
 	logger := slog.New(slog.NewTextHandler(io.Discard, nil))
 	mockClock := clock.NewMockClock(time.Now())
 
@@ -112,6 +118,8 @@ func TestRecoveryMiddleware_PanicAfterWriteDoesNotOverrideResponse(t *testing.T)
 }
 
 func TestRecoveryMiddleware_PanicWithErrorType(t *testing.T) {
+	t.Parallel()
+
 	logger := slog.New(slog.NewTextHandler(io.Discard, nil))
 	mockClock := clock.NewMockClock(time.Date(2025, 1, 15, 12, 0, 0, 0, time.UTC))
 

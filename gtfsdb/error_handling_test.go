@@ -1,7 +1,6 @@
 package gtfsdb
 
 import (
-	"context"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -12,6 +11,7 @@ import (
 )
 
 func TestNewClient_InvalidConfigHandling(t *testing.T) {
+	t.Parallel()
 	// Test that NewClient returns an error instead of calling log.Fatal
 	// when configuration is invalid (test env with file DB)
 	config := Config{
@@ -27,6 +27,7 @@ func TestNewClient_InvalidConfigHandling(t *testing.T) {
 }
 
 func TestNewClient_ValidConfig(t *testing.T) {
+	t.Parallel()
 	// Test that NewClient works correctly with valid configuration
 	config := Config{
 		DBPath:  ":memory:",
@@ -45,6 +46,7 @@ func TestNewClient_ValidConfig(t *testing.T) {
 }
 
 func TestTableCounts_ErrorHandling(t *testing.T) {
+	t.Parallel()
 	// Create a client with a valid config
 	config := Config{
 		DBPath:  ":memory:",
@@ -64,6 +66,7 @@ func TestTableCounts_ErrorHandling(t *testing.T) {
 }
 
 func TestProcessAndStoreGTFSData_ErrorHandling(t *testing.T) {
+	t.Parallel()
 	// Create a client with a valid config
 	config := Config{
 		DBPath:  ":memory:",
@@ -87,6 +90,7 @@ func TestProcessAndStoreGTFSData_ErrorHandling(t *testing.T) {
 }
 
 func TestImportFromFile_ErrorHandling(t *testing.T) {
+	t.Parallel()
 	// Create a client with a valid config
 	config := Config{
 		DBPath:  ":memory:",
@@ -98,7 +102,7 @@ func TestImportFromFile_ErrorHandling(t *testing.T) {
 	require.NoError(t, err, "NewClient should succeed")
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Test with non-existent file
 	err = client.ImportFromFile(ctx, "/nonexistent/file.zip")
@@ -106,6 +110,7 @@ func TestImportFromFile_ErrorHandling(t *testing.T) {
 }
 
 func TestDownloadAndStore_ErrorHandling(t *testing.T) {
+	t.Parallel()
 	// Create a client with a valid config
 	config := Config{
 		DBPath:  ":memory:",
@@ -117,7 +122,7 @@ func TestDownloadAndStore_ErrorHandling(t *testing.T) {
 	require.NoError(t, err, "NewClient should succeed")
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Test with invalid URL
 	err = client.DownloadAndStore(ctx, "invalid-url", "", "")
@@ -129,6 +134,7 @@ func TestDownloadAndStore_ErrorHandling(t *testing.T) {
 }
 
 func TestDownloadAndStore_AuthenticationHeaders(t *testing.T) {
+	t.Parallel()
 	// Track whether the auth header was received
 	headerReceived := false
 	expectedHeaderName := "X-API-Key"
@@ -160,7 +166,7 @@ func TestDownloadAndStore_AuthenticationHeaders(t *testing.T) {
 	require.NoError(t, err, "NewClient should succeed")
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Test with authentication headers
 	_ = client.DownloadAndStore(ctx, server.URL, expectedHeaderName, expectedHeaderValue)
@@ -170,6 +176,7 @@ func TestDownloadAndStore_AuthenticationHeaders(t *testing.T) {
 }
 
 func TestDownloadAndStore_NoAuthHeaders(t *testing.T) {
+	t.Parallel()
 	// Track whether any auth header was received
 	authHeaderReceived := false
 
@@ -197,7 +204,7 @@ func TestDownloadAndStore_NoAuthHeaders(t *testing.T) {
 	require.NoError(t, err, "NewClient should succeed")
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Test without authentication headers (empty strings)
 	_ = client.DownloadAndStore(ctx, server.URL, "", "")

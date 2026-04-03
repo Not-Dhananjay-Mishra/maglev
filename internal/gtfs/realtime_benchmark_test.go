@@ -25,9 +25,11 @@ func BenchmarkRebuildRealTimeTripLookup(b *testing.B) {
 	manager.feedTrips["feed-0"] = feedTrips
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		manager.rebuildMergedRealtimeLocked()
-	}
+	b.RunParallel(func(pb *testing.PB) {
+		for pb.Next() {
+			manager.rebuildMergedRealtimeLocked()
+		}
+	})
 }
 
 func BenchmarkRebuildRealTimeVehicleLookupByTrip(b *testing.B) {
@@ -47,9 +49,11 @@ func BenchmarkRebuildRealTimeVehicleLookupByTrip(b *testing.B) {
 	manager.feedVehicles["feed-0"] = feedVehicles
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		manager.rebuildMergedRealtimeLocked()
-	}
+	b.RunParallel(func(pb *testing.PB) {
+		for pb.Next() {
+			manager.rebuildMergedRealtimeLocked()
+		}
+	})
 }
 
 func BenchmarkRebuildRealTimeVehicleLookupByVehicle(b *testing.B) {
@@ -67,9 +71,11 @@ func BenchmarkRebuildRealTimeVehicleLookupByVehicle(b *testing.B) {
 	manager.feedVehicles["feed-0"] = feedVehicles
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		manager.rebuildMergedRealtimeLocked()
-	}
+	b.RunParallel(func(pb *testing.PB) {
+		for pb.Next() {
+			manager.rebuildMergedRealtimeLocked()
+		}
+	})
 }
 
 func BenchmarkRebuildAlertIndex(b *testing.B) {
@@ -97,9 +103,11 @@ func BenchmarkRebuildAlertIndex(b *testing.B) {
 	manager.feedAlerts["feed-0"] = feedAlerts
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		manager.rebuildMergedRealtimeLocked()
-	}
+	b.RunParallel(func(pb *testing.PB) {
+		for pb.Next() {
+			manager.rebuildMergedRealtimeLocked()
+		}
+	})
 }
 
 func BenchmarkGetAlertsByIDs(b *testing.B) {
@@ -130,14 +138,18 @@ func BenchmarkGetAlertsByIDs(b *testing.B) {
 	manager.rebuildMergedRealtimeLocked()
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		n := i % 1000
-		_ = manager.GetAlertsByIDs(
-			fmt.Sprintf("trip_%d", n),
-			fmt.Sprintf("route_%d", n%100),
-			fmt.Sprintf("agency_%d", n%50),
-		)
-	}
+	b.RunParallel(func(pb *testing.PB) {
+		i := 0
+		for pb.Next() {
+			n := i % 1000
+			_ = manager.GetAlertsByIDs(
+				fmt.Sprintf("trip_%d", n),
+				fmt.Sprintf("route_%d", n%100),
+				fmt.Sprintf("agency_%d", n%50),
+			)
+			i++
+		}
+	})
 }
 
 func BenchmarkGetAlertsForStop(b *testing.B) {
@@ -160,9 +172,13 @@ func BenchmarkGetAlertsForStop(b *testing.B) {
 	manager.rebuildMergedRealtimeLocked()
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		_ = manager.GetAlertsForStop(fmt.Sprintf("stop_%d", i%1000))
-	}
+	b.RunParallel(func(pb *testing.PB) {
+		i := 0
+		for pb.Next() {
+			_ = manager.GetAlertsForStop(fmt.Sprintf("stop_%d", i%1000))
+			i++
+		}
+	})
 }
 
 func BenchmarkRebuildDuplicatedVehicleByRoute(b *testing.B) {
@@ -198,9 +214,11 @@ func BenchmarkRebuildDuplicatedVehicleByRoute(b *testing.B) {
 	manager.feedVehicles["feed-0"] = feedVehicles
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		manager.rebuildMergedRealtimeLocked()
-	}
+	b.RunParallel(func(pb *testing.PB) {
+		for pb.Next() {
+			manager.rebuildMergedRealtimeLocked()
+		}
+	})
 }
 
 func BenchmarkGetDuplicatedVehiclesForRoute(b *testing.B) {
@@ -237,7 +255,11 @@ func BenchmarkGetDuplicatedVehiclesForRoute(b *testing.B) {
 	manager.rebuildMergedRealtimeLocked()
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		_ = manager.GetDuplicatedVehiclesForRoute(fmt.Sprintf("route_%d", i%100))
-	}
+	b.RunParallel(func(pb *testing.PB) {
+		i := 0
+		for pb.Next() {
+			_ = manager.GetDuplicatedVehiclesForRoute(fmt.Sprintf("route_%d", i%100))
+			i++
+		}
+	})
 }

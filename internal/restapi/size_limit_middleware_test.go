@@ -12,6 +12,8 @@ import (
 )
 
 func TestSizeLimitMiddleware_WithinLimit(t *testing.T) {
+	t.Parallel()
+
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		body, err := io.ReadAll(r.Body)
 		assert.NoError(t, err)
@@ -31,6 +33,8 @@ func TestSizeLimitMiddleware_WithinLimit(t *testing.T) {
 }
 
 func TestSizeLimitMiddleware_ExceedsLimit(t *testing.T) {
+	t.Parallel()
+
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		_, err := io.ReadAll(r.Body)
 		// io.ReadAll should return an error when the limit is exceeded

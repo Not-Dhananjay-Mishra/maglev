@@ -11,6 +11,8 @@ import (
 )
 
 func TestFreshnessMiddleware(t *testing.T) {
+	t.Parallel()
+
 	// A simple dummy handler to simulate the next step in the middleware chain
 	dummyHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)

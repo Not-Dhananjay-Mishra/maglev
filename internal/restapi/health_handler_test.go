@@ -82,7 +82,6 @@ func TestHealthHandlerReturnsOK(t *testing.T) {
 }
 
 func TestHealthHandlerReturnsExpired(t *testing.T) {
-
 	db, err := sql.Open(gtfsdb.DriverName, ":memory:")
 	require.NoError(t, err)
 	defer func() { _ = db.Close() }()

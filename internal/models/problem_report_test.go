@@ -9,6 +9,8 @@ import (
 )
 
 func TestNewProblemReportTrip(t *testing.T) {
+	t.Parallel()
+
 	dbReport := gtfsdb.ProblemReportsTrip{
 		ID:            1,
 		TripID:        "trip-1",
@@ -29,6 +31,8 @@ func TestNewProblemReportTrip(t *testing.T) {
 }
 
 func TestNewProblemReportStop(t *testing.T) {
+	t.Parallel()
+
 	dbReport := gtfsdb.ProblemReportsStop{
 		ID:          2,
 		StopID:      "stop-2",

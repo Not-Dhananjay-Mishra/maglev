@@ -17,7 +17,6 @@ func TestTripHandlerRequiresValidApiKey(t *testing.T) {
 }
 
 func TestTripHandlerEndToEnd(t *testing.T) {
-
 	api := createTestApi(t)
 	defer api.Shutdown()
 

@@ -1,7 +1,6 @@
 package restapi
 
 import (
-	"context"
 	"database/sql"
 	"net/http"
 	"testing"
@@ -20,7 +19,7 @@ func setupShapeTest(t *testing.T, api *RestAPI, shapeID string, points []struct 
 	sequence int64
 }) string {
 	t.Helper()
-	ctx := context.Background()
+	ctx := t.Context()
 	agencyID := "TestAgency1"
 
 	_, err := api.GtfsManager.GtfsDB.Queries.CreateAgency(ctx, gtfsdb.CreateAgencyParams{

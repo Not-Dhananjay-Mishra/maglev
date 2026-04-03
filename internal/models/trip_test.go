@@ -8,6 +8,8 @@ import (
 )
 
 func TestNewTripReference(t *testing.T) {
+	t.Parallel()
+
 	id := "unitrans_trip_1"
 	routeID := "unitrans_FMS"
 	serviceID := "service_1"
@@ -33,6 +35,8 @@ func TestNewTripReference(t *testing.T) {
 }
 
 func TestNewTripReferenceWithEmptyValues(t *testing.T) {
+	t.Parallel()
+
 	trip := NewTripReference("", "", "", "", "", "0", "", "")
 
 	assert.Equal(t, "", trip.ID)
@@ -49,6 +53,8 @@ func TestNewTripReferenceWithEmptyValues(t *testing.T) {
 }
 
 func TestNewTripResponse(t *testing.T) {
+	t.Parallel()
+
 	trip := &Trip{
 		BlockID:        "block_1",
 		DirectionID:    "1",
@@ -72,6 +78,8 @@ func TestNewTripResponse(t *testing.T) {
 }
 
 func TestTripJSON(t *testing.T) {
+	t.Parallel()
+
 	trip := Trip{
 		BlockID:        "block_1",
 		DirectionID:    "1",
@@ -115,6 +123,8 @@ func TestTripJSON(t *testing.T) {
 }
 
 func TestTripResponseJSON(t *testing.T) {
+	t.Parallel()
+
 	trip := &Trip{
 		BlockID:        "block_1",
 		DirectionID:    "1",
@@ -144,6 +154,8 @@ func TestTripResponseJSON(t *testing.T) {
 }
 
 func TestTripsScheduleJSON(t *testing.T) {
+	t.Parallel()
+
 	frequency := Frequency{}
 	schedule := TripsSchedule{
 		Frequency:      &frequency,

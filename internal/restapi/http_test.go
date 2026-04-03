@@ -3,7 +3,6 @@ package restapi
 import (
 	"bytes"
 	"compress/gzip"
-	"context"
 	"encoding/json"
 	"io"
 	"log/slog"
@@ -50,7 +49,7 @@ func TestMain(m *testing.M) {
 // createTestApiWithClock creates a new restAPI instance with a custom clock for deterministic testing.
 // The GTFS database is created once and reused across all tests for performance.
 func createTestApiWithClock(t testing.TB, c clock.Clock) *RestAPI {
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Initialize the shared GTFS manager only once
 	testDbSetupOnce.Do(func() {

@@ -6,6 +6,8 @@ import (
 )
 
 func TestNewEmptyReferences(t *testing.T) {
+	t.Parallel()
+
 	// Call the function to create an empty references model
 	refs := NewEmptyReferences()
 
@@ -51,6 +53,8 @@ func TestNewEmptyReferences(t *testing.T) {
 }
 
 func TestReferencesModelJSON(t *testing.T) {
+	t.Parallel()
+
 	refs := NewEmptyReferences()
 	refs.Agencies = append(refs.Agencies, AgencyReference{ID: "agency1"})
 	refs.Routes = append(refs.Routes, Route{ID: "route1"})

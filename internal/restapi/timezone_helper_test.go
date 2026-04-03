@@ -8,6 +8,8 @@ import (
 )
 
 func TestLoadAgencyLocation(t *testing.T) {
+	t.Parallel()
+
 	t.Run("valid timezone", func(t *testing.T) {
 		loc, err := loadAgencyLocation("agency-1", "America/Los_Angeles")
 		require.NoError(t, err)

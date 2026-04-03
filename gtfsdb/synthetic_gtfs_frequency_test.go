@@ -3,7 +3,6 @@ package gtfsdb
 import (
 	"archive/zip"
 	"bytes"
-	"context"
 	"testing"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -84,6 +83,7 @@ func buildSyntheticGTFSZip(t *testing.T, includeFrequencies bool) []byte {
 }
 
 func TestSyntheticGTFS_FrequencyIngestion(t *testing.T) {
+	t.Parallel()
 	config := Config{
 		DBPath:  ":memory:",
 		Env:     appconf.Test,
@@ -94,7 +94,7 @@ func TestSyntheticGTFS_FrequencyIngestion(t *testing.T) {
 	require.NoError(t, err)
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 	gtfsData := buildSyntheticGTFSZip(t, true)
 
 	err = client.processAndStoreGTFSDataWithSource(gtfsData, "synthetic-test")
@@ -154,6 +154,7 @@ func TestSyntheticGTFS_FrequencyIngestion(t *testing.T) {
 }
 
 func TestSyntheticGTFS_NoFrequencyFile(t *testing.T) {
+	t.Parallel()
 	config := Config{
 		DBPath:  ":memory:",
 		Env:     appconf.Test,
@@ -164,7 +165,7 @@ func TestSyntheticGTFS_NoFrequencyFile(t *testing.T) {
 	require.NoError(t, err)
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 	gtfsData := buildSyntheticGTFSZip(t, false)
 
 	err = client.processAndStoreGTFSDataWithSource(gtfsData, "synthetic-no-freq")
@@ -186,6 +187,7 @@ func TestSyntheticGTFS_NoFrequencyFile(t *testing.T) {
 }
 
 func TestSyntheticGTFS_FrequenciesClearedOnReimport(t *testing.T) {
+	t.Parallel()
 	config := Config{
 		DBPath:  ":memory:",
 		Env:     appconf.Test,
@@ -196,7 +198,7 @@ func TestSyntheticGTFS_FrequenciesClearedOnReimport(t *testing.T) {
 	require.NoError(t, err)
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// First import: with frequencies
 	dataWithFreqs := buildSyntheticGTFSZip(t, true)
@@ -224,6 +226,7 @@ func TestSyntheticGTFS_FrequenciesClearedOnReimport(t *testing.T) {
 }
 
 func TestSyntheticGTFS_TableCountsIncludeFrequencies(t *testing.T) {
+	t.Parallel()
 	config := Config{
 		DBPath:  ":memory:",
 		Env:     appconf.Test,

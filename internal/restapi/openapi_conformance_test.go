@@ -1,7 +1,6 @@
 package restapi
 
 import (
-	"context"
 	"encoding/json"
 	"io"
 	"net/http"
@@ -115,7 +114,7 @@ func assertConformance(t *testing.T, serverURL string, doc *openapi3.T, endpoint
 // createConformanceTestApi creates a test API with a high rate limit suitable for conformance testing
 // where many sequential requests are made.
 func createConformanceTestApi(t *testing.T) *RestAPI {
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Initialize the shared GTFS manager only once (reuses the same testDbSetupOnce from http_test.go)
 	testDbSetupOnce.Do(func() {
@@ -406,7 +405,7 @@ func TestOpenAPIConformance_SearchEndpoints(t *testing.T) {
 
 // TestOpenAPIConformance_RealTimeEndpoints tests endpoints that require real-time GTFS-RT data.
 func TestOpenAPIConformance_RealTimeEndpoints(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Create HTTP server to serve GTFS-RT protobuf files
 	mux := http.NewServeMux()

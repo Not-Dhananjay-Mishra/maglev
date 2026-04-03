@@ -1,7 +1,6 @@
 package gtfsdb
 
 import (
-	"context"
 	"database/sql"
 	"os"
 	"path/filepath"
@@ -13,6 +12,7 @@ import (
 )
 
 func TestSQLitePerformancePragmasApplied(t *testing.T) {
+	t.Parallel()
 	config := Config{
 		DBPath: ":memory:",
 		Env:    appconf.Test,
@@ -22,7 +22,7 @@ func TestSQLitePerformancePragmasApplied(t *testing.T) {
 	require.NoError(t, err)
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Verify cache_size PRAGMA
 	var cacheSize int
@@ -47,6 +47,7 @@ func TestSQLitePerformancePragmasApplied(t *testing.T) {
 }
 
 func TestMemoryDatabaseConnectionPool(t *testing.T) {
+	t.Parallel()
 	config := Config{
 		DBPath: ":memory:",
 		Env:    appconf.Test,
@@ -63,6 +64,7 @@ func TestMemoryDatabaseConnectionPool(t *testing.T) {
 }
 
 func TestFileDatabaseConnectionPool(t *testing.T) {
+	t.Parallel()
 	// Create temporary directory for test database
 	tmpDir, err := os.MkdirTemp("", "gtfsdb_test_*")
 	require.NoError(t, err)
@@ -86,13 +88,14 @@ func TestFileDatabaseConnectionPool(t *testing.T) {
 
 	// Verify WAL mode is enabled for file databases
 	var journalMode string
-	err = client.DB.QueryRowContext(context.Background(), "PRAGMA journal_mode").Scan(&journalMode)
+	err = client.DB.QueryRowContext(t.Context(), "PRAGMA journal_mode").Scan(&journalMode)
 	require.NoError(t, err)
 	// Should be set to 'wal' based on our performance pragmas
 	assert.Equal(t, "wal", journalMode, "File databases should have WAL journal mode enabled")
 }
 
 func TestConnectionPoolBehaviorWithFileDatabase(t *testing.T) {
+	t.Parallel()
 	// Create temporary directory for test database
 	tmpDir, err := os.MkdirTemp("", "gtfsdb_test_*")
 	require.NoError(t, err)
@@ -109,7 +112,7 @@ func TestConnectionPoolBehaviorWithFileDatabase(t *testing.T) {
 	require.NoError(t, err)
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Make concurrent queries to verify pooling works
 	done := make(chan error, 10)
@@ -139,6 +142,7 @@ func TestConnectionPoolBehaviorWithFileDatabase(t *testing.T) {
 }
 
 func TestMemoryDatabaseIsolation(t *testing.T) {
+	t.Parallel()
 	// This test verifies that :memory: databases with 1 connection
 	// maintain proper isolation
 
@@ -151,7 +155,7 @@ func TestMemoryDatabaseIsolation(t *testing.T) {
 	require.NoError(t, err)
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Insert a test agency
 	_, err = client.Queries.CreateAgency(ctx, CreateAgencyParams{
@@ -168,6 +172,7 @@ func TestMemoryDatabaseIsolation(t *testing.T) {
 }
 
 func TestPerformancePragmasDoNotBreakFunctionality(t *testing.T) {
+	t.Parallel()
 	// Verify that performance pragmas don't break normal database operations
 
 	config := Config{
@@ -179,7 +184,7 @@ func TestPerformancePragmasDoNotBreakFunctionality(t *testing.T) {
 	require.NoError(t, err)
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Test CRUD operations work with pragmas applied
 
@@ -220,6 +225,7 @@ func TestPerformancePragmasDoNotBreakFunctionality(t *testing.T) {
 }
 
 func TestConfigureConnectionPoolWithDifferentConfigs(t *testing.T) {
+	t.Parallel()
 	testCases := []struct {
 		name            string
 		dbPath          string
@@ -250,6 +256,7 @@ func TestConfigureConnectionPoolWithDifferentConfigs(t *testing.T) {
 }
 
 func TestSQLitePerformanceWithBulkOperations(t *testing.T) {
+	t.Parallel()
 	if testing.Short() {
 		t.Skip("Skipping performance test in short mode")
 	}
@@ -263,7 +270,7 @@ func TestSQLitePerformanceWithBulkOperations(t *testing.T) {
 	require.NoError(t, err)
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Create prerequisite data (agency, route, calendar/service)
 	_, err = client.Queries.CreateAgency(ctx, CreateAgencyParams{

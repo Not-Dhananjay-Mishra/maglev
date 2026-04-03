@@ -1,7 +1,6 @@
 package restapi
 
 import (
-	"context"
 	"database/sql"
 	"net/http"
 	"testing"
@@ -155,7 +154,7 @@ func TestStopHandlerMultiAgencyScenario(t *testing.T) {
 	api := createTestApi(t)
 	defer api.Shutdown()
 
-	ctx := context.Background()
+	ctx := t.Context()
 	queries := api.GtfsManager.GtfsDB.Queries
 
 	// 1. Setup Data: Agency A and a Stop belonging to it

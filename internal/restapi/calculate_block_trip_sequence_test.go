@@ -1,7 +1,6 @@
 package restapi
 
 import (
-	"context"
 	"math"
 	"sort"
 	"testing"
@@ -14,7 +13,7 @@ import (
 func TestCalculateBlockTripSequence(t *testing.T) {
 	api := createTestApi(t)
 	defer api.Shutdown()
-	ctx := context.Background()
+	ctx := t.Context()
 
 	api.GtfsManager.RLock()
 	defer api.GtfsManager.RUnlock()

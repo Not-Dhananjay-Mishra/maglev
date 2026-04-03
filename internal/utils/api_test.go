@@ -76,6 +76,8 @@ func TestCalculateSecondsSinceServiceDate(t *testing.T) {
 }
 
 func TestExtractCodeID(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name        string
 		combinedID  string
@@ -121,7 +123,10 @@ func TestExtractCodeID(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			result, err := ExtractCodeID(tt.combinedID)
 			if tt.expectError {
 				assert.Error(t, err)
@@ -134,6 +139,8 @@ func TestExtractCodeID(t *testing.T) {
 }
 
 func TestExtractAgencyID(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name        string
 		combinedID  string
@@ -173,7 +180,10 @@ func TestExtractAgencyID(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			result, err := ExtractAgencyID(tt.combinedID)
 			if tt.expectError {
 				assert.Error(t, err)
@@ -186,6 +196,8 @@ func TestExtractAgencyID(t *testing.T) {
 }
 
 func TestExtractAgencyIDAndCodeID(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name           string
 		combinedID     string
@@ -231,7 +243,10 @@ func TestExtractAgencyIDAndCodeID(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			agencyID, codeID, err := ExtractAgencyIDAndCodeID(tt.combinedID)
 			if tt.expectError {
 				assert.Error(t, err)
@@ -245,6 +260,8 @@ func TestExtractAgencyIDAndCodeID(t *testing.T) {
 }
 
 func TestFormCombinedID(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name     string
 		agencyID string
@@ -284,7 +301,10 @@ func TestFormCombinedID(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			result := FormCombinedID(tt.agencyID, tt.codeID)
 			assert.Equal(t, tt.expected, result)
 		})
@@ -292,6 +312,8 @@ func TestFormCombinedID(t *testing.T) {
 }
 
 func TestMapWheelchairBoarding(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name     string
 		input    gtfs.WheelchairBoarding
@@ -320,7 +342,10 @@ func TestMapWheelchairBoarding(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			result := MapWheelchairBoarding(tt.input)
 			assert.Equal(t, tt.expected, result)
 		})
@@ -328,6 +353,8 @@ func TestMapWheelchairBoarding(t *testing.T) {
 }
 
 func TestParseFloatParam(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name          string
 		params        url.Values
@@ -419,7 +446,10 @@ func TestParseFloatParam(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			value, errors := ParseFloatParam(tt.params, tt.key, tt.initialErrors)
 			assert.Equal(t, tt.expectedValue, value)
 
@@ -703,6 +733,8 @@ func TestParseMaxCount(t *testing.T) {
 }
 
 func TestParsePaginationParams(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name           string
 		urlParams      string
@@ -778,7 +810,10 @@ func TestParsePaginationParams(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			req, _ := http.NewRequest("GET", "/test"+tt.urlParams, nil)
 			offset, limit := ParsePaginationParams(req)
 
@@ -789,6 +824,8 @@ func TestParsePaginationParams(t *testing.T) {
 }
 
 func TestPaginateSlice(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name          string
 		items         []int
@@ -880,7 +917,10 @@ func TestPaginateSlice(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			result, limitExceeded := PaginateSlice(tt.items, tt.offset, tt.limit)
 			assert.Equal(t, tt.expected, result)
 			assert.Equal(t, tt.limitExceeded, limitExceeded)
@@ -889,6 +929,8 @@ func TestPaginateSlice(t *testing.T) {
 }
 
 func TestTruncateComment(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name     string
 		input    string
@@ -927,7 +969,10 @@ func TestTruncateComment(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			result := TruncateComment(tt.input)
 			assert.Equal(t, tt.expected, result)
 			assert.True(t, len([]rune(result)) <= MaxCommentLength)
@@ -936,6 +981,8 @@ func TestTruncateComment(t *testing.T) {
 }
 
 func TestValidateNumericParam(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name     string
 		input    string
@@ -969,7 +1016,10 @@ func TestValidateNumericParam(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			result := ValidateNumericParam(tt.input)
 			assert.Equal(t, tt.expected, result)
 		})
@@ -977,31 +1027,43 @@ func TestValidateNumericParam(t *testing.T) {
 }
 
 func TestParseRequiredFloatParam(t *testing.T) {
+	t.Parallel()
+
 	t.Run("missing key returns error", func(t *testing.T) {
+		t.Parallel()
+
 		params := url.Values{}
 		val, fieldErrors := ParseRequiredFloatParam(params, "lat", nil)
 		assert.Equal(t, float64(0), val)
 		assert.Contains(t, fieldErrors["lat"][0], "Missing required field")
 	})
 	t.Run("present valid value is parsed correctly", func(t *testing.T) {
+		t.Parallel()
+
 		params := url.Values{"lat": []string{"40.583321"}}
 		val, fieldErrors := ParseRequiredFloatParam(params, "lat", nil)
 		assert.Equal(t, 40.583321, val)
 		assert.Empty(t, fieldErrors)
 	})
 	t.Run("present invalid value adds parse error", func(t *testing.T) {
+		t.Parallel()
+
 		params := url.Values{"lat": []string{"not-a-float"}}
 		val, fieldErrors := ParseRequiredFloatParam(params, "lat", nil)
 		assert.Equal(t, float64(0), val)
 		assert.Contains(t, fieldErrors["lat"][0], "Invalid field value")
 	})
 	t.Run("explicit zero is accepted (not treated as missing)", func(t *testing.T) {
+		t.Parallel()
+
 		params := url.Values{"lat": []string{"0.0"}}
 		val, fieldErrors := ParseRequiredFloatParam(params, "lat", nil)
 		assert.Equal(t, float64(0), val)
 		assert.Empty(t, fieldErrors)
 	})
 	t.Run("existing fieldErrors are preserved", func(t *testing.T) {
+		t.Parallel()
+
 		params := url.Values{}
 		existing := map[string][]string{"other": {"some error"}}
 		_, fieldErrors := ParseRequiredFloatParam(params, "lat", existing)

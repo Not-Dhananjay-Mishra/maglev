@@ -12,7 +12,6 @@ import (
 )
 
 func TestScheduleForRouteHandler(t *testing.T) {
-
 	clk := clock.NewMockClock(time.Date(2025, 12, 26, 12, 0, 0, 0, time.UTC))
 	api := createTestApiWithClock(t, clk)
 	defer api.Shutdown()

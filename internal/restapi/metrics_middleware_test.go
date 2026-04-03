@@ -11,6 +11,8 @@ import (
 )
 
 func TestMetricsHandler_NilMetrics(t *testing.T) {
+	t.Parallel()
+
 	handler := MetricsHandler(nil)
 
 	// Should return a pass-through middleware
@@ -31,6 +33,8 @@ func TestMetricsHandler_NilMetrics(t *testing.T) {
 }
 
 func TestMetricsHandler_RecordsMetrics(t *testing.T) {
+	t.Parallel()
+
 	m := metrics.New()
 	handler := MetricsHandler(m)
 
@@ -51,6 +55,8 @@ func TestMetricsHandler_RecordsMetrics(t *testing.T) {
 }
 
 func TestMetricsHandler_DefaultStatusCode(t *testing.T) {
+	t.Parallel()
+
 	m := metrics.New()
 	handler := MetricsHandler(m)
 
@@ -71,6 +77,8 @@ func TestMetricsHandler_DefaultStatusCode(t *testing.T) {
 }
 
 func TestMetricsHandler_UnmatchedPath(t *testing.T) {
+	t.Parallel()
+
 	m := metrics.New()
 	handler := MetricsHandler(m)
 
@@ -90,6 +98,8 @@ func TestMetricsHandler_UnmatchedPath(t *testing.T) {
 }
 
 func TestMetricsResponseWriter_WriteHeader(t *testing.T) {
+	t.Parallel()
+
 	rec := httptest.NewRecorder()
 	w := &metricsResponseWriter{
 		ResponseWriter: rec,
@@ -103,6 +113,8 @@ func TestMetricsResponseWriter_WriteHeader(t *testing.T) {
 }
 
 func TestMetricsResponseWriter_InitialStatusCode(t *testing.T) {
+	t.Parallel()
+
 	rec := httptest.NewRecorder()
 	w := &metricsResponseWriter{
 		ResponseWriter: rec,
@@ -114,6 +126,8 @@ func TestMetricsResponseWriter_InitialStatusCode(t *testing.T) {
 }
 
 func TestMetricsHandler_Integration(t *testing.T) {
+	t.Parallel()
+
 	m := metrics.New()
 
 	// Create a simple mux with a registered route
@@ -139,6 +153,8 @@ func TestMetricsHandler_Integration(t *testing.T) {
 }
 
 func TestMetricsHandler_VariousStatusCodes(t *testing.T) {
+	t.Parallel()
+
 	testCases := []struct {
 		name       string
 		statusCode int

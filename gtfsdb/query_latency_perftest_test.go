@@ -63,7 +63,7 @@ func loadPerfFixture(b *testing.B) *Client {
 // query (arrivals inner loop) against the full TriMet dataset (~3 M stop_times).
 func BenchmarkLargeDatasetGetStopTimesForStopInWindow(b *testing.B) {
 	client := loadPerfFixture(b)
-	ctx := context.Background()
+	ctx := b.Context()
 
 	stopID := latencyPickFirstStop(ctx, b, client.DB)
 	windowStart := int64(5 * time.Hour)
@@ -88,7 +88,7 @@ func BenchmarkLargeDatasetGetStopTimesForStopInWindow(b *testing.B) {
 // query (the heaviest query by plan cost) against TriMet data.
 func BenchmarkLargeDatasetGetScheduleForStopOnDate(b *testing.B) {
 	client := loadPerfFixture(b)
-	ctx := context.Background()
+	ctx := b.Context()
 
 	stopID := latencyPickFirstStop(ctx, b, client.DB)
 	now := time.Now()
@@ -119,7 +119,7 @@ func BenchmarkLargeDatasetGetScheduleForStopOnDate(b *testing.B) {
 // TriMet stop corpus (~10 k stops).
 func BenchmarkLargeDatasetSearchStopsByName(b *testing.B) {
 	client := loadPerfFixture(b)
-	ctx := context.Background()
+	ctx := b.Context()
 
 	b.ReportAllocs()
 	b.ResetTimer()
@@ -138,7 +138,7 @@ func BenchmarkLargeDatasetSearchStopsByName(b *testing.B) {
 // BenchmarkLargeDatasetGetStopTimesForTrip benchmarks the trip-details path.
 func BenchmarkLargeDatasetGetStopTimesForTrip(b *testing.B) {
 	client := loadPerfFixture(b)
-	ctx := context.Background()
+	ctx := b.Context()
 
 	tripID := latencyPickFirstTrip(ctx, b, client.DB)
 
@@ -157,7 +157,7 @@ func BenchmarkLargeDatasetGetStopTimesForTrip(b *testing.B) {
 // stops-for-location batch query against TriMet data.
 func BenchmarkLargeDatasetGetActiveRouteIDsForStopsOnDate(b *testing.B) {
 	client := loadPerfFixture(b)
-	ctx := context.Background()
+	ctx := b.Context()
 
 	stopID := latencyPickFirstStop(ctx, b, client.DB)
 	dateStr := time.Now().Format("20060102")
@@ -183,8 +183,9 @@ func BenchmarkLargeDatasetGetActiveRouteIDsForStopsOnDate(b *testing.B) {
 // BenchmarkLargeDatasetConcurrentMixed runs a realistic mixed workload against
 // TriMet data with 25 parallel goroutines, mirroring the k6 scenario ratios.
 func BenchmarkLargeDatasetConcurrentMixed(b *testing.B) {
+	b.Parallel()
 	client := loadPerfFixture(b)
-	ctx := context.Background()
+	ctx := b.Context()
 
 	stopID := latencyPickFirstStop(ctx, b, client.DB)
 	tripID := latencyPickFirstTrip(ctx, b, client.DB)

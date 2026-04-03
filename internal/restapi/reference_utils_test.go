@@ -8,6 +8,8 @@ import (
 )
 
 func TestDeduplicateAlerts(t *testing.T) {
+	t.Parallel()
+
 	alert1 := gtfs.Alert{ID: "alert-1"}
 	alert2 := gtfs.Alert{ID: "alert-2"}
 	alert3 := gtfs.Alert{ID: "alert-3"}

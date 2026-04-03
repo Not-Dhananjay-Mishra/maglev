@@ -8,6 +8,8 @@ import (
 )
 
 func TestNewStopTime(t *testing.T) {
+	t.Parallel()
+
 	arrivalTime := 28800
 	departureTime := 28900
 	stopID := "unitrans_22005"
@@ -26,6 +28,8 @@ func TestNewStopTime(t *testing.T) {
 }
 
 func TestStopTimeJSON(t *testing.T) {
+	t.Parallel()
+
 	stopTime := StopTime{
 		ArrivalTime:         28800,
 		DepartureTime:       28900,
@@ -53,6 +57,8 @@ func TestStopTimeJSON(t *testing.T) {
 }
 
 func TestStopTimeWithEmptyValues(t *testing.T) {
+	t.Parallel()
+
 	stopTime := NewStopTime(0, 0, "", "", 0.0, "")
 
 	assert.Equal(t, 0, stopTime.ArrivalTime)
@@ -64,6 +70,8 @@ func TestStopTimeWithEmptyValues(t *testing.T) {
 }
 
 func TestNewStopTimes(t *testing.T) {
+	t.Parallel()
+
 	stopTime1 := NewStopTime(28800, 28900, "stop_1", "Downtown", 100.0, "MANY_SEATS_AVAILABLE")
 	stopTime2 := NewStopTime(29000, 29100, "stop_2", "Uptown", 200.0, "FEW_SEATS_AVAILABLE")
 
@@ -75,6 +83,8 @@ func TestNewStopTimes(t *testing.T) {
 }
 
 func TestStopTimesJSON(t *testing.T) {
+	t.Parallel()
+
 	stopTime1 := NewStopTime(28800, 28900, "stop_1", "Downtown", 100.0, "MANY_SEATS_AVAILABLE")
 	stopTime2 := NewStopTime(29000, 29100, "stop_2", "Uptown", 200.0, "FEW_SEATS_AVAILABLE")
 
@@ -95,6 +105,8 @@ func TestStopTimesJSON(t *testing.T) {
 }
 
 func TestStopTimesWithEmptyList(t *testing.T) {
+	t.Parallel()
+
 	stopTimes := NewStopTimes([]StopTime{})
 
 	assert.Empty(t, stopTimes.StopTimes)

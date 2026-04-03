@@ -35,6 +35,7 @@ func testStops() []gtfsdb.Stop {
 }
 
 func TestQueryStopsInBounds(t *testing.T) {
+	t.Parallel()
 	stops := testStops()
 	tree := buildTestTree(stops)
 
@@ -98,7 +99,9 @@ func TestQueryStopsInBounds(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			results := queryStopsInBounds(tree, tt.bounds)
 			assert.Len(t, results, tt.expectedCount)
 
@@ -116,6 +119,7 @@ func TestQueryStopsInBounds(t *testing.T) {
 }
 
 func TestQueryStopsInBounds_NilTree(t *testing.T) {
+	t.Parallel()
 	bounds := utils.CoordinateBounds{
 		MinLat: 40.0, MaxLat: 41.0,
 		MinLon: -123.0, MaxLon: -122.0,
@@ -127,6 +131,7 @@ func TestQueryStopsInBounds_NilTree(t *testing.T) {
 }
 
 func TestQueryStopsInBounds_EmptyTree(t *testing.T) {
+	t.Parallel()
 	tree := &rtree.RTree{}
 	bounds := utils.CoordinateBounds{
 		MinLat: -90.0, MaxLat: 90.0,
@@ -138,6 +143,7 @@ func TestQueryStopsInBounds_EmptyTree(t *testing.T) {
 }
 
 func TestBuildStopSpatialIndex_WithRABA(t *testing.T) {
+	t.Parallel()
 	manager, _ := getSharedTestComponents(t)
 	require.NotNil(t, manager)
 	require.NotNil(t, manager.stopSpatialIndex, "Spatial index should be built during initialization")
@@ -159,6 +165,7 @@ func TestBuildStopSpatialIndex_WithRABA(t *testing.T) {
 }
 
 func TestMinMaxHelpers(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name        string
 		a, b        float64
@@ -173,7 +180,9 @@ func TestMinMaxHelpers(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			assert.Equal(t, tt.expectedMin, min(tt.a, tt.b))
 			assert.Equal(t, tt.expectedMax, max(tt.a, tt.b))
 		})

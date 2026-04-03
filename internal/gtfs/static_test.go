@@ -9,7 +9,9 @@ import (
 )
 
 func TestNewGTFSDBConfig_QueryMetricsRecorder(t *testing.T) {
+	t.Parallel()
 	t.Run("leaves recorder nil when metrics are disabled", func(t *testing.T) {
+		t.Parallel()
 		dbConfig := newGTFSDBConfig(":memory:", Config{
 			Env: appconf.Test,
 		})
@@ -18,6 +20,7 @@ func TestNewGTFSDBConfig_QueryMetricsRecorder(t *testing.T) {
 	})
 
 	t.Run("wires recorder when metrics are enabled", func(t *testing.T) {
+		t.Parallel()
 		m := metrics.New()
 		dbConfig := newGTFSDBConfig(":memory:", Config{
 			Env:     appconf.Test,

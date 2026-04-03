@@ -8,6 +8,8 @@ import (
 )
 
 func TestNewScheduleStopTime(t *testing.T) {
+	t.Parallel()
+
 	arrivalTime := int64(1609462800000)
 	departureTime := int64(1609462900000)
 	serviceID := "service_123"
@@ -26,6 +28,8 @@ func TestNewScheduleStopTime(t *testing.T) {
 }
 
 func TestScheduleStopTimeJSON(t *testing.T) {
+	t.Parallel()
+
 	stopTime := ScheduleStopTime{
 		ArrivalEnabled:   true,
 		ArrivalTime:      1609462800000,
@@ -53,6 +57,8 @@ func TestScheduleStopTimeJSON(t *testing.T) {
 }
 
 func TestNewStopRouteDirectionSchedule(t *testing.T) {
+	t.Parallel()
+
 	tripHeadsign := "Northbound to Terminal"
 	stopTime1 := NewScheduleStopTime(1609462800000, 1609462900000, "service_1", "Downtown", "trip_1")
 	stopTime2 := NewScheduleStopTime(1609463000000, 1609463100000, "service_1", "Uptown", "trip_2")
@@ -67,6 +73,8 @@ func TestNewStopRouteDirectionSchedule(t *testing.T) {
 }
 
 func TestStopRouteDirectionScheduleJSON(t *testing.T) {
+	t.Parallel()
+
 	stopTime := NewScheduleStopTime(1609462800000, 1609462900000, "service_1", "Downtown", "trip_1")
 
 	directionSchedule := StopRouteDirectionSchedule{
@@ -88,6 +96,8 @@ func TestStopRouteDirectionScheduleJSON(t *testing.T) {
 }
 
 func TestNewStopRouteSchedule(t *testing.T) {
+	t.Parallel()
+
 	routeID := "route_789"
 	stopTime1 := NewScheduleStopTime(1609462800000, 1609462900000, "service_1", "Downtown", "trip_1")
 	directionSchedule1 := NewStopRouteDirectionSchedule("Northbound", []ScheduleStopTime{stopTime1}, nil)
@@ -102,6 +112,8 @@ func TestNewStopRouteSchedule(t *testing.T) {
 }
 
 func TestStopRouteScheduleJSON(t *testing.T) {
+	t.Parallel()
+
 	stopTime := NewScheduleStopTime(1609462800000, 1609462900000, "service_1", "Downtown", "trip_1")
 	directionSchedule := NewStopRouteDirectionSchedule("Northbound", []ScheduleStopTime{stopTime}, nil)
 
@@ -122,6 +134,8 @@ func TestStopRouteScheduleJSON(t *testing.T) {
 }
 
 func TestNewScheduleForStopEntry(t *testing.T) {
+	t.Parallel()
+
 	stopID := "stop_123"
 	date := int64(1609459200000)
 	stopTime1 := NewScheduleStopTime(1609462800000, 1609462900000, "service_1", "Downtown", "trip_1")
@@ -139,6 +153,8 @@ func TestNewScheduleForStopEntry(t *testing.T) {
 }
 
 func TestScheduleForStopEntryJSON(t *testing.T) {
+	t.Parallel()
+
 	stopTime := NewScheduleStopTime(1609462800000, 1609462900000, "service_1", "Downtown", "trip_1")
 	directionSchedule := NewStopRouteDirectionSchedule("Northbound", []ScheduleStopTime{stopTime}, nil)
 	routeSchedule := NewStopRouteSchedule("route_1", []StopRouteDirectionSchedule{directionSchedule})
@@ -162,6 +178,8 @@ func TestScheduleForStopEntryJSON(t *testing.T) {
 }
 
 func TestScheduleStopTimeWithEmptyValues(t *testing.T) {
+	t.Parallel()
+
 	stopTime := NewScheduleStopTime(0, 0, "", "", "")
 
 	assert.Equal(t, true, stopTime.ArrivalEnabled)
@@ -174,6 +192,8 @@ func TestScheduleStopTimeWithEmptyValues(t *testing.T) {
 }
 
 func TestStopRouteDirectionScheduleWithEmptyStopTimes(t *testing.T) {
+	t.Parallel()
+
 	directionSchedule := NewStopRouteDirectionSchedule("Northbound", []ScheduleStopTime{}, nil)
 
 	assert.Equal(t, "Northbound", directionSchedule.TripHeadsign)
@@ -182,6 +202,8 @@ func TestStopRouteDirectionScheduleWithEmptyStopTimes(t *testing.T) {
 }
 
 func TestStopRouteScheduleWithEmptyDirectionSchedules(t *testing.T) {
+	t.Parallel()
+
 	routeSchedule := NewStopRouteSchedule("route_1", []StopRouteDirectionSchedule{})
 
 	assert.Equal(t, "route_1", routeSchedule.RouteID)
@@ -189,6 +211,8 @@ func TestStopRouteScheduleWithEmptyDirectionSchedules(t *testing.T) {
 }
 
 func TestScheduleForStopEntryWithEmptyRouteSchedules(t *testing.T) {
+	t.Parallel()
+
 	scheduleEntry := NewScheduleForStopEntry("stop_1", 1609459200000, []StopRouteSchedule{})
 
 	assert.Equal(t, "stop_1", scheduleEntry.StopID)
@@ -197,6 +221,8 @@ func TestScheduleForStopEntryWithEmptyRouteSchedules(t *testing.T) {
 }
 
 func TestNewStopRouteDirectionSchedule_WithFrequencies(t *testing.T) {
+	t.Parallel()
+
 	schedule := []ScheduleStopTime{}
 	frequencies := []Frequency{
 		{StartTime: 28800, EndTime: 32400, Headway: 600, ExactTimes: 0},

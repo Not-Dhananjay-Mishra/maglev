@@ -8,6 +8,8 @@ import (
 )
 
 func TestCalculateBounds(t *testing.T) {
+	t.Parallel()
+
 	lat := 38.627003
 	lon := -121.530398
 	radius := 500.0 // DEFAULT_SEARCH_RADIUS_WITHOUT_QUERY
@@ -30,6 +32,8 @@ func TestCalculateBounds(t *testing.T) {
 }
 
 func TestDistance(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name      string
 		lat1      float64
@@ -159,7 +163,10 @@ func TestDistance(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			result := Distance(tt.lat1, tt.lon1, tt.lat2, tt.lon2)
 			assert.InDelta(t, tt.expected, result, tt.tolerance,
 				"Distance should be approximately %f meters (±%f), got %f",
@@ -169,6 +176,8 @@ func TestDistance(t *testing.T) {
 }
 
 func TestDistance_Symmetry(t *testing.T) {
+	t.Parallel()
+
 	// Distance from A to B should equal distance from B to A
 	lat1, lon1 := 40.7128, -74.0060  // New York
 	lat2, lon2 := 34.0522, -118.2437 // Los Angeles
@@ -180,6 +189,8 @@ func TestDistance_Symmetry(t *testing.T) {
 }
 
 func TestDistance_TriangleInequality(t *testing.T) {
+	t.Parallel()
+
 	// Distance A to C should be <= distance A to B + distance B to C
 	latA, lonA := 40.7128, -74.0060  // New York
 	latB, lonB := 41.8781, -87.6298  // Chicago
@@ -195,17 +206,23 @@ func TestDistance_TriangleInequality(t *testing.T) {
 
 func TestDistance_EdgeCases(t *testing.T) {
 	t.Run("Both points at North Pole", func(t *testing.T) {
+		t.Parallel()
+
 		// Any longitude at the pole should give zero distance
 		dist := Distance(90, 0, 90, 180)
 		assert.InDelta(t, 0, dist, 1, "Distance between two North Pole points should be zero")
 	})
 
 	t.Run("Both points at South Pole", func(t *testing.T) {
+		t.Parallel()
+
 		dist := Distance(-90, 0, -90, 180)
 		assert.InDelta(t, 0, dist, 1, "Distance between two South Pole points should be zero")
 	})
 
 	t.Run("Crossing equator", func(t *testing.T) {
+		t.Parallel()
+
 		dist := Distance(-10, 0, 10, 0)
 		expected := Distance(0, 0, 20, 0)
 		assert.InDelta(t, expected, dist, 1000,
@@ -213,6 +230,8 @@ func TestDistance_EdgeCases(t *testing.T) {
 	})
 
 	t.Run("180 degree longitude difference", func(t *testing.T) {
+		t.Parallel()
+
 		dist := Distance(0, 0, 0, 180)
 		// Half the Earth's circumference at equator
 		expected := math.Pi * 6371000
@@ -221,6 +240,8 @@ func TestDistance_EdgeCases(t *testing.T) {
 	})
 
 	t.Run("Negative latitudes and longitudes", func(t *testing.T) {
+		t.Parallel()
+
 		// Southern hemisphere, western hemisphere
 		dist := Distance(-33.9249, -18.4241, -34.6037, -58.3816)
 		assert.Greater(t, dist, 0.0, "Distance should be positive")
@@ -229,6 +250,8 @@ func TestDistance_EdgeCases(t *testing.T) {
 }
 
 func TestDistance_KnownDistances(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name     string
 		city1    string
@@ -272,7 +295,10 @@ func TestDistance_KnownDistances(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			result := Distance(tt.lat1, tt.lon1, tt.lat2, tt.lon2)
 			// Allow 5km tolerance for known distances
 			assert.InDelta(t, tt.expected, result, 5000,
@@ -283,6 +309,8 @@ func TestDistance_KnownDistances(t *testing.T) {
 }
 
 func TestDistance_ConsistentResults(t *testing.T) {
+	t.Parallel()
+
 	// Running the same calculation multiple times should give identical results
 	lat1, lon1 := 40.7128, -74.0060
 	lat2, lon2 := 34.0522, -118.2437
@@ -296,6 +324,8 @@ func TestDistance_ConsistentResults(t *testing.T) {
 }
 
 func TestDistance_OutputRange(t *testing.T) {
+	t.Parallel()
+
 	// Distance should never return negative distance
 	// and should never exceed half Earth's circumference (~20,037 km)
 	tests := []struct {
@@ -317,6 +347,8 @@ func TestDistance_OutputRange(t *testing.T) {
 }
 
 func TestIsOutOfBounds(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name     string
 		inner    CoordinateBounds
@@ -422,7 +454,10 @@ func TestIsOutOfBounds(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			result := IsOutOfBounds(tt.inner, tt.outer)
 			assert.Equal(t, tt.expected, result)
 		})
@@ -430,6 +465,8 @@ func TestIsOutOfBounds(t *testing.T) {
 }
 
 func TestDistance_EquirectangularFastPath(t *testing.T) {
+	t.Parallel()
+
 	// Test coordinates that are less than 0.2 degrees apart
 	// to ensure the fast-path approximation triggers and is accurate
 	lat1, lon1 := 47.6062, -122.3321 // Seattle downtown

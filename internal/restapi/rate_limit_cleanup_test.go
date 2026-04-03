@@ -17,6 +17,8 @@ import (
 // TestRateLimitMiddleware_LazyEvictionKeepsActiveClients verifies that an active
 // user's limiter is reused (not reset) as long as they remain within the idle threshold.
 func TestRateLimitMiddleware_LazyEvictionKeepsActiveClients(t *testing.T) {
+	t.Parallel()
+
 	mockClock := clock.NewMockClock(time.Now())
 	middleware := NewRateLimitMiddleware(10, time.Second, nil, mockClock)
 	defer middleware.Stop()
@@ -37,6 +39,8 @@ func TestRateLimitMiddleware_LazyEvictionKeepsActiveClients(t *testing.T) {
 // TestRateLimitMiddleware_LazyEvictionResetsIdleClients verifies that an idle
 // user's limiter is transparently replaced with a fresh one on access.
 func TestRateLimitMiddleware_LazyEvictionResetsIdleClients(t *testing.T) {
+	t.Parallel()
+
 	mockClock := clock.NewMockClock(time.Now())
 	middleware := NewRateLimitMiddleware(10, time.Second, nil, mockClock)
 	defer middleware.Stop()
@@ -57,6 +61,8 @@ func TestRateLimitMiddleware_LazyEvictionResetsIdleClients(t *testing.T) {
 // TestRateLimitMiddleware_LazyEvictionResetsExhaustedLimiters verifies that
 // an exhausted, idle limiter is replaced with a fresh one upon the next request.
 func TestRateLimitMiddleware_LazyEvictionResetsExhaustedLimiters(t *testing.T) {
+	t.Parallel()
+
 	mockClock := clock.NewMockClock(time.Now())
 	middleware := NewRateLimitMiddleware(3, time.Second, nil, mockClock)
 	defer middleware.Stop()
@@ -111,6 +117,8 @@ func TestRateLimitMiddleware_LazyEvictionResetsExhaustedLimiters(t *testing.T) {
 // TestRateLimitMiddleware_LRUEviction verifies that the LRU cache evicts
 // the least-recently-used entries when it exceeds its capacity.
 func TestRateLimitMiddleware_LRUEviction(t *testing.T) {
+	t.Parallel()
+
 	mockClock := clock.NewMockClock(time.Now())
 	middleware := NewRateLimitMiddleware(5, time.Second, nil, mockClock)
 	defer middleware.Stop()
@@ -144,6 +152,8 @@ func TestRateLimitMiddleware_LRUEviction(t *testing.T) {
 
 // TestRateLimitMiddleware_LastSeenUpdateOnEveryRequest verifies lastSeen timestamp is updated on each request.
 func TestRateLimitMiddleware_LastSeenUpdateOnEveryRequest(t *testing.T) {
+	t.Parallel()
+
 	mockClock := clock.NewMockClock(time.Now())
 	middleware := NewRateLimitMiddleware(10, time.Second, nil, mockClock)
 	defer middleware.Stop()
@@ -188,6 +198,8 @@ func TestRateLimitMiddleware_LastSeenUpdateOnEveryRequest(t *testing.T) {
 // TestRateLimitMiddleware_ConcurrentGetLimiterReturnsSameInstance verifies
 // that concurrent calls to getLimiter for the same key all receive a valid limiter.
 func TestRateLimitMiddleware_ConcurrentGetLimiterReturnsSameInstance(t *testing.T) {
+	t.Parallel()
+
 	mockClock := clock.NewMockClock(time.Now())
 	middleware := NewRateLimitMiddleware(100, time.Second, nil, mockClock)
 	defer middleware.Stop()

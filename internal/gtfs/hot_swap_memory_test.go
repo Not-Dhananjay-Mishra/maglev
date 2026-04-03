@@ -84,7 +84,7 @@ func TestHotSwapMemory_LargeAgency(t *testing.T) {
 		t.Skip("Skipping on Windows: SQLite file I/O is too slow for CI timeout")
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Get TriMet test data path
 	zipPath := models.GetFixturePath(t, "perf/trimet.zip")
@@ -338,7 +338,7 @@ func TestHotSwapMemory_LargeAgency(t *testing.T) {
 
 // TestHotSwapMemory_SmallAgencyBaseline establishes a baseline with small test data
 func TestHotSwapMemory_SmallAgencyBaseline(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 
 	tempDir := t.TempDir()
 	dbPath := filepath.Join(tempDir, "raba.db")
@@ -405,7 +405,7 @@ func BenchmarkHotSwapMemory_LargeAgency(b *testing.B) {
 		b.Skip("Skipping on Windows")
 	}
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	zipPath := models.GetFixturePath(b, "perf/trimet.zip")
 	if _, err := os.Stat(zipPath); err != nil {

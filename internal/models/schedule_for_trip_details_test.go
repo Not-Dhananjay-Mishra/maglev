@@ -8,6 +8,8 @@ import (
 )
 
 func TestNewSchedule(t *testing.T) {
+	t.Parallel()
+
 	freq := &Frequency{StartTime: 1000, EndTime: 2000, Headway: 300, ExactTimes: 0}
 	nextTripID := "next_trip_123"
 	previousTripID := "prev_trip_456"
@@ -27,6 +29,8 @@ func TestNewSchedule(t *testing.T) {
 }
 
 func TestScheduleJSON(t *testing.T) {
+	t.Parallel()
+
 	stopTime := NewStopTime(28800, 28900, "stop_1", "Downtown", 100.0, "MANY_SEATS_AVAILABLE")
 
 	schedule := Schedule{
@@ -53,6 +57,8 @@ func TestScheduleJSON(t *testing.T) {
 }
 
 func TestScheduleWithEmptyValues(t *testing.T) {
+	t.Parallel()
+
 	schedule := NewSchedule(nil, "", "", []StopTime{}, "")
 
 	assert.Nil(t, schedule.Frequency)
@@ -63,6 +69,8 @@ func TestScheduleWithEmptyValues(t *testing.T) {
 }
 
 func TestScheduleWithMultipleStopTimes(t *testing.T) {
+	t.Parallel()
+
 	stopTimes := []StopTime{
 		NewStopTime(28800, 28900, "stop_1", "Downtown", 100.0, "MANY_SEATS_AVAILABLE"),
 		NewStopTime(29000, 29100, "stop_2", "Uptown", 200.0, "FEW_SEATS_AVAILABLE"),

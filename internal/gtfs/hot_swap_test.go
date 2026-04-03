@@ -22,7 +22,7 @@ func loggerErrorf(format string, args ...interface{}) error {
 }
 
 func TestHotSwap_QueriesCompleteDuringSwap(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 
 	if runtime.GOOS == "windows" {
 		t.Skip("Skipping on Windows: SQLite file I/O is too slow for CI timeout")
@@ -46,7 +46,7 @@ func TestHotSwap_QueriesCompleteDuringSwap(t *testing.T) {
 	assert.Equal(t, "25", agencies[0].Id)
 
 	var wg sync.WaitGroup
-	ctx, cancel := context.WithCancel(context.Background())
+	ctx, cancel := context.WithCancel(t.Context())
 	defer cancel()
 
 	readerCount := 5
@@ -91,7 +91,7 @@ func TestHotSwap_QueriesCompleteDuringSwap(t *testing.T) {
 
 	time.Sleep(50 * time.Millisecond)
 
-	err = manager.ForceUpdate(context.Background())
+	err = manager.ForceUpdate(t.Context())
 	assert.Nil(t, err, "ForceUpdate should succeed with new file")
 
 	time.Sleep(50 * time.Millisecond)
@@ -109,7 +109,7 @@ func TestHotSwap_QueriesCompleteDuringSwap(t *testing.T) {
 }
 
 func TestHotSwap_FailureRecovery(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 
 	tempDir := t.TempDir()
 	gtfsConfig := Config{
@@ -124,7 +124,7 @@ func TestHotSwap_FailureRecovery(t *testing.T) {
 	}
 	defer manager.Shutdown()
 
-	agencies, err := manager.GtfsDB.Queries.ListAgencies(context.Background())
+	agencies, err := manager.GtfsDB.Queries.ListAgencies(t.Context())
 	if err != nil {
 		t.Fatalf("Failed to list agencies: %v", err)
 	}
@@ -133,7 +133,7 @@ func TestHotSwap_FailureRecovery(t *testing.T) {
 
 	manager.SetGtfsURL("/path/to/non/existent/file.zip")
 
-	err = manager.ForceUpdate(context.Background())
+	err = manager.ForceUpdate(t.Context())
 
 	assert.Error(t, err, "ForceUpdate should fail with invalid source")
 
@@ -148,14 +148,14 @@ func TestHotSwap_FailureRecovery(t *testing.T) {
 		}
 	}
 
-	agencies, err = manager.GtfsDB.Queries.ListAgencies(context.Background())
+	agencies, err = manager.GtfsDB.Queries.ListAgencies(t.Context())
 	assert.Nil(t, err)
 	assert.Equal(t, 1, len(agencies), "Original data should be preserved")
 	assert.Equal(t, "25", agencies[0].ID, "Should still be using original agency")
 }
 
 func TestHotSwap_OldDatabaseCleanup(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 
 	if runtime.GOOS == "windows" {
 		t.Skip("Skipping on Windows: SQLite file I/O is too slow for CI timeout")
@@ -178,7 +178,7 @@ func TestHotSwap_OldDatabaseCleanup(t *testing.T) {
 	defer manager.Shutdown()
 
 	manager.SetGtfsURL(gtfsNew)
-	err = manager.ForceUpdate(context.Background())
+	err = manager.ForceUpdate(t.Context())
 	require.NoError(t, err, "ForceUpdate failed for new GTFS")
 
 	agencies := manager.GetAgencies()
@@ -197,7 +197,7 @@ func TestHotSwap_OldDatabaseCleanup(t *testing.T) {
 }
 
 func TestHotSwap_MutexProtectedSwap(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 
 	if runtime.GOOS == "windows" {
 		t.Skip("Skipping on Windows: SQLite file I/O is too slow for CI timeout")
@@ -235,7 +235,7 @@ func TestHotSwap_MutexProtectedSwap(t *testing.T) {
 	manager.RUnlock()
 
 	manager.SetGtfsURL(gtfsNew)
-	err = manager.ForceUpdate(context.Background())
+	err = manager.ForceUpdate(t.Context())
 	assert.Nil(t, err, "ForceUpdate should succeed")
 
 	// Verify Final State
@@ -255,7 +255,7 @@ func TestHotSwap_MutexProtectedSwap(t *testing.T) {
 }
 
 func TestHotSwap_ConcurrentForceUpdate(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 
 	if runtime.GOOS == "windows" {
 		t.Skip("Skipping on Windows: SQLite file I/O is too slow for CI timeout")
@@ -292,7 +292,7 @@ func TestHotSwap_ConcurrentForceUpdate(t *testing.T) {
 		go func() {
 			defer wg.Done()
 			// Calling ForceUpdate concurrently
-			err := manager.ForceUpdate(context.Background())
+			err := manager.ForceUpdate(t.Context())
 			errChan <- err
 		}()
 	}

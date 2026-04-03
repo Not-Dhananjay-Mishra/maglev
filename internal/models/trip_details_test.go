@@ -9,6 +9,8 @@ import (
 )
 
 func TestNewTripDetails(t *testing.T) {
+	t.Parallel()
+
 	trip := Trip{
 		ID:             "trip_123",
 		RouteID:        "route_456",
@@ -61,6 +63,8 @@ func TestNewTripDetails(t *testing.T) {
 }
 
 func TestNewEmptyTripDetails(t *testing.T) {
+	t.Parallel()
+
 	tripDetails := NewEmptyTripDetails()
 
 	assert.Equal(t, "", tripDetails.TripID)
@@ -73,6 +77,8 @@ func TestNewEmptyTripDetails(t *testing.T) {
 }
 
 func TestTripDetailsJSON(t *testing.T) {
+	t.Parallel()
+
 	frequency := &Frequency{
 		StartTime:   28800,
 		EndTime:     32400,
@@ -119,6 +125,8 @@ func TestTripDetailsJSON(t *testing.T) {
 }
 
 func TestTripDetailsWithNilValues(t *testing.T) {
+	t.Parallel()
+
 	trip := Trip{ID: "trip_123"}
 
 	tripDetails := NewTripDetails(trip.ID, 1609459200000, nil, nil, nil, nil)
@@ -132,6 +140,8 @@ func TestTripDetailsWithNilValues(t *testing.T) {
 }
 
 func TestTripStatusJSON(t *testing.T) {
+	t.Parallel()
+
 	tripStatus := TripStatus{
 		ActiveTripID:               "active_trip_123",
 		BlockTripSequence:          2,
@@ -187,6 +197,8 @@ func TestTripStatusJSON(t *testing.T) {
 }
 
 func TestTripStatus_JSONAlwaysPresent(t *testing.T) {
+	t.Parallel()
+
 	status := *NewTripStatus()
 	status.Status = "default"
 

@@ -11,6 +11,8 @@ import (
 )
 
 func TestNewFrequencyFromDB(t *testing.T) {
+	t.Parallel()
+
 	// Use a non-UTC timezone to properly verify the Local timezone fix
 	loc, err := time.LoadLocation("America/New_York")
 	require.NoError(t, err)
@@ -44,6 +46,8 @@ func TestNewFrequencyFromDB(t *testing.T) {
 }
 
 func TestNewFrequencyFromDB_FrequencyBased(t *testing.T) {
+	t.Parallel()
+
 	serviceDate := time.Date(2024, 6, 1, 0, 0, 0, 0, time.UTC)
 
 	dbFreq := gtfsdb.Frequency{
@@ -62,6 +66,8 @@ func TestNewFrequencyFromDB_FrequencyBased(t *testing.T) {
 }
 
 func TestNewFrequencyFromDB_OverMidnight(t *testing.T) {
+	t.Parallel()
+
 	// GTFS supports times > 24h for trips that span past midnight
 	serviceDate := time.Date(2024, 1, 15, 0, 0, 0, 0, time.UTC)
 
@@ -89,6 +95,8 @@ func TestNewFrequencyFromDB_OverMidnight(t *testing.T) {
 }
 
 func TestNewFrequency(t *testing.T) {
+	t.Parallel()
+
 	freq := NewFrequency(1705305600000, 1705316400000, 600, 1)
 
 	assert.Equal(t, int64(1705305600000), freq.StartTime)
@@ -98,6 +106,8 @@ func TestNewFrequency(t *testing.T) {
 }
 
 func TestFrequencyJSON(t *testing.T) {
+	t.Parallel()
+
 	freq := Frequency{
 		StartTime:   1705305600000,
 		EndTime:     1705316400000,
@@ -136,6 +146,8 @@ func TestFrequencyJSON(t *testing.T) {
 }
 
 func TestFrequencyJSON_NilPointer(t *testing.T) {
+	t.Parallel()
+
 	// When Frequency is a pointer field and nil, it should serialize as null
 	type wrapper struct {
 		Freq *Frequency `json:"frequency"`
@@ -148,6 +160,8 @@ func TestFrequencyJSON_NilPointer(t *testing.T) {
 }
 
 func TestFrequencyJSON_NonNilPointer(t *testing.T) {
+	t.Parallel()
+
 	type wrapper struct {
 		Freq *Frequency `json:"frequency"`
 	}

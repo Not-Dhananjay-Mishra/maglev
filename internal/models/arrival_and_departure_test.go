@@ -8,6 +8,8 @@ import (
 )
 
 func TestNewArrivalAndDeparture(t *testing.T) {
+	t.Parallel()
+
 	routeID := "unitrans_FMS"
 	routeShortName := "FMS"
 	routeLongName := "Fremont Station"
@@ -87,6 +89,8 @@ func TestNewArrivalAndDeparture(t *testing.T) {
 }
 
 func TestArrivalAndDepartureJSON(t *testing.T) {
+	t.Parallel()
+
 	tripStatus := NewTripStatus()
 	tripStatus.VehicleID = "vehicle_789"
 	tripStatus.Status = "in_progress"
@@ -147,6 +151,8 @@ func TestArrivalAndDepartureJSON(t *testing.T) {
 }
 
 func TestArrivalAndDepartureWithEmptyValues(t *testing.T) {
+	t.Parallel()
+
 	arrival := NewArrivalAndDeparture(
 		"", "", "", "", "", "", "",
 		0, 0, 0, 0, 0,
@@ -176,6 +182,8 @@ func TestArrivalAndDepartureWithEmptyValues(t *testing.T) {
 }
 
 func TestArrivalAndDepartureWithNilTripStatus(t *testing.T) {
+	t.Parallel()
+
 	lastUpdateTime := int64(1609462700000)
 	arrival := NewArrivalAndDeparture(
 		"route_1", "R1", "Route One", "trip_1", "Terminal", "stop_1", "vehicle_1",

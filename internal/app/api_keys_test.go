@@ -1,14 +1,16 @@
 package app
 
 import (
-	"github.com/stretchr/testify/assert"
-	"maglev.onebusaway.org/internal/appconf"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"maglev.onebusaway.org/internal/appconf"
 )
 
 func TestBlankKeyIsInvalid(t *testing.T) {
+	t.Parallel()
 	app := &Application{
 		Config: appconf.Config{
 			ApiKeys: []string{"key"},
@@ -18,6 +20,7 @@ func TestBlankKeyIsInvalid(t *testing.T) {
 }
 
 func TestIsInvalidAPIKey(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name          string
 		configKeys    []string
@@ -70,6 +73,7 @@ func TestIsInvalidAPIKey(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			app := &Application{
 				Config: appconf.Config{
 					ApiKeys: tt.configKeys,
@@ -86,6 +90,7 @@ func TestIsInvalidAPIKey(t *testing.T) {
 }
 
 func TestRequestHasInvalidAPIKey(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name          string
 		configKeys    []string
@@ -120,6 +125,7 @@ func TestRequestHasInvalidAPIKey(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			app := &Application{
 				Config: appconf.Config{
 					ApiKeys: tt.configKeys,
@@ -140,6 +146,7 @@ func TestRequestHasInvalidAPIKey(t *testing.T) {
 }
 
 func TestRequestHasInvalidAPIKeyWithNoQueryParam(t *testing.T) {
+	t.Parallel()
 	app := &Application{
 		Config: appconf.Config{
 			ApiKeys: []string{"test-key"},

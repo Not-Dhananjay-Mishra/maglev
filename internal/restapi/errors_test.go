@@ -15,6 +15,8 @@ import (
 )
 
 func TestServerErrorResponse(t *testing.T) {
+	t.Parallel()
+
 	// Create a mock Application with Clock
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
 	application := &app.Application{

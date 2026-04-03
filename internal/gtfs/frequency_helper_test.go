@@ -1,7 +1,6 @@
 package gtfs
 
 import (
-	"context"
 	"database/sql"
 	"sync"
 	"testing"
@@ -314,7 +313,7 @@ func TestGetActiveHeadwayForTime_PostMidnight(t *testing.T) {
 
 func TestGetFrequenciesForTrips_EmptyInput(t *testing.T) {
 	manager := &Manager{}
-	ctx := context.Background()
+	ctx := t.Context()
 
 	res, err := manager.GetFrequenciesForTrips(ctx, nil)
 	assert.NoError(t, err)

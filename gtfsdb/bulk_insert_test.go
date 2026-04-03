@@ -1,7 +1,6 @@
 package gtfsdb
 
 import (
-	"context"
 	"database/sql"
 	"testing"
 	"time"
@@ -12,6 +11,7 @@ import (
 )
 
 func TestBulkInsertStopTimes(t *testing.T) {
+	t.Parallel()
 	config := Config{
 		DBPath: ":memory:",
 		Env:    appconf.Test,
@@ -21,7 +21,7 @@ func TestBulkInsertStopTimes(t *testing.T) {
 	require.NoError(t, err)
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Create prerequisite data (agency, route, calendar/service)
 	_, err = client.Queries.CreateAgency(ctx, CreateAgencyParams{
@@ -134,6 +134,7 @@ func TestBulkInsertStopTimes(t *testing.T) {
 }
 
 func TestBulkInsertShapes(t *testing.T) {
+	t.Parallel()
 	config := Config{
 		DBPath: ":memory:",
 		Env:    appconf.Test,
@@ -143,7 +144,7 @@ func TestBulkInsertShapes(t *testing.T) {
 	require.NoError(t, err)
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	testCases := []struct {
 		name  string
@@ -205,6 +206,7 @@ func TestBulkInsertShapes(t *testing.T) {
 }
 
 func TestBulkInsertWithNullValues(t *testing.T) {
+	t.Parallel()
 	config := Config{
 		DBPath: ":memory:",
 		Env:    appconf.Test,
@@ -214,7 +216,7 @@ func TestBulkInsertWithNullValues(t *testing.T) {
 	require.NoError(t, err)
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Test shapes with NULL distance traveled
 	shapes := []CreateShapeParams{
@@ -252,6 +254,7 @@ func TestBulkInsertWithNullValues(t *testing.T) {
 }
 
 func TestBulkInsertPerformance(t *testing.T) {
+	t.Parallel()
 	if testing.Short() {
 		t.Skip("Skipping performance test in short mode")
 	}
@@ -265,7 +268,7 @@ func TestBulkInsertPerformance(t *testing.T) {
 	require.NoError(t, err)
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Create prerequisite data (agency, route, calendar/service)
 	_, err = client.Queries.CreateAgency(ctx, CreateAgencyParams{

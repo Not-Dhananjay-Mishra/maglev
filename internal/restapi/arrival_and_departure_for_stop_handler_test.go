@@ -1,7 +1,6 @@
 package restapi
 
 import (
-	"context"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -387,7 +386,7 @@ func TestArrivalAndDepartureForStopHandlerWithValidTripStopCombination(t *testin
 	defer api.Shutdown()
 
 	agency := api.GtfsManager.GetAgencies()[0]
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Find a valid trip with stop times
 	trips := api.GtfsManager.GetTrips()
@@ -473,7 +472,7 @@ func TestArrivalAndDepartureForStopHandlerWithValidTripAndStopSequence(t *testin
 	defer api.Shutdown()
 
 	agency := api.GtfsManager.GetAgencies()[0]
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Find a valid trip with multiple stops
 	trips := api.GtfsManager.GetTrips()
@@ -564,7 +563,7 @@ func TestGetPredictedTimes_EqualArrivalDeparture(t *testing.T) {
 func TestGetBlockDistanceToStop_NilVehicle(t *testing.T) {
 	api := createTestApi(t)
 	defer api.Shutdown()
-	ctx := context.Background()
+	ctx := t.Context()
 
 	result := api.getBlockDistanceToStop(ctx, "test_trip", "test_stop", nil, time.Now())
 
@@ -574,7 +573,7 @@ func TestGetBlockDistanceToStop_NilVehicle(t *testing.T) {
 func TestGetBlockDistanceToStop_NoPosition(t *testing.T) {
 	api := createTestApi(t)
 	defer api.Shutdown()
-	ctx := context.Background()
+	ctx := t.Context()
 
 	vehicle := &gtfs.Vehicle{
 		Position: nil,
@@ -591,7 +590,7 @@ func TestGetNumberOfStopsAway_NilCurrentSequence(t *testing.T) {
 		// No current stop sequence set
 	}
 
-	result := api.getNumberOfStopsAway(context.Background(), "test_trip", 5, vehicle, time.Now())
+	result := api.getNumberOfStopsAway(t.Context(), "test_trip", 5, vehicle, time.Now())
 
 	assert.Nil(t, result)
 }
@@ -702,7 +701,7 @@ func TestArrivalAndDepartureForStopHandler_MultiAgency_Regression(t *testing.T) 
 	api := createTestApi(t)
 	defer api.Shutdown()
 
-	ctx := context.Background()
+	ctx := t.Context()
 	queries := api.GtfsManager.GtfsDB.Queries
 
 	// 1. Setup: Agency A owns the stop
@@ -903,7 +902,7 @@ func TestArrivalAndDepartureForStop_PositiveUTCOffset_ServiceDateRegression(t *t
 	api := createTestApi(t)
 	defer api.Shutdown()
 
-	ctx := context.Background()
+	ctx := t.Context()
 	queries := api.GtfsManager.GtfsDB.Queries
 
 	const (
@@ -996,7 +995,7 @@ func TestArrivalAndDepartureForStopHandler_LoopRouteStopSequence(t *testing.T) {
 	api := createTestApi(t)
 	defer api.Shutdown()
 
-	ctx := context.Background()
+	ctx := t.Context()
 	queries := api.GtfsManager.GtfsDB.Queries
 
 	const (
@@ -1104,7 +1103,7 @@ func TestArrivalAndDepartureForStop_VehicleWithNilID(t *testing.T) {
 	defer api.Shutdown()
 	t.Cleanup(api.GtfsManager.MockResetRealTimeData)
 
-	ctx := context.Background()
+	ctx := t.Context()
 
 	trips := api.GtfsManager.GetTrips()
 	require.NotEmpty(t, trips)

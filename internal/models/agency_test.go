@@ -8,6 +8,8 @@ import (
 )
 
 func TestAgencyCoverageCreation(t *testing.T) {
+	t.Parallel()
+
 	agencyID := "agency-1"
 	lat := 47.6062
 	latSpan := 0.5
@@ -24,6 +26,8 @@ func TestAgencyCoverageCreation(t *testing.T) {
 }
 
 func TestAgencyCoverageJSON(t *testing.T) {
+	t.Parallel()
+
 	coverage := AgencyCoverage{
 		AgencyID: "agency-2",
 		Lat:      47.6062,
@@ -47,6 +51,8 @@ func TestAgencyCoverageJSON(t *testing.T) {
 }
 
 func TestAgencyReferenceCreation(t *testing.T) {
+	t.Parallel()
+
 	id := "st"
 	name := "Sound Transit"
 	url := "https://soundtransit.org"
@@ -73,6 +79,8 @@ func TestAgencyReferenceCreation(t *testing.T) {
 }
 
 func TestAgencyReferenceJSON(t *testing.T) {
+	t.Parallel()
+
 	agency := AgencyReference{
 		ID:             "st",
 		Name:           "Sound Transit",
@@ -106,6 +114,8 @@ func TestAgencyReferenceJSON(t *testing.T) {
 }
 
 func TestAgencyCoverageWithZeroValues(t *testing.T) {
+	t.Parallel()
+
 	coverage := NewAgencyCoverage("agency-3", 0, 0, 0, 0)
 
 	assert.Equal(t, "agency-3", coverage.AgencyID)
@@ -116,6 +126,8 @@ func TestAgencyCoverageWithZeroValues(t *testing.T) {
 }
 
 func TestAgencyReferenceWithEmptyStrings(t *testing.T) {
+	t.Parallel()
+
 	agency := NewAgencyReference("", "", "", "", "", "", "", "", "", false)
 
 	assert.Equal(t, "", agency.ID)

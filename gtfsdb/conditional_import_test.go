@@ -1,7 +1,6 @@
 package gtfsdb
 
 import (
-	"context"
 	"os"
 	"path/filepath"
 	"testing"
@@ -52,7 +51,7 @@ func TestConditionalImport_InitialImport(t *testing.T) {
 	require.NoError(t, err, "Failed to create client")
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 	originalData, _ := createTestData(t)
 
 	// Perform initial import
@@ -85,7 +84,7 @@ func TestConditionalImport_SkipUnchangedData(t *testing.T) {
 	require.NoError(t, err, "Failed to create client")
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 	originalData, _ := createTestData(t)
 
 	// Perform initial import
@@ -139,7 +138,7 @@ func TestConditionalImport_ReloadChangedData(t *testing.T) {
 	require.NoError(t, err, "Failed to create client")
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 	originalData, modifiedData := createTestData(t)
 
 	// Perform initial import
@@ -182,7 +181,7 @@ func TestConditionalImport_DifferentSources(t *testing.T) {
 	require.NoError(t, err, "Failed to create client")
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 	originalData, _ := createTestData(t)
 
 	// Perform initial import with source A
@@ -218,7 +217,7 @@ func TestConditionalImport_FileImport(t *testing.T) {
 	require.NoError(t, err, "Failed to create client")
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 	testFilePath := getTestFixturePath(t, "raba.zip")
 
 	// Perform initial import from file
@@ -260,7 +259,7 @@ func TestClearAllGTFSData(t *testing.T) {
 	require.NoError(t, err, "Failed to create client")
 	defer func() { _ = client.Close() }()
 
-	ctx := context.Background()
+	ctx := t.Context()
 	originalData, _ := createTestData(t)
 
 	// Perform initial import
