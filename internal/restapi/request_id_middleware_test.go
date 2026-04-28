@@ -12,7 +12,9 @@ import (
 )
 
 func TestRequestIDMiddleware(t *testing.T) {
+	t.Parallel()
 	t.Run("should generate request ID if missing", func(t *testing.T) {
+		t.Parallel()
 		nextHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			reqID, ok := r.Context().Value(RequestIDKey).(string)
 			assert.True(t, ok, "Context should contain request ID")
@@ -32,6 +34,7 @@ func TestRequestIDMiddleware(t *testing.T) {
 	})
 
 	t.Run("should preserve existing valid request ID", func(t *testing.T) {
+		t.Parallel()
 		existingID := "my-custom-trace-id-123"
 
 		nextHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -52,6 +55,7 @@ func TestRequestIDMiddleware(t *testing.T) {
 	})
 
 	t.Run("should preserve exactly 128 character request ID (boundary)", func(t *testing.T) {
+		t.Parallel()
 		existingID := strings.Repeat("a", 128)
 
 		nextHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -72,6 +76,7 @@ func TestRequestIDMiddleware(t *testing.T) {
 	})
 
 	t.Run("should replace invalid request ID", func(t *testing.T) {
+		t.Parallel()
 		testCases := []struct {
 			name      string
 			invalidID string
@@ -108,6 +113,7 @@ func TestRequestIDMiddleware(t *testing.T) {
 }
 
 func TestRequestIDLoggingIntegration(t *testing.T) {
+	t.Parallel()
 	var logBuf bytes.Buffer
 
 	testLogger := slog.New(slog.NewJSONHandler(&logBuf, nil))

@@ -18,6 +18,7 @@ import (
 // Feed A uses RABA vehicle positions; feed B uses Unitrans vehicle positions so
 // that each feed contributes genuinely different vehicle IDs.
 func TestMultiFeedDataMerging(t *testing.T) {
+	t.Parallel()
 	mux := http.NewServeMux()
 	mux.HandleFunc("/feed-a/vehicle-positions", func(w http.ResponseWriter, r *http.Request) {
 		data, err := os.ReadFile(filepath.Join("../../testdata", "raba-vehicle-positions.pb"))
@@ -84,6 +85,7 @@ func TestMultiFeedDataMerging(t *testing.T) {
 }
 
 func TestStaleVehicleExpiry(t *testing.T) {
+	t.Parallel()
 	realServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		data, err := os.ReadFile(filepath.Join("../../testdata", "raba-vehicle-positions.pb"))
 		require.NoError(t, err)
@@ -148,6 +150,7 @@ func TestStaleVehicleExpiry(t *testing.T) {
 // TestFeedIsolation verifies that updating one feed does not affect another
 // feed's data in the merged view.
 func TestFeedIsolation(t *testing.T) {
+	t.Parallel()
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		data, err := os.ReadFile(filepath.Join("../../testdata", "raba-vehicle-positions.pb"))
 		require.NoError(t, err)
@@ -195,6 +198,7 @@ func TestFeedIsolation(t *testing.T) {
 // trigger rebuildMergedRealtimeLocked; the final merged view must contain
 // vehicles from both feeds with no data corruption.
 func TestConcurrentFeedUpdates(t *testing.T) {
+	t.Parallel()
 	mux := http.NewServeMux()
 	mux.HandleFunc("/feed-a/vehicle-positions", func(w http.ResponseWriter, r *http.Request) {
 		data, err := os.ReadFile(filepath.Join("../../testdata", "raba-vehicle-positions.pb"))

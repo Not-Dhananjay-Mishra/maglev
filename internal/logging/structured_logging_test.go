@@ -11,7 +11,9 @@ import (
 )
 
 func TestStructuredLogger(t *testing.T) {
+	t.Parallel()
 	t.Run("creates JSON logger with proper configuration", func(t *testing.T) {
+		t.Parallel()
 		var buf bytes.Buffer
 		logger := NewStructuredLogger(&buf, slog.LevelInfo)
 
@@ -31,6 +33,7 @@ func TestStructuredLogger(t *testing.T) {
 	})
 
 	t.Run("respects log level configuration", func(t *testing.T) {
+		t.Parallel()
 		var buf bytes.Buffer
 		logger := NewStructuredLogger(&buf, slog.LevelWarn)
 
@@ -48,6 +51,7 @@ func TestStructuredLogger(t *testing.T) {
 	})
 
 	t.Run("handles error logging with context", func(t *testing.T) {
+		t.Parallel()
 		var buf bytes.Buffer
 		logger := NewStructuredLogger(&buf, slog.LevelInfo)
 
@@ -66,7 +70,9 @@ func TestStructuredLogger(t *testing.T) {
 }
 
 func TestLoggerHelpers(t *testing.T) {
+	t.Parallel()
 	t.Run("LogError creates structured error log", func(t *testing.T) {
+		t.Parallel()
 		var buf bytes.Buffer
 		logger := NewStructuredLogger(&buf, slog.LevelInfo)
 
@@ -84,6 +90,7 @@ func TestLoggerHelpers(t *testing.T) {
 	})
 
 	t.Run("LogOperation logs structured operation info", func(t *testing.T) {
+		t.Parallel()
 		var buf bytes.Buffer
 		logger := NewStructuredLogger(&buf, slog.LevelDebug)
 
@@ -100,6 +107,7 @@ func TestLoggerHelpers(t *testing.T) {
 	})
 
 	t.Run("LogHTTPRequest logs request details", func(t *testing.T) {
+		t.Parallel()
 		var buf bytes.Buffer
 		logger := NewStructuredLogger(&buf, slog.LevelInfo)
 
@@ -118,7 +126,9 @@ func TestLoggerHelpers(t *testing.T) {
 }
 
 func TestContextLogger(t *testing.T) {
+	t.Parallel()
 	t.Run("stores and retrieves logger from context", func(t *testing.T) {
+		t.Parallel()
 		var buf bytes.Buffer
 		logger := NewStructuredLogger(&buf, slog.LevelInfo)
 
@@ -135,6 +145,7 @@ func TestContextLogger(t *testing.T) {
 	})
 
 	t.Run("returns default logger when not in context", func(t *testing.T) {
+		t.Parallel()
 		ctx := context.Background()
 		logger := FromContext(ctx)
 

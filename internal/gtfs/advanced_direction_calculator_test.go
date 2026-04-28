@@ -47,6 +47,7 @@ func getSharedTestComponents(t *testing.T) (*Manager, *AdvancedDirectionCalculat
 }
 
 func TestTranslateGtfsDirection(t *testing.T) {
+	t.Parallel()
 	calc := &AdvancedDirectionCalculator{}
 
 	tests := []struct {
@@ -106,6 +107,7 @@ func TestTranslateGtfsDirection(t *testing.T) {
 }
 
 func TestCalculateStopDirectionResultCache(t *testing.T) {
+	t.Parallel()
 	_, calc := getSharedTestComponents(t)
 
 	// First call: precomputed direction "NE" from DB should be recognized
@@ -130,6 +132,7 @@ func TestCalculateStopDirectionResultCache(t *testing.T) {
 // TestTransientDBError_NotCached verifies that if the DB fails (simulated by closing it),
 // the resulting empty direction is NOT cached, allowing future requests to retry.
 func TestTransientDBError_NotCached(t *testing.T) {
+	t.Parallel()
 	// Simulate a transient DB failure by opening and immediately closing an in-memory DB
 	rawDB, err := sql.Open("sqlite3", ":memory:")
 	assert.NoError(t, err)
@@ -152,6 +155,7 @@ func TestTransientDBError_NotCached(t *testing.T) {
 }
 
 func TestCalculateStopDirectionPrecomputedAbbreviations(t *testing.T) {
+	t.Parallel()
 	// Verify all compass abbreviations that DirectionPrecomputer writes to SQLite
 	// are correctly recognized by CalculateStopDirection via translateGtfsDirection.
 	calc := &AdvancedDirectionCalculator{}
@@ -163,6 +167,7 @@ func TestCalculateStopDirectionPrecomputedAbbreviations(t *testing.T) {
 
 	for abbr, expected := range abbreviations {
 		t.Run("precomputed_"+abbr, func(t *testing.T) {
+			t.Parallel()
 			result := calc.CalculateStopDirection(
 				context.Background(),
 				"stop-"+abbr,
@@ -174,6 +179,7 @@ func TestCalculateStopDirectionPrecomputedAbbreviations(t *testing.T) {
 }
 
 func TestGetAngleAsDirection(t *testing.T) {
+	t.Parallel()
 	calc := &AdvancedDirectionCalculator{}
 
 	tests := []struct {
@@ -201,6 +207,7 @@ func TestGetAngleAsDirection(t *testing.T) {
 }
 
 func TestCalculateStopDirectionWithGtfsDirection(t *testing.T) {
+	t.Parallel()
 	// This test verifies that GTFS direction field takes precedence
 	calc := &AdvancedDirectionCalculator{}
 
@@ -246,13 +253,16 @@ func TestCalculateStopDirectionWithGtfsDirection(t *testing.T) {
 }
 
 func TestStatisticalFunctions(t *testing.T) {
+	t.Parallel()
 	t.Run("mean", func(t *testing.T) {
+		t.Parallel()
 		assert.Equal(t, 3.0, mean([]float64{1, 2, 3, 4, 5}))
 		assert.Equal(t, 0.0, mean([]float64{}))
 		assert.Equal(t, 5.0, mean([]float64{5}))
 	})
 
 	t.Run("variance", func(t *testing.T) {
+		t.Parallel()
 		values := []float64{1, 2, 3, 4, 5}
 		m := mean(values)
 		v := variance(values, m)
@@ -261,6 +271,7 @@ func TestStatisticalFunctions(t *testing.T) {
 	})
 
 	t.Run("median", func(t *testing.T) {
+		t.Parallel()
 		// Note: median function expects pre-sorted arrays
 		assert.Equal(t, 3.0, median([]float64{1, 2, 3, 4, 5}))
 
@@ -275,6 +286,7 @@ func TestStatisticalFunctions(t *testing.T) {
 }
 
 func TestCalculateStopDirection_WithShapeData(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 	// Optimization: Reuse shared DB
 	_, calc := getSharedTestComponents(t)
@@ -286,6 +298,7 @@ func TestCalculateStopDirection_WithShapeData(t *testing.T) {
 }
 
 func TestComputeFromShapes_NoShapeData(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 	// Optimization: Reuse shared DB
 	_, calc := getSharedTestComponents(t)
@@ -297,6 +310,7 @@ func TestComputeFromShapes_NoShapeData(t *testing.T) {
 }
 
 func TestComputeFromShapes_SingleOrientation(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 	// Optimization: Reuse shared DB
 	_, calc := getSharedTestComponents(t)
@@ -309,6 +323,7 @@ func TestComputeFromShapes_SingleOrientation(t *testing.T) {
 }
 
 func TestComputeFromShapes_StandardDeviationThreshold(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 	// Note: We reuse the Shared Manager (DB) but create a NEW Calculator.
 	// This is because we modify the variance threshold and don't want to break other tests.
@@ -327,6 +342,7 @@ func TestComputeFromShapes_StandardDeviationThreshold(t *testing.T) {
 }
 
 func TestCalculateOrientationAtStop_WithDistanceTraveled(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 	manager, calc := getSharedTestComponents(t)
 
@@ -344,6 +360,7 @@ func TestCalculateOrientationAtStop_WithDistanceTraveled(t *testing.T) {
 }
 
 func TestCalculateOrientationAtStop_GeographicMatching(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 	manager, calc := getSharedTestComponents(t)
 
@@ -363,6 +380,7 @@ func TestCalculateOrientationAtStop_GeographicMatching(t *testing.T) {
 }
 
 func TestCalculateOrientationAtStop_NoShapePoints(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 	_, calc := getSharedTestComponents(t)
 
@@ -373,6 +391,7 @@ func TestCalculateOrientationAtStop_NoShapePoints(t *testing.T) {
 }
 
 func TestCalculateOrientationAtStop_EdgeCases(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 	manager, calc := getSharedTestComponents(t)
 
@@ -399,6 +418,7 @@ func TestCalculateOrientationAtStop_EdgeCases(t *testing.T) {
 }
 
 func TestGetAngleAsDirection_EdgeCases(t *testing.T) {
+	t.Parallel()
 	calc := &AdvancedDirectionCalculator{}
 
 	tests := []struct {
@@ -421,6 +441,7 @@ func TestGetAngleAsDirection_EdgeCases(t *testing.T) {
 }
 
 func TestTranslateGtfsDirection_NumericEdgeCases(t *testing.T) {
+	t.Parallel()
 	calc := &AdvancedDirectionCalculator{}
 
 	tests := []struct {
@@ -443,6 +464,7 @@ func TestTranslateGtfsDirection_NumericEdgeCases(t *testing.T) {
 }
 
 func TestCalculateStopDirection_VariadicSignature(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 	_, calc := getSharedTestComponents(t)
 
@@ -460,6 +482,7 @@ func TestCalculateStopDirection_VariadicSignature(t *testing.T) {
 
 // TestBulkQuery_GetStopsWithShapeContextByIDs verifies the bulk optimization
 func TestBulkQuery_GetStopsWithShapeContextByIDs(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 	manager, _ := getSharedTestComponents(t)
 
@@ -507,6 +530,7 @@ func TestBulkQuery_GetStopsWithShapeContextByIDs(t *testing.T) {
 
 // TestBulkQuery_GetShapePointsByIDs verifies fetching shape points in bulk.
 func TestBulkQuery_GetShapePointsByIDs(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 	manager, _ := getSharedTestComponents(t)
 

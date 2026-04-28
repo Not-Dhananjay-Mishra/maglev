@@ -9,6 +9,7 @@ import (
 )
 
 func TestNewClient_InvalidConfigHandling(t *testing.T) {
+	t.Parallel()
 	// Test that NewClient returns an error instead of calling log.Fatal
 	// when configuration is invalid (test env with file DB)
 	config := Config{
@@ -23,6 +24,7 @@ func TestNewClient_InvalidConfigHandling(t *testing.T) {
 }
 
 func TestNewClient_ValidConfig(t *testing.T) {
+	t.Parallel()
 	// Test that NewClient works correctly with valid configuration
 	config := Config{
 		DBPath: ":memory:",
@@ -40,6 +42,7 @@ func TestNewClient_ValidConfig(t *testing.T) {
 }
 
 func TestTableCounts_ErrorHandling(t *testing.T) {
+	t.Parallel()
 	// Create a client with a valid config
 	config := Config{
 		DBPath: ":memory:",
@@ -58,6 +61,7 @@ func TestTableCounts_ErrorHandling(t *testing.T) {
 }
 
 func TestProcessAndStoreGTFSData_ErrorHandling(t *testing.T) {
+	t.Parallel()
 	// Create a client with a valid config
 	config := Config{
 		DBPath: ":memory:",

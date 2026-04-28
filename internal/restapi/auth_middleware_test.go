@@ -14,6 +14,7 @@ import (
 )
 
 func TestValidateProtectedAPIKey(t *testing.T) {
+	t.Parallel()
 	// mock application with protected API key
 	mockApp := &app.Application{
 		Clock: &clock.RealClock{},

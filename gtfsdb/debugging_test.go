@@ -11,6 +11,7 @@ import (
 )
 
 func TestTableCounts(t *testing.T) {
+	t.Parallel()
 	db, err := sql.Open(DriverName, ":memory:")
 	require.NoError(t, err)
 	defer func() { _ = db.Close() }()
@@ -40,6 +41,7 @@ func TestTableCounts(t *testing.T) {
 }
 
 func TestTableCounts_IncludesFrequencies(t *testing.T) {
+	t.Parallel()
 	db, err := sql.Open(DriverName, ":memory:")
 	require.NoError(t, err)
 	defer func() { _ = db.Close() }()
@@ -68,6 +70,7 @@ func TestTableCounts_IncludesFrequencies(t *testing.T) {
 }
 
 func TestStaticDataCounts_IncludesFrequencies(t *testing.T) {
+	t.Parallel()
 	client := &Client{}
 
 	// Create a mock gtfs.Static object.

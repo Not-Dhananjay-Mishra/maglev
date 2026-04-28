@@ -11,6 +11,8 @@ import (
 )
 
 func TestNewResponse(t *testing.T) {
+	t.Parallel()
+
 	testCode := http.StatusCreated
 	testData := map[string]string{"key": "value"}
 	testText := "Resource Created"
@@ -31,6 +33,8 @@ func TestNewResponse(t *testing.T) {
 }
 
 func TestNewEntryResponse(t *testing.T) {
+	t.Parallel()
+
 	entryData := map[string]string{"id": "1", "name": "Test Entry"}
 	references := NewEmptyReferences() // Assuming NewEmptyReferences is available
 
@@ -51,6 +55,8 @@ func TestNewEntryResponse(t *testing.T) {
 }
 
 func TestNewOKResponse(t *testing.T) {
+	t.Parallel()
+
 	testData := map[string]string{"status": "all good"}
 
 	clock := clock.RealClock{}
@@ -65,6 +71,8 @@ func TestNewOKResponse(t *testing.T) {
 }
 
 func TestNewListResponse(t *testing.T) {
+	t.Parallel()
+
 	itemList := []string{"item1", "item2"}
 	references := NewEmptyReferences()
 
@@ -85,6 +93,8 @@ func TestNewListResponse(t *testing.T) {
 }
 
 func TestNewListResponseWithRange(t *testing.T) {
+	t.Parallel()
+
 	itemList := []string{"item1", "item2", "item3"}
 	references := NewEmptyReferences()
 	outOfRange := true
@@ -108,6 +118,8 @@ func TestNewListResponseWithRange(t *testing.T) {
 }
 
 func TestNewListResponseWithRangeFalseFlag(t *testing.T) {
+	t.Parallel()
+
 	itemList := []string{"item1"}
 	references := NewEmptyReferences()
 
@@ -122,6 +134,8 @@ func TestNewListResponseWithRangeFalseFlag(t *testing.T) {
 }
 
 func TestNewArrivalsAndDepartureResponse(t *testing.T) {
+	t.Parallel()
+
 	arrivalsAndDepartures := []ArrivalAndDeparture{
 		{
 			RouteID:        "route_1",
@@ -161,6 +175,8 @@ func TestNewArrivalsAndDepartureResponse(t *testing.T) {
 }
 
 func TestNewArrivalsAndDepartureResponseEmptyArrays(t *testing.T) {
+	t.Parallel()
+
 	arrivalsAndDepartures := []ArrivalAndDeparture{}
 	references := NewEmptyReferences()
 	nearbyStopIDs := []string{}
@@ -183,6 +199,8 @@ func TestNewArrivalsAndDepartureResponseEmptyArrays(t *testing.T) {
 }
 
 func TestResponseModelJSON(t *testing.T) {
+	t.Parallel()
+
 	// Create a response model with test data
 	response := ResponseModel{
 		Code:        http.StatusOK,

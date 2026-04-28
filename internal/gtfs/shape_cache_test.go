@@ -12,6 +12,7 @@ import (
 )
 
 func TestShapeCacheLoading(t *testing.T) {
+	t.Parallel()
 	// Setup test database with shape data
 	config := gtfsdb.Config{
 		DBPath: ":memory:",
@@ -75,6 +76,7 @@ func TestShapeCacheLoading(t *testing.T) {
 }
 
 func TestShapeCacheUsage(t *testing.T) {
+	t.Parallel()
 	// Setup test database
 	config := gtfsdb.Config{
 		DBPath: ":memory:",
@@ -121,6 +123,7 @@ func TestShapeCacheUsage(t *testing.T) {
 }
 
 func TestShapeCacheFallbackToDatabase(t *testing.T) {
+	t.Parallel()
 	// Setup test database
 	config := gtfsdb.Config{
 		DBPath: ":memory:",
@@ -154,6 +157,7 @@ func TestShapeCacheFallbackToDatabase(t *testing.T) {
 }
 
 func TestShapeCacheMiss(t *testing.T) {
+	t.Parallel()
 	// Setup test database
 	config := gtfsdb.Config{
 		DBPath: ":memory:",
@@ -179,6 +183,7 @@ func TestShapeCacheMiss(t *testing.T) {
 }
 
 func TestShapeCacheDataIntegrity(t *testing.T) {
+	t.Parallel()
 	// Setup test database
 	config := gtfsdb.Config{
 		DBPath: ":memory:",
@@ -228,6 +233,7 @@ func TestShapeCacheDataIntegrity(t *testing.T) {
 }
 
 func TestSetShapeCacheThreadSafety(t *testing.T) {
+	t.Parallel()
 	// This test documents that SetShapeCache is NOT thread-safe
 	// and must be called before concurrent operations
 
@@ -259,6 +265,7 @@ func TestSetShapeCacheThreadSafety(t *testing.T) {
 }
 
 func TestEmptyShapeCache(t *testing.T) {
+	t.Parallel()
 	// Test behavior with no shapes in database
 	config := gtfsdb.Config{
 		DBPath: ":memory:",

@@ -8,6 +8,7 @@ import (
 )
 
 func TestBearingBetweenPoints(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name                   string
 		lat1, lon1, lat2, lon2 float64
@@ -45,6 +46,7 @@ func TestBearingBetweenPoints(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			bearing := BearingBetweenPoints(tt.lat1, tt.lon1, tt.lat2, tt.lon2)
 			assert.InDelta(t, tt.expected, bearing, tt.tolerance)
 		})
@@ -52,6 +54,7 @@ func TestBearingBetweenPoints(t *testing.T) {
 }
 
 func TestBearingToCompass(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		bearing  float64
 		expected string
@@ -73,6 +76,7 @@ func TestBearingToCompass(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(fmt.Sprintf("%.1f degrees", tt.bearing), func(t *testing.T) {
+			t.Parallel()
 			result := BearingToCompass(tt.bearing)
 			assert.Equal(t, tt.expected, result)
 		})
@@ -80,6 +84,7 @@ func TestBearingToCompass(t *testing.T) {
 }
 
 func TestCompassDirection(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name                   string
 		lat1, lon1, lat2, lon2 float64
@@ -121,8 +126,10 @@ func TestCompassDirection(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			result := CompassDirection(tt.lat1, tt.lon1, tt.lat2, tt.lon2)
 			assert.Equal(t, tt.expected, result)
 		})
 	}
 }
+

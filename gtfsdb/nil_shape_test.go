@@ -83,6 +83,7 @@ TRIP2,09:15:00,09:15:00,STOP1,2
 // TestProcessGTFSWithoutShapes tests importing GTFS data where trips have no shape_id
 // This test should FAIL with a nil pointer panic before the fix
 func TestProcessGTFSWithoutShapes(t *testing.T) {
+	t.Parallel()
 	// Create in-memory database
 	config := Config{
 		DBPath: ":memory:",

@@ -20,6 +20,7 @@ import (
 )
 
 func TestHandlerLockSafety(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 
 	if runtime.GOOS == "windows" {

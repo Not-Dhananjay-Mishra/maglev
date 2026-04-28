@@ -10,6 +10,8 @@ import (
 )
 
 func TestNewTripDetails(t *testing.T) {
+	t.Parallel()
+
 	trip := Trip{
 		ID: "trip_123",
 	}
@@ -52,6 +54,8 @@ func TestNewTripDetails(t *testing.T) {
 }
 
 func TestNewEmptyTripDetails(t *testing.T) {
+	t.Parallel()
+
 	tripDetails := NewEmptyTripDetails()
 
 	assert.Equal(t, "", tripDetails.TripID)
@@ -64,6 +68,8 @@ func TestNewEmptyTripDetails(t *testing.T) {
 }
 
 func TestTripDetailsJSON(t *testing.T) {
+	t.Parallel()
+
 	serviceDate := time.UnixMilli(1609459200000)
 	frequency := &Frequency{
 		StartTime:   NewModelTime(serviceDate.Add(8 * time.Hour)),
@@ -111,6 +117,8 @@ func TestTripDetailsJSON(t *testing.T) {
 }
 
 func TestTripDetailsWithNilValues(t *testing.T) {
+	t.Parallel()
+
 	trip := Trip{ID: "trip_123"}
 	serviceDate := time.UnixMilli(1609459200000)
 
@@ -125,6 +133,8 @@ func TestTripDetailsWithNilValues(t *testing.T) {
 }
 
 func TestTripStatusJSON(t *testing.T) {
+	t.Parallel()
+
 	tripStatus := TripStatus{
 		ActiveTripID:               "active_trip_123",
 		BlockTripSequence:          2,
@@ -180,6 +190,8 @@ func TestTripStatusJSON(t *testing.T) {
 }
 
 func TestTripStatus_JSONAlwaysPresent(t *testing.T) {
+	t.Parallel()
+
 	status := *NewTripStatus()
 	status.Status = "default"
 

@@ -10,6 +10,7 @@ import (
 )
 
 func TestCurrentTimeHandlerRequiresValidApiKey(t *testing.T) {
+	t.Parallel()
 	_, resp, model := serveAndRetrieveEndpoint(t, "/api/where/current-time.json?key=invalid")
 	assert.Equal(t, http.StatusUnauthorized, resp.StatusCode)
 	assert.Equal(t, http.StatusUnauthorized, model.Code)
@@ -17,6 +18,7 @@ func TestCurrentTimeHandlerRequiresValidApiKey(t *testing.T) {
 }
 
 func TestCurrentTimeHandler(t *testing.T) {
+	t.Parallel()
 	_, resp, model := serveAndRetrieveEndpoint(t, "/api/where/current-time.json?key=TEST")
 	assert.Equal(t, http.StatusOK, resp.StatusCode)
 
@@ -67,6 +69,7 @@ func TestCurrentTimeHandler(t *testing.T) {
 // TestCurrentTimeHandler_DeterministicTime tests the current-time endpoint with a mock clock
 // to verify that the response contains the exact time from the clock.
 func TestCurrentTimeHandler_DeterministicTime(t *testing.T) {
+	t.Parallel()
 	// Create a fixed time: June 15, 2024 at 2:30 PM UTC
 	fixedTime := time.Date(2024, 6, 15, 14, 30, 0, 0, time.UTC)
 	mockClock := clock.NewMockClock(fixedTime)

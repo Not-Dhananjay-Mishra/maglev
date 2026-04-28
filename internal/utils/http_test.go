@@ -9,6 +9,7 @@ import (
 )
 
 func TestExtractIDFromParams(t *testing.T) {
+	t.Parallel()
 	// Define test cases
 	testCases := []struct {
 		name string
@@ -34,6 +35,7 @@ func TestExtractIDFromParams(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
 			// Create a test handler that will set up our path params
 			mux := http.NewServeMux()
 
@@ -56,3 +58,4 @@ func TestExtractIDFromParams(t *testing.T) {
 		})
 	}
 }
+

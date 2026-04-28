@@ -9,6 +9,8 @@ import (
 )
 
 func TestSetWebUIRoutesCoverage(t *testing.T) {
+	t.Parallel()
+
 	mux := http.NewServeMux()
 
 	// Create an instance of the WebUI struct

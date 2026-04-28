@@ -8,6 +8,8 @@ import (
 )
 
 func TestGitPropertiesJSONTags(t *testing.T) {
+	t.Parallel()
+
 	props := GitProperties{
 		GitBranch:       "main",
 		GitCommitId:     "abc12345",

@@ -12,10 +12,12 @@ import (
 )
 
 func TestSendResponse(t *testing.T) {
+	t.Parallel()
 	api := createTestApi(t)
 	defer api.Shutdown()
 
 	t.Run("sends valid JSON response", func(t *testing.T) {
+		t.Parallel()
 		w := httptest.NewRecorder()
 		r := httptest.NewRequest(http.MethodGet, "/test", nil)
 
@@ -42,6 +44,7 @@ func TestSendResponse(t *testing.T) {
 	})
 
 	t.Run("sends response with nil data", func(t *testing.T) {
+		t.Parallel()
 		w := httptest.NewRecorder()
 		r := httptest.NewRequest(http.MethodGet, "/test", nil)
 
@@ -68,10 +71,12 @@ func TestSendResponse(t *testing.T) {
 }
 
 func TestSendNull(t *testing.T) {
+	t.Parallel()
 	api := createTestApi(t)
 	defer api.Shutdown()
 
 	t.Run("sends null response", func(t *testing.T) {
+		t.Parallel()
 		w := httptest.NewRecorder()
 		r := httptest.NewRequest(http.MethodGet, "/test", nil)
 
@@ -84,10 +89,12 @@ func TestSendNull(t *testing.T) {
 }
 
 func TestSendNotFound(t *testing.T) {
+	t.Parallel()
 	api := createTestApi(t)
 	defer api.Shutdown()
 
 	t.Run("sends 404 not found response", func(t *testing.T) {
+		t.Parallel()
 		w := httptest.NewRecorder()
 		r := httptest.NewRequest(http.MethodGet, "/test", nil)
 
@@ -121,10 +128,12 @@ func TestSendNotFound(t *testing.T) {
 }
 
 func TestSendUnauthorized(t *testing.T) {
+	t.Parallel()
 	api := createTestApi(t)
 	defer api.Shutdown()
 
 	t.Run("sends 401 unauthorized response", func(t *testing.T) {
+		t.Parallel()
 		w := httptest.NewRecorder()
 		r := httptest.NewRequest(http.MethodGet, "/test", nil)
 
@@ -158,7 +167,9 @@ func TestSendUnauthorized(t *testing.T) {
 }
 
 func TestSetJSONResponseType(t *testing.T) {
+	t.Parallel()
 	t.Run("sets JSON content type header", func(t *testing.T) {
+		t.Parallel()
 		w := httptest.NewRecorder()
 		var wInterface http.ResponseWriter = w
 
@@ -168,6 +179,7 @@ func TestSetJSONResponseType(t *testing.T) {
 	})
 
 	t.Run("overwrites existing content type", func(t *testing.T) {
+		t.Parallel()
 		w := httptest.NewRecorder()
 		w.Header().Set("Content-Type", "text/html")
 		var wInterface http.ResponseWriter = w

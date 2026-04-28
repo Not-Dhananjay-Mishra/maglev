@@ -69,6 +69,7 @@ func newTestManagerWithRoutes(routes map[string]*gtfs.Route) *Manager {
 func strPtr(s string) *string { return &s }
 
 func TestFilterTripsByAgency(t *testing.T) {
+	t.Parallel()
 	routes := map[string]*gtfs.Route{
 		"R1": {Id: "R1", Agency: &gtfs.Agency{Id: "agency-A"}},
 		"R2": {Id: "R2", Agency: &gtfs.Agency{Id: "agency-B"}},
@@ -92,6 +93,7 @@ func TestFilterTripsByAgency(t *testing.T) {
 }
 
 func TestFilterVehiclesByAgency(t *testing.T) {
+	t.Parallel()
 	routes := map[string]*gtfs.Route{
 		"R1": {Id: "R1", Agency: &gtfs.Agency{Id: "agency-A"}},
 		"R2": {Id: "R2", Agency: &gtfs.Agency{Id: "agency-B"}},
@@ -122,6 +124,7 @@ func TestFilterVehiclesByAgency(t *testing.T) {
 
 // TestAgencyFilterNilTrip verifies vehicles without trips are dropped.
 func TestAgencyFilterNilTrip(t *testing.T) {
+	t.Parallel()
 	manager := newTestManagerWithRoutes(map[string]*gtfs.Route{})
 	vehicles := []gtfs.Vehicle{
 		{ID: &gtfs.VehicleID{ID: "V1"}}, // nil Trip
@@ -132,6 +135,7 @@ func TestAgencyFilterNilTrip(t *testing.T) {
 
 // TestAlertMatchesAgency is a table-driven test for the alertMatchesAgency helper.
 func TestAlertMatchesAgency(t *testing.T) {
+	t.Parallel()
 	routes := map[string]*gtfs.Route{
 		"R1": {Id: "R1", Agency: &gtfs.Agency{Id: "agency-A"}},
 		"R2": {Id: "R2", Agency: &gtfs.Agency{Id: "agency-B"}},
@@ -216,6 +220,7 @@ func TestAlertMatchesAgency(t *testing.T) {
 	ctx := context.Background()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			got := alertMatchesAgency(ctx, manager, tt.alert, tt.allowed)
 			assert.Equal(t, tt.want, got)
 		})
@@ -225,6 +230,7 @@ func TestAlertMatchesAgency(t *testing.T) {
 // TestAgencyFilterFeedAgencyFilterPopulation verifies that feedAgencyFilter is
 // correctly populated from RTFeedConfig.AgencyIDs during manager construction.
 func TestAgencyFilterFeedAgencyFilterPopulation(t *testing.T) {
+	t.Parallel()
 	manager := &Manager{
 		realTimeMutex:                  sync.RWMutex{},
 		realTimeTripLookup:             make(map[string]int),
@@ -266,6 +272,7 @@ func TestAgencyFilterFeedAgencyFilterPopulation(t *testing.T) {
 // configured with different agency filters, each feed's data is filtered
 // independently and the merged view contains only the allowed data.
 func TestAgencyFilterMultipleFeedsIntegration(t *testing.T) {
+	t.Parallel()
 	routes := map[string]*gtfs.Route{
 		"R1": {Id: "R1", Agency: &gtfs.Agency{Id: "agency-A"}},
 		"R2": {Id: "R2", Agency: &gtfs.Agency{Id: "agency-B"}},
@@ -312,6 +319,7 @@ func TestAgencyFilterMultipleFeedsIntegration(t *testing.T) {
 // TestAgencyFilterIntegration_UpdateFeedRealtime tests the full flow where
 // updateFeedRealtime applies agency filtering using real protobuf data.
 func TestAgencyFilterIntegration_UpdateFeedRealtime(t *testing.T) {
+	t.Parallel()
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		data, err := os.ReadFile(filepath.Join("../../testdata", "raba-vehicle-positions.pb"))
 		require.NoError(t, err)
@@ -383,6 +391,7 @@ func TestAgencyFilterIntegration_UpdateFeedRealtime(t *testing.T) {
 // TestAgencyFilterIntegration_NoFilterPassesAll verifies that when no agency
 // filter is set, all data flows through unmodified.
 func TestAgencyFilterIntegration_NoFilterPassesAll(t *testing.T) {
+	t.Parallel()
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		data, err := os.ReadFile(filepath.Join("../../testdata", "raba-vehicle-positions.pb"))
 		require.NoError(t, err)
@@ -406,6 +415,7 @@ func TestAgencyFilterIntegration_NoFilterPassesAll(t *testing.T) {
 // TestAgencyFilterIntegration_TripUpdates tests filtering of trip updates
 // through the full updateFeedRealtime path.
 func TestAgencyFilterIntegration_TripUpdates(t *testing.T) {
+	t.Parallel()
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		data, err := os.ReadFile(filepath.Join("../../testdata", "raba-trip-updates.pb"))
 		require.NoError(t, err)
@@ -479,6 +489,7 @@ func TestAgencyFilterIntegration_TripUpdates(t *testing.T) {
 // TestFeedVehicleRetentionWithAgencyFilter ensures that the stale vehicle
 // retention logic still works correctly when agency filtering is active.
 func TestFeedVehicleRetentionWithAgencyFilter(t *testing.T) {
+	t.Parallel()
 	routes := map[string]*gtfs.Route{
 		"R1": {Id: "R1", Agency: &gtfs.Agency{Id: "agency-A"}},
 	}

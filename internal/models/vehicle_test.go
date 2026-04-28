@@ -10,8 +10,12 @@ import (
 )
 
 func TestVehicleStatus_JSONFields(t *testing.T) {
+	t.Parallel()
+
 
 	t.Run("required fields always present", func(t *testing.T) {
+		t.Parallel()
+
 		vs := VehicleStatus{
 			VehicleID: "40_1234",
 		}
@@ -47,6 +51,8 @@ func TestVehicleStatus_JSONFields(t *testing.T) {
 	})
 
 	t.Run("optional fields appear only when set", func(t *testing.T) {
+		t.Parallel()
+
 		capacity := 50
 		count := 30
 		ts := NewModelTime(time.UnixMilli(1000))

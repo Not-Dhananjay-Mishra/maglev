@@ -9,6 +9,8 @@ import (
 )
 
 func TestNewSchedule(t *testing.T) {
+	t.Parallel()
+
 	date := time.Date(2024, 6, 15, 8, 0, 0, 0, time.UTC)
 	freq := &Frequency{
 		StartTime:  NewModelTime(date),
@@ -34,6 +36,8 @@ func TestNewSchedule(t *testing.T) {
 }
 
 func TestScheduleJSON(t *testing.T) {
+	t.Parallel()
+
 	stopTime := NewStopTime(8*time.Hour, 8*time.Hour+time.Minute, "stop_1", "Downtown", 100.0, "MANY_SEATS_AVAILABLE")
 
 	schedule := Schedule{
@@ -60,6 +64,8 @@ func TestScheduleJSON(t *testing.T) {
 }
 
 func TestScheduleWithEmptyValues(t *testing.T) {
+	t.Parallel()
+
 	schedule := NewSchedule(nil, "", "", []StopTime{}, "")
 
 	assert.Nil(t, schedule.Frequency)
@@ -70,6 +76,8 @@ func TestScheduleWithEmptyValues(t *testing.T) {
 }
 
 func TestScheduleWithMultipleStopTimes(t *testing.T) {
+	t.Parallel()
+
 	stopTimes := []StopTime{
 		NewStopTime(8*time.Hour, 8*time.Hour+time.Minute, "stop_1", "Downtown", 100.0, "MANY_SEATS_AVAILABLE"),
 		NewStopTime(9*time.Hour, 9*time.Hour+time.Minute, "stop_2", "Uptown", 200.0, "FEW_SEATS_AVAILABLE"),

@@ -12,6 +12,7 @@ import (
 )
 
 func TestDebugIndexHandler_ProductionReturns404(t *testing.T) {
+	t.Parallel()
 	webUI := &WebUI{
 		Application: &app.Application{
 			Config: appconf.Config{Env: appconf.Production},
@@ -27,6 +28,7 @@ func TestDebugIndexHandler_ProductionReturns404(t *testing.T) {
 }
 
 func TestDebugIndexHandler_DevelopmentReturns200(t *testing.T) {
+	t.Parallel()
 	defer func() {
 		if r := recover(); r != nil {
 			t.Logf("Recovered from panic as expected: %v", r)
@@ -50,6 +52,7 @@ func TestDebugIndexHandler_DevelopmentReturns200(t *testing.T) {
 }
 
 func TestWriteDebugData(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name           string
 		title          string
@@ -84,6 +87,7 @@ func TestWriteDebugData(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			rr := httptest.NewRecorder()
 			writeDebugData(rr, tt.title, tt.data)
 
@@ -99,6 +103,7 @@ func TestWriteDebugData(t *testing.T) {
 }
 
 func TestDebugIndexHandler_AllDataTypes(t *testing.T) {
+	t.Parallel()
 	webUI := createTestWebUI(t)
 
 	tests := []struct {
@@ -119,6 +124,7 @@ func TestDebugIndexHandler_AllDataTypes(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			url := "/debug/"
 			if tt.dataType != "" {
 				url += "?dataType=" + tt.dataType
@@ -139,6 +145,7 @@ func TestDebugIndexHandler_AllDataTypes(t *testing.T) {
 }
 
 func TestDebugIndexHandler_ProductionBlocksAllDataTypes(t *testing.T) {
+	t.Parallel()
 	webUI := &WebUI{
 		Application: &app.Application{
 			Config: appconf.Config{Env: appconf.Production},
@@ -148,6 +155,7 @@ func TestDebugIndexHandler_ProductionBlocksAllDataTypes(t *testing.T) {
 	dataTypes := []string{"warnings", "agencies", "routes", "stops", "realtime_trips"}
 	for _, dt := range dataTypes {
 		t.Run(dt, func(t *testing.T) {
+			t.Parallel()
 			req := httptest.NewRequest(http.MethodGet, "/debug/?dataType="+dt, nil)
 			rr := httptest.NewRecorder()
 
@@ -157,3 +165,4 @@ func TestDebugIndexHandler_ProductionBlocksAllDataTypes(t *testing.T) {
 		})
 	}
 }
+

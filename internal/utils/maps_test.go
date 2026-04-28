@@ -6,7 +6,9 @@ import (
 )
 
 func TestMapValues(t *testing.T) {
+	t.Parallel()
 	t.Run("nil map", func(t *testing.T) {
+		t.Parallel()
 		var m map[string]int
 		result := MapValues(m)
 		if result == nil {
@@ -18,6 +20,7 @@ func TestMapValues(t *testing.T) {
 	})
 
 	t.Run("empty map", func(t *testing.T) {
+		t.Parallel()
 		m := map[string]int{}
 		result := MapValues(m)
 		if result == nil {
@@ -29,6 +32,7 @@ func TestMapValues(t *testing.T) {
 	})
 
 	t.Run("single element", func(t *testing.T) {
+		t.Parallel()
 		m := map[string]int{"a": 1}
 		result := MapValues(m)
 		if len(result) != 1 || result[0] != 1 {
@@ -37,6 +41,7 @@ func TestMapValues(t *testing.T) {
 	})
 
 	t.Run("multiple elements", func(t *testing.T) {
+		t.Parallel()
 		m := map[string]int{"a": 1, "b": 2, "c": 3}
 		result := MapValues(m)
 		if len(result) != 3 {
@@ -51,3 +56,4 @@ func TestMapValues(t *testing.T) {
 		}
 	})
 }
+

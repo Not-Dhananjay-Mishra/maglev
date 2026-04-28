@@ -8,6 +8,8 @@ import (
 )
 
 func TestTripsForRouteListEntry_GetTripId(t *testing.T) {
+	t.Parallel()
+
 	tripID := "unitrans_trip_456"
 	entry := TripsForRouteListEntry{
 		TripId:       tripID,
@@ -22,6 +24,8 @@ func TestTripsForRouteListEntry_GetTripId(t *testing.T) {
 }
 
 func TestTripsForRouteListEntryJSON(t *testing.T) {
+	t.Parallel()
+
 	frequency := int64(600)
 	entry := TripsForRouteListEntry{
 		TripId:       "unitrans_trip_456",
@@ -47,6 +51,8 @@ func TestTripsForRouteListEntryJSON(t *testing.T) {
 }
 
 func TestTripsForRouteDataJSON(t *testing.T) {
+	t.Parallel()
+
 	frequency := int64(600)
 	entry1 := TripsForRouteListEntry{
 		TripId:       "trip_1",
@@ -85,6 +91,8 @@ func TestTripsForRouteDataJSON(t *testing.T) {
 }
 
 func TestTripsForRouteResponseJSON(t *testing.T) {
+	t.Parallel()
+
 	frequency := int64(600)
 	entry := TripsForRouteListEntry{
 		TripId:       "trip_1",
@@ -118,6 +126,8 @@ func TestTripsForRouteResponseJSON(t *testing.T) {
 }
 
 func TestTripsForRouteWithEmptyList(t *testing.T) {
+	t.Parallel()
+
 	data := TripsForRouteData{
 		LimitExceeded: false,
 		List:          []TripsForRouteListEntry{},

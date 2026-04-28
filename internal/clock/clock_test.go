@@ -10,6 +10,7 @@ import (
 )
 
 func TestRealClock_Now(t *testing.T) {
+	t.Parallel()
 	c := RealClock{}
 	before := time.Now()
 	result := c.Now()
@@ -20,6 +21,7 @@ func TestRealClock_Now(t *testing.T) {
 }
 
 func TestMockClock_Now(t *testing.T) {
+	t.Parallel()
 	fixedTime := time.Date(2024, 6, 15, 8, 30, 0, 0, time.UTC)
 	c := NewMockClock(fixedTime)
 
@@ -29,6 +31,7 @@ func TestMockClock_Now(t *testing.T) {
 }
 
 func TestMockClock_Set(t *testing.T) {
+	t.Parallel()
 	initialTime := time.Date(2024, 6, 15, 8, 0, 0, 0, time.UTC)
 	newTime := time.Date(2024, 12, 25, 12, 0, 0, 0, time.UTC)
 
@@ -40,6 +43,7 @@ func TestMockClock_Set(t *testing.T) {
 }
 
 func TestMockClock_Advance(t *testing.T) {
+	t.Parallel()
 	initialTime := time.Date(2024, 6, 15, 8, 0, 0, 0, time.UTC)
 	c := NewMockClock(initialTime)
 
@@ -60,6 +64,7 @@ func TestMockClock_Advance(t *testing.T) {
 }
 
 func TestEnvironmentClock_FallbackToSystemTime(t *testing.T) {
+	t.Parallel()
 	// When no sources are configured, should fall back to system time
 	c := NewEnvironmentClock("", "", time.Local)
 
@@ -111,6 +116,7 @@ func TestEnvironmentClock_FromEnvVar_InvalidValue(t *testing.T) {
 }
 
 func TestEnvironmentClock_FromFile(t *testing.T) {
+	t.Parallel()
 	expectedTime := time.Date(2024, 6, 15, 14, 0, 0, 0, time.UTC)
 
 	// Create a temp file with the time
@@ -129,6 +135,7 @@ func TestEnvironmentClock_FromFile(t *testing.T) {
 }
 
 func TestEnvironmentClock_FromFile_WithNewline(t *testing.T) {
+	t.Parallel()
 	expectedTime := time.Date(2024, 6, 15, 14, 0, 0, 0, time.UTC)
 
 	// Create a temp file with the time and trailing newline
@@ -298,6 +305,7 @@ func TestEnvironmentClock_InvalidTimeFormat(t *testing.T) {
 }
 
 func TestEnvironmentClock_NonExistentFile(t *testing.T) {
+	t.Parallel()
 	c := NewEnvironmentClock("", "/nonexistent/path/to/file.txt", time.Local)
 
 	before := time.Now()
@@ -344,6 +352,7 @@ func TestEnvironmentClock_NilLocation_RFC3339Works(t *testing.T) {
 // TestMockClock_ConcurrentAccess verifies thread-safety of MockClock.
 // Run with '-race' flag to detect race conditions.
 func TestMockClock_ConcurrentAccess(t *testing.T) {
+	t.Parallel()
 	initialTime := time.Date(2024, 6, 15, 8, 0, 0, 0, time.UTC)
 	c := NewMockClock(initialTime)
 
