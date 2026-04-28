@@ -64,7 +64,6 @@ func TestParallelRealtimeUpdates(t *testing.T) {
 
 	// Test that updateFeedRealtime fetches trip and vehicle data in parallel
 	t.Run("Parallel fetch within single feed", func(t *testing.T) {
-		t.Parallel()
 		mu.Lock()
 		callTimes = callTimes[:0]
 		mu.Unlock()

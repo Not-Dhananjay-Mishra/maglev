@@ -165,4 +165,3 @@ func TestDebugIndexHandler_ProductionBlocksAllDataTypes(t *testing.T) {
 		})
 	}
 }
-

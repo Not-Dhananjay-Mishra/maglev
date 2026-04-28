@@ -464,7 +464,6 @@ func TestDistance_EquirectangularFastPath(t *testing.T) {
 	assert.InDelta(t, distAB, distBA, 0.0001, "Fast-path distance should be symmetric")
 }
 
-
 func BenchmarkDistance_ShortRange(b *testing.B) {
 	// Typical transit query: ~860m apart (fast-path)
 	for i := 0; i < b.N; i++ {

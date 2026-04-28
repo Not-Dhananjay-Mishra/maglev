@@ -25,4 +25,3 @@ func TestNullWheelchairBoardingOrUnknown(t *testing.T) {
 	assert.Equal(t, gtfs.WheelchairBoarding_Possible, NullWheelchairBoardingOrUnknown(sql.NullInt64{Int64: int64(gtfs.WheelchairBoarding_Possible), Valid: true}))
 	assert.Equal(t, gtfs.WheelchairBoarding_NotSpecified, NullWheelchairBoardingOrUnknown(sql.NullInt64{Int64: 0, Valid: false}))
 }
-

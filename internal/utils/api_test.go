@@ -126,7 +126,7 @@ func TestExtractCodeID(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-		t.Parallel()
+			t.Parallel()
 
 			result, err := ExtractCodeID(tt.combinedID)
 			if tt.expectError {
@@ -182,7 +182,7 @@ func TestExtractAgencyID(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-		t.Parallel()
+			t.Parallel()
 
 			result, err := ExtractAgencyID(tt.combinedID)
 			if tt.expectError {
@@ -244,7 +244,7 @@ func TestExtractAgencyIDAndCodeID(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-		t.Parallel()
+			t.Parallel()
 
 			agencyID, codeID, err := ExtractAgencyIDAndCodeID(tt.combinedID)
 			if tt.expectError {
@@ -301,7 +301,7 @@ func TestFormCombinedID(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-		t.Parallel()
+			t.Parallel()
 
 			result := FormCombinedID(tt.agencyID, tt.codeID)
 			assert.Equal(t, tt.expected, result)
@@ -341,7 +341,7 @@ func TestMapWheelchairBoarding(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-		t.Parallel()
+			t.Parallel()
 
 			result := MapWheelchairBoarding(tt.input)
 			assert.Equal(t, tt.expected, result)
@@ -444,7 +444,7 @@ func TestParseFloatParam(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-		t.Parallel()
+			t.Parallel()
 
 			value, errors := ParseFloatParam(tt.params, tt.key, tt.initialErrors)
 			assert.Equal(t, tt.expectedValue, value)
@@ -562,7 +562,7 @@ func TestParseTimeParameter(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-		t.Parallel()
+			t.Parallel()
 
 			dateStr, parsedTime, fieldErrors, valid := ParseTimeParameter(tt.timeParam, loc)
 
@@ -726,7 +726,7 @@ func TestParseMaxCount(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-		t.Parallel()
+			t.Parallel()
 
 			resultedMaxCount, fieldErrors := ParseMaxCount(tt.countQueryParams, tt.defaultCount, nil)
 			if tt.expectError {
@@ -819,7 +819,7 @@ func TestParsePaginationParams(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-		t.Parallel()
+			t.Parallel()
 
 			req, _ := http.NewRequest("GET", "/test"+tt.urlParams, nil)
 			offset, limit := ParsePaginationParams(req)
@@ -925,7 +925,7 @@ func TestPaginateSlice(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-		t.Parallel()
+			t.Parallel()
 
 			result, limitExceeded := PaginateSlice(tt.items, tt.offset, tt.limit)
 			assert.Equal(t, tt.expected, result)
@@ -976,7 +976,7 @@ func TestTruncateComment(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-		t.Parallel()
+			t.Parallel()
 
 			result := TruncateComment(tt.input)
 			assert.Equal(t, tt.expected, result)
@@ -1022,7 +1022,7 @@ func TestValidateNumericParam(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-		t.Parallel()
+			t.Parallel()
 
 			result := ValidateNumericParam(tt.input)
 			assert.Equal(t, tt.expected, result)

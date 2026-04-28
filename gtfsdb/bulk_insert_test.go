@@ -88,7 +88,6 @@ func TestBulkInsertStopTimes(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			t.Parallel()
 			// Clear stop_times table
 			_, err := client.DB.ExecContext(ctx, "DELETE FROM stop_times")
 			require.NoError(t, err)
@@ -162,7 +161,6 @@ func TestBulkInsertShapes(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			t.Parallel()
 			// Clear shapes table
 			_, err := client.DB.ExecContext(ctx, "DELETE FROM shapes")
 			require.NoError(t, err)

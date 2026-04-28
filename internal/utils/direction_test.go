@@ -132,4 +132,3 @@ func TestCompassDirection(t *testing.T) {
 		})
 	}
 }
-

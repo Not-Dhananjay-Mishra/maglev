@@ -12,7 +12,6 @@ import (
 func TestVehicleStatus_JSONFields(t *testing.T) {
 	t.Parallel()
 
-
 	t.Run("required fields always present", func(t *testing.T) {
 		t.Parallel()
 

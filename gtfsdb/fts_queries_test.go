@@ -73,7 +73,6 @@ func TestSearchRoutesByFullText(t *testing.T) {
 	}
 
 	t.Run("matches by long name", func(t *testing.T) {
-		t.Parallel()
 		results, err := client.Queries.SearchRoutesByFullText(ctx, SearchRoutesByFullTextParams{
 			Query: "Downtown",
 			Limit: 10,
@@ -83,7 +82,6 @@ func TestSearchRoutesByFullText(t *testing.T) {
 	})
 
 	t.Run("results ordered by relevance then id", func(t *testing.T) {
-		t.Parallel()
 		results, err := client.Queries.SearchRoutesByFullText(ctx, SearchRoutesByFullTextParams{
 			Query: "Downtown",
 			Limit: 10,
@@ -97,7 +95,6 @@ func TestSearchRoutesByFullText(t *testing.T) {
 	})
 
 	t.Run("matches by short name", func(t *testing.T) {
-		t.Parallel()
 		results, err := client.Queries.SearchRoutesByFullText(ctx, SearchRoutesByFullTextParams{
 			Query: "10",
 			Limit: 10,
@@ -108,7 +105,6 @@ func TestSearchRoutesByFullText(t *testing.T) {
 	})
 
 	t.Run("matches by description", func(t *testing.T) {
-		t.Parallel()
 		results, err := client.Queries.SearchRoutesByFullText(ctx, SearchRoutesByFullTextParams{
 			Query: "Express service",
 			Limit: 10,
@@ -119,7 +115,6 @@ func TestSearchRoutesByFullText(t *testing.T) {
 	})
 
 	t.Run("matches route with NULL short_name", func(t *testing.T) {
-		t.Parallel()
 		results, err := client.Queries.SearchRoutesByFullText(ctx, SearchRoutesByFullTextParams{
 			Query: "Riverfront",
 			Limit: 10,
@@ -131,7 +126,6 @@ func TestSearchRoutesByFullText(t *testing.T) {
 	})
 
 	t.Run("respects limit", func(t *testing.T) {
-		t.Parallel()
 		results, err := client.Queries.SearchRoutesByFullText(ctx, SearchRoutesByFullTextParams{
 			Query: "Downtown",
 			Limit: 1,
@@ -150,7 +144,6 @@ func TestSearchRoutesByFullText(t *testing.T) {
 	})
 
 	t.Run("returns correct fields", func(t *testing.T) {
-		t.Parallel()
 		results, err := client.Queries.SearchRoutesByFullText(ctx, SearchRoutesByFullTextParams{
 			Query: "Airport",
 			Limit: 10,
@@ -166,7 +159,6 @@ func TestSearchRoutesByFullText(t *testing.T) {
 	})
 
 	t.Run("returns all populated fields", func(t *testing.T) {
-		t.Parallel()
 		results, err := client.Queries.SearchRoutesByFullText(ctx, SearchRoutesByFullTextParams{
 			Query: "Express service",
 			Limit: 10,
@@ -248,7 +240,6 @@ func TestSearchStopsByName(t *testing.T) {
 	}
 
 	t.Run("matches by stop name", func(t *testing.T) {
-		t.Parallel()
 		results, err := client.Queries.SearchStopsByName(ctx, SearchStopsByNameParams{
 			SearchQuery: "Main",
 			Limit:       10,
@@ -258,7 +249,6 @@ func TestSearchStopsByName(t *testing.T) {
 	})
 
 	t.Run("results ordered alphabetically", func(t *testing.T) {
-		t.Parallel()
 		results, err := client.Queries.SearchStopsByName(ctx, SearchStopsByNameParams{
 			SearchQuery: "Main",
 			Limit:       10,
@@ -271,7 +261,6 @@ func TestSearchStopsByName(t *testing.T) {
 	})
 
 	t.Run("respects limit", func(t *testing.T) {
-		t.Parallel()
 		results, err := client.Queries.SearchStopsByName(ctx, SearchStopsByNameParams{
 			SearchQuery: "Main",
 			Limit:       1,
@@ -290,7 +279,6 @@ func TestSearchStopsByName(t *testing.T) {
 	})
 
 	t.Run("returns all fields correctly", func(t *testing.T) {
-		t.Parallel()
 		results, err := client.Queries.SearchStopsByName(ctx, SearchStopsByNameParams{
 			SearchQuery: "Main Street Station",
 			Limit:       10,
@@ -310,7 +298,6 @@ func TestSearchStopsByName(t *testing.T) {
 	})
 
 	t.Run("reads non-null parent_station correctly", func(t *testing.T) {
-		t.Parallel()
 		_, err := client.DB.ExecContext(ctx, "UPDATE stops SET parent_station = 'hub1' WHERE id = 's1'")
 		require.NoError(t, err)
 		defer func() {
