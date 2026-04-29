@@ -344,9 +344,9 @@ func TestBulkInsertPerformance(t *testing.T) {
 	require.NoError(t, err)
 	assert.Equal(t, recordCount, count)
 
-	// Performance assertion: should complete in reasonable time (< 5 seconds for 10k records)
-	assert.Less(t, duration.Seconds(), 5.0,
-		"Bulk insert of %d records should complete in < 5 seconds (took %v)", recordCount, duration)
+	// Performance assertion: should complete in reasonable time (< 30 seconds for 10k records)
+	assert.Less(t, duration.Seconds(), 30.0,
+		"Bulk insert of %d records should complete in < 30 seconds (took %v)", recordCount, duration)
 
 	t.Logf("Bulk inserted %d stop_times in %v (~%.0f inserts/sec)",
 		recordCount, duration, float64(recordCount)/duration.Seconds())

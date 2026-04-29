@@ -8,6 +8,8 @@ import (
 )
 
 func TestTripsForLocationListEntry_GetTripId(t *testing.T) {
+	t.Parallel()
+
 	tripID := "unitrans_trip_123"
 	entry := TripsForLocationListEntry{
 		TripId:       tripID,
@@ -21,6 +23,8 @@ func TestTripsForLocationListEntry_GetTripId(t *testing.T) {
 }
 
 func TestTripsForLocationListEntryJSON(t *testing.T) {
+	t.Parallel()
+
 	frequency := int64(300)
 
 	status := NewTripStatus()
@@ -55,6 +59,8 @@ func TestTripsForLocationListEntryJSON(t *testing.T) {
 }
 
 func TestTripsForLocationDataJSON(t *testing.T) {
+	t.Parallel()
+
 	frequency := int64(300)
 	entry1 := TripsForLocationListEntry{
 		TripId:       "trip_1",
@@ -91,6 +97,8 @@ func TestTripsForLocationDataJSON(t *testing.T) {
 }
 
 func TestTripsForLocationResponseJSON(t *testing.T) {
+	t.Parallel()
+
 	frequency := int64(300)
 	entry := TripsForLocationListEntry{
 		TripId:       "trip_1",
@@ -123,6 +131,8 @@ func TestTripsForLocationResponseJSON(t *testing.T) {
 }
 
 func TestTripsForLocationWithEmptyList(t *testing.T) {
+	t.Parallel()
+
 	data := TripsForLocationData{
 		LimitExceeded: true,
 		List:          []TripsForLocationListEntry{},

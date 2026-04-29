@@ -72,6 +72,7 @@ type stopPoint struct {
 }
 
 func TestComputeRegionBounds(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name     string
 		agencies map[string][]stopPoint // agencyID -> stops
@@ -114,6 +115,7 @@ func TestComputeRegionBounds(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
 			ctx := context.Background()
 			client := newTestGtfsDB(t)
 
@@ -144,11 +146,13 @@ func TestComputeRegionBounds(t *testing.T) {
 }
 
 func TestGetRegionBoundsNil(t *testing.T) {
+	t.Parallel()
 	manager := &Manager{}
 	assert.Nil(t, manager.GetRegionBounds())
 }
 
 func TestGetRegionBoundsSet(t *testing.T) {
+	t.Parallel()
 	manager := &Manager{
 		regionBounds: map[string]*RegionBounds{
 			"agency1": {Lat: 1.0, Lon: 2.0, LatSpan: 3.0, LonSpan: 4.0},

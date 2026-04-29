@@ -22,6 +22,7 @@ import (
 )
 
 func TestGetAlertsForTrip(t *testing.T) {
+	t.Parallel()
 	tripID := gtfs.TripID{ID: "trip123"}
 	manager := &Manager{
 		realTimeMutex: sync.RWMutex{},
@@ -47,6 +48,7 @@ func TestGetAlertsForTrip(t *testing.T) {
 }
 
 func TestGetAlertsForStop(t *testing.T) {
+	t.Parallel()
 	stopID := "stop123"
 	manager := &Manager{
 		realTimeMutex: sync.RWMutex{},
@@ -72,6 +74,7 @@ func TestGetAlertsForStop(t *testing.T) {
 }
 
 func TestRebuildRealTimeTripLookup(t *testing.T) {
+	t.Parallel()
 	manager := &Manager{
 		realTimeMutex: sync.RWMutex{},
 		feedTrips: map[string][]gtfs.Trip{
@@ -95,6 +98,7 @@ func TestRebuildRealTimeTripLookup(t *testing.T) {
 }
 
 func TestRebuildRealTimeVehicleLookupByTrip(t *testing.T) {
+	t.Parallel()
 	trip1 := &gtfs.Trip{
 		ID: gtfs.TripID{ID: "trip1"},
 	}
@@ -125,6 +129,7 @@ func TestRebuildRealTimeVehicleLookupByTrip(t *testing.T) {
 }
 
 func TestRebuildRealTimeVehicleLookupByVehicle(t *testing.T) {
+	t.Parallel()
 	vehicleID1 := &gtfs.VehicleID{ID: "vehicle1"}
 	vehicleID2 := &gtfs.VehicleID{ID: "vehicle2"}
 
@@ -151,6 +156,7 @@ func TestRebuildRealTimeVehicleLookupByVehicle(t *testing.T) {
 }
 
 func TestRebuildRealTimeVehicleLookupByVehicle_WithInvalidIDs(t *testing.T) {
+	t.Parallel()
 	manager := &Manager{
 		realTimeMutex: sync.RWMutex{},
 		feedVehicles: map[string][]gtfs.Vehicle{
@@ -180,6 +186,7 @@ func TestRebuildRealTimeVehicleLookupByVehicle_WithInvalidIDs(t *testing.T) {
 }
 
 func TestLoadRealtimeData_Non200StatusCode(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name       string
 		statusCode int
@@ -205,6 +212,7 @@ func TestLoadRealtimeData_Non200StatusCode(t *testing.T) {
 }
 
 func TestEnabledFeeds(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name    string
 		feeds   []RTFeedConfig
@@ -281,6 +289,7 @@ func TestEnabledFeeds(t *testing.T) {
 }
 
 func TestClearFeedData(t *testing.T) {
+	t.Parallel()
 	manager := &Manager{
 		realTimeMutex: sync.RWMutex{},
 		feedTrips: map[string][]gtfs.Trip{
@@ -314,6 +323,7 @@ func TestClearFeedData(t *testing.T) {
 }
 
 func TestUpdateFeedRealtime_ReturnsFalseOnFailure(t *testing.T) {
+	t.Parallel()
 	// Setup a server that always returns 500 error simulating an outage
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -345,6 +355,7 @@ func TestUpdateFeedRealtime_ReturnsFalseOnFailure(t *testing.T) {
 // are rejected and vehicles from the newer feed are preserved. This tests
 // the feed-level freshness guard that prevents out-of-order feed updates.
 func TestStaleFeedRejected(t *testing.T) {
+	t.Parallel()
 	// Read the test data before creating the server to ensure proper error handling
 	data, err := os.ReadFile(filepath.Join("../../testdata", "raba-vehicle-positions.pb"))
 	require.NoError(t, err, "failed to read RABA vehicle positions test data")
@@ -416,6 +427,7 @@ func TestStaleFeedRejected(t *testing.T) {
 // preserved. The feed itself is kept "fresh" so the update is applied at the
 // feed level.
 func TestVehicleMerge_StaleIgnored(t *testing.T) {
+	t.Parallel()
 	manager := newTestManager()
 	ctx := context.Background()
 
@@ -480,6 +492,7 @@ func TestVehicleMerge_StaleIgnored(t *testing.T) {
 // and an older vehicle update relative to the manager's existing state. The
 // fresh entity should update while the stale one should be preserved.
 func TestVehicleMerge_MixedFreshAndStale(t *testing.T) {
+	t.Parallel()
 	manager := newTestManager()
 	ctx := context.Background()
 
@@ -541,6 +554,7 @@ func TestVehicleMerge_MixedFreshAndStale(t *testing.T) {
 // nil timestamp does not crash and is treated as non-stale. In other words,
 // the updated record (with nil timestamp) replaces the previous one.
 func TestVehicleMerge_MissingTimestamp(t *testing.T) {
+	t.Parallel()
 	manager := newTestManager()
 	ctx := context.Background()
 
@@ -586,6 +600,7 @@ func TestVehicleMerge_MissingTimestamp(t *testing.T) {
 // TestIsVehicleStale verifies the isVehicleStale function correctly compares
 // vehicle timestamps to determine staleness.
 func TestIsVehicleStale(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name     string
 		existing gtfs.Vehicle
@@ -666,6 +681,7 @@ func TestIsVehicleStale(t *testing.T) {
 // only fires for entities that have routeId with no stopId restriction.
 // Entities with {routeId + stopId} are stop-specific and must NOT bleed into route level alerts.
 func TestGetAlertsByIDs_RouteScoping(t *testing.T) {
+	t.Parallel()
 	routeID := "route123"
 	otherRoute := "other"
 	stopID := "stop456"
@@ -740,6 +756,7 @@ func TestGetAlertsByIDs_RouteScoping(t *testing.T) {
 // TestGetAlertsByIDs_RouteScoping) but must still appear in byTrip so trip-scoped
 // lookups find it.
 func TestAlertIndex_RouteTripEntityIndexedUnderByTrip(t *testing.T) {
+	t.Parallel()
 	routeID := "route123"
 	tripID := gtfs.TripID{ID: "trip456"}
 
@@ -767,6 +784,7 @@ func TestAlertIndex_RouteTripEntityIndexedUnderByTrip(t *testing.T) {
 // TestGetAlertsByIDs_AgencyScoping verifies that agency-wide matching only fires
 // for entities that have agencyId with no route or trip restriction.
 func TestGetAlertsByIDs_AgencyScoping(t *testing.T) {
+	t.Parallel()
 	agencyID := "agency40"
 	routeID := "route123"
 	tripID := gtfs.TripID{ID: "trip456"}
@@ -820,6 +838,7 @@ func TestGetAlertsByIDs_AgencyScoping(t *testing.T) {
 }
 
 func TestAlertIndex_ByTripID(t *testing.T) {
+	t.Parallel()
 	tripID := gtfs.TripID{ID: "trip1"}
 	manager := &Manager{
 		realTimeMutex: sync.RWMutex{},
@@ -841,6 +860,7 @@ func TestAlertIndex_ByTripID(t *testing.T) {
 }
 
 func TestAlertIndex_ByRouteID(t *testing.T) {
+	t.Parallel()
 	routeID := "route1"
 	manager := &Manager{
 		realTimeMutex: sync.RWMutex{},
@@ -862,6 +882,7 @@ func TestAlertIndex_ByRouteID(t *testing.T) {
 }
 
 func TestAlertIndex_ByAgencyID(t *testing.T) {
+	t.Parallel()
 	agencyID := "agency1"
 	manager := &Manager{
 		realTimeMutex: sync.RWMutex{},
@@ -883,6 +904,7 @@ func TestAlertIndex_ByAgencyID(t *testing.T) {
 }
 
 func TestAlertIndex_ByStopID(t *testing.T) {
+	t.Parallel()
 	stopID := "stop1"
 	manager := &Manager{
 		realTimeMutex: sync.RWMutex{},
@@ -904,6 +926,7 @@ func TestAlertIndex_ByStopID(t *testing.T) {
 }
 
 func TestAlertIndex_Deduplication(t *testing.T) {
+	t.Parallel()
 	tripID := gtfs.TripID{ID: "trip1"}
 	routeID := "route1"
 	manager := &Manager{
@@ -930,6 +953,7 @@ func TestAlertIndex_Deduplication(t *testing.T) {
 }
 
 func TestAlertIndex_EmptyAlerts(t *testing.T) {
+	t.Parallel()
 	manager := &Manager{
 		realTimeMutex: sync.RWMutex{},
 		feedAlerts:    map[string][]gtfs.Alert{},
@@ -941,6 +965,7 @@ func TestAlertIndex_EmptyAlerts(t *testing.T) {
 }
 
 func TestAlertIndex_NoDuplicatesFromRepeatedEntityKeys(t *testing.T) {
+	t.Parallel()
 	stopID := "stop1"
 	routeID := "route1"
 	tripID := gtfs.TripID{ID: "trip1"}
@@ -973,6 +998,7 @@ func TestAlertIndex_NoDuplicatesFromRepeatedEntityKeys(t *testing.T) {
 }
 
 func TestAlertIndex_EmptyIDAlertExcluded(t *testing.T) {
+	t.Parallel()
 	stopID := "stop1"
 	tripID := gtfs.TripID{ID: "trip1"}
 
@@ -1005,6 +1031,7 @@ func TestAlertIndex_EmptyIDAlertExcluded(t *testing.T) {
 // of the agency+stop scoping rule: an entity with both agencyID and stopID is
 // filed in byStop (so stop-scoped lookups find it) in addition to byAgency.
 func TestAlertIndex_AgencyStopEntityAlsoIndexedByStop(t *testing.T) {
+	t.Parallel()
 	agencyID := "agency40"
 	stopID := "stop99"
 
@@ -1035,6 +1062,7 @@ func TestAlertIndex_AgencyStopEntityAlsoIndexedByStop(t *testing.T) {
 // excluded from byRoute (covered by TestGetAlertsByIDs_RouteScoping) but must
 // still appear in byStop for stop-scoped lookups.
 func TestAlertIndex_RouteStopEntityAlsoIndexedByStop(t *testing.T) {
+	t.Parallel()
 	routeID := "route40"
 	stopID := "stop99"
 
@@ -1062,6 +1090,7 @@ func TestAlertIndex_RouteStopEntityAlsoIndexedByStop(t *testing.T) {
 // TestAlertIndex_AllEmptyArgsReturnsNil verifies that GetAlertsByIDs returns nil
 // (not an allocated empty slice) when all three arguments are empty strings.
 func TestAlertIndex_AllEmptyArgsReturnsNil(t *testing.T) {
+	t.Parallel()
 	stopID := "stop1"
 	manager := &Manager{
 		realTimeMutex: sync.RWMutex{},
@@ -1078,6 +1107,7 @@ func TestAlertIndex_AllEmptyArgsReturnsNil(t *testing.T) {
 }
 
 func TestMockAddAlert_IndexIsImmediatelySynced(t *testing.T) {
+	t.Parallel()
 	stopID := "stop-mock"
 	routeID := "route-mock"
 	tripID := gtfs.TripID{ID: "trip-mock"}
@@ -1095,24 +1125,28 @@ func TestMockAddAlert_IndexIsImmediatelySynced(t *testing.T) {
 	})
 
 	t.Run("byStop bucket is populated", func(t *testing.T) {
+		t.Parallel()
 		alerts := manager.GetAlertsForStop(stopID)
 		require.Len(t, alerts, 1)
 		assert.Equal(t, "alert-synced", alerts[0].ID)
 	})
 
 	t.Run("byTrip bucket is populated", func(t *testing.T) {
+		t.Parallel()
 		alerts := manager.GetAlertsByIDs(tripID.ID, "", "")
 		require.Len(t, alerts, 1)
 		assert.Equal(t, "alert-synced", alerts[0].ID)
 	})
 
 	t.Run("byRoute bucket is populated", func(t *testing.T) {
+		t.Parallel()
 		alerts := manager.GetAlertsByIDs("", routeID, "")
 		require.Len(t, alerts, 1)
 		assert.Equal(t, "alert-synced", alerts[0].ID)
 	})
 
 	t.Run("byAgency bucket is populated", func(t *testing.T) {
+		t.Parallel()
 		alerts := manager.GetAlertsByIDs("", "", agencyID)
 		require.Len(t, alerts, 1)
 		assert.Equal(t, "alert-synced", alerts[0].ID)
@@ -1120,6 +1154,7 @@ func TestMockAddAlert_IndexIsImmediatelySynced(t *testing.T) {
 }
 
 func TestAlertIndex_NilInformedEntitiesExcludedFromAllBuckets(t *testing.T) {
+	t.Parallel()
 	// Two different code paths both produce empty buckets:
 	//   - nil InformedEntities: hits the `continue` guard in rebuildMergedRealtimeLocked
 	//   - non-nil but empty slice: falls through to an inner loop that never executes
@@ -1140,6 +1175,7 @@ func TestAlertIndex_NilInformedEntitiesExcludedFromAllBuckets(t *testing.T) {
 }
 
 func TestAlertIndex_CrossFeedDeduplication(t *testing.T) {
+	t.Parallel()
 	stopID := "stop1"
 	// The same alert ID appears in two feeds. GetAlertsForStop deduplicates
 	// by alert ID internally, so the caller always receives exactly one entry
@@ -1159,6 +1195,7 @@ func TestAlertIndex_CrossFeedDeduplication(t *testing.T) {
 }
 
 func TestAlertIndex_CrossFeedDeduplicationByIDs(t *testing.T) {
+	t.Parallel()
 	routeID := "route1"
 	tripID := gtfs.TripID{ID: "trip1"}
 	// The same alert ID appears in two feeds and is reachable through different
@@ -1207,6 +1244,7 @@ func ptr(t time.Time) *time.Time {
 }
 
 func TestCalculateBackoff(t *testing.T) {
+	t.Parallel()
 	baseInterval := 30 * time.Second
 	maxInterval := 5 * time.Minute
 
@@ -1241,6 +1279,7 @@ func TestCalculateBackoff(t *testing.T) {
 }
 
 func TestUpdateFeedRealtime_SubFeedSuccess_OrLogic(t *testing.T) {
+	t.Parallel()
 	// A server that returns 200 OK AND a valid GTFS-RT protobuf payload
 	goodServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/x-protobuf")
@@ -1298,6 +1337,7 @@ func TestUpdateFeedRealtime_SubFeedSuccess_OrLogic(t *testing.T) {
 }
 
 func TestGetDuplicatedVehiclesForRoute_MatchesWithRouteID(t *testing.T) {
+	t.Parallel()
 	manager := &Manager{
 		realTimeMutex: sync.RWMutex{},
 		feedVehicles: map[string][]gtfs.Vehicle{
@@ -1324,6 +1364,7 @@ func TestGetDuplicatedVehiclesForRoute_MatchesWithRouteID(t *testing.T) {
 }
 
 func TestGetDuplicatedVehiclesForRoute_FallbackViaTripUpdate(t *testing.T) {
+	t.Parallel()
 	// Vehicle has no route_id in its trip descriptor; the TripUpdate carries it.
 	manager := &Manager{
 		realTimeMutex: sync.RWMutex{},
@@ -1361,6 +1402,7 @@ func TestGetDuplicatedVehiclesForRoute_FallbackViaTripUpdate(t *testing.T) {
 }
 
 func TestGetDuplicatedVehiclesForRoute_ExcludesNonDuplicated(t *testing.T) {
+	t.Parallel()
 	manager := &Manager{
 		realTimeMutex: sync.RWMutex{},
 		feedVehicles: map[string][]gtfs.Vehicle{
@@ -1396,6 +1438,7 @@ func TestGetDuplicatedVehiclesForRoute_ExcludesNonDuplicated(t *testing.T) {
 }
 
 func TestGetDuplicatedVehiclesForRoute_RebuildClearsStaleIndex(t *testing.T) {
+	t.Parallel()
 	manager := &Manager{
 		realTimeMutex: sync.RWMutex{},
 		feedVehicles: map[string][]gtfs.Vehicle{
@@ -1424,6 +1467,7 @@ func TestGetDuplicatedVehiclesForRoute_RebuildClearsStaleIndex(t *testing.T) {
 }
 
 func TestGetDuplicatedVehiclesForRoute_MissingRouteIDWithoutTripUpdate(t *testing.T) {
+	t.Parallel()
 	manager := &Manager{
 		realTimeMutex: sync.RWMutex{},
 		feedVehicles: map[string][]gtfs.Vehicle{
@@ -1449,6 +1493,7 @@ func TestGetDuplicatedVehiclesForRoute_MissingRouteIDWithoutTripUpdate(t *testin
 }
 
 func TestGetDuplicatedVehiclesForRoute_MultipleVehiclesSameRoute(t *testing.T) {
+	t.Parallel()
 	manager := &Manager{
 		realTimeMutex: sync.RWMutex{},
 		feedVehicles: map[string][]gtfs.Vehicle{
@@ -1486,6 +1531,7 @@ func TestGetDuplicatedVehiclesForRoute_MultipleVehiclesSameRoute(t *testing.T) {
 }
 
 func TestGetDuplicatedVehiclesForRoute_NoMatchReturnsEmpty(t *testing.T) {
+	t.Parallel()
 	manager := &Manager{
 		realTimeMutex: sync.RWMutex{},
 		feedVehicles: map[string][]gtfs.Vehicle{

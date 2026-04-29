@@ -6,6 +6,7 @@ import (
 )
 
 func TestEnvFlagToEnvironment(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name     string
 		envFlag  string
@@ -50,6 +51,7 @@ func TestEnvFlagToEnvironment(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			result := EnvFlagToEnvironment(tt.envFlag)
 			assert.Equal(t, tt.expected, result)
 		})
@@ -57,6 +59,7 @@ func TestEnvFlagToEnvironment(t *testing.T) {
 }
 
 func TestEnvironmentConstants(t *testing.T) {
+	t.Parallel()
 	// Verify the enum values are as expected
 	assert.Equal(t, Environment(0), Development)
 	assert.Equal(t, Environment(1), Test)

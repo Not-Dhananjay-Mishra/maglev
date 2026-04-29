@@ -41,6 +41,7 @@ func createTestData(t *testing.T) ([]byte, []byte) {
 }
 
 func TestConditionalImport_InitialImport(t *testing.T) {
+	t.Parallel()
 	// Create in-memory database
 	config := Config{
 		DBPath: ":memory:",
@@ -75,6 +76,7 @@ func TestConditionalImport_InitialImport(t *testing.T) {
 }
 
 func TestConditionalImport_SkipUnchangedData(t *testing.T) {
+	t.Parallel()
 	// Create in-memory database
 	config := Config{
 		DBPath: ":memory:",
@@ -130,6 +132,7 @@ func TestConditionalImport_SkipUnchangedData(t *testing.T) {
 }
 
 func TestConditionalImport_ReloadChangedData(t *testing.T) {
+	t.Parallel()
 	// Create in-memory database
 	config := Config{
 		DBPath: ":memory:",
@@ -176,6 +179,7 @@ func TestConditionalImport_ReloadChangedData(t *testing.T) {
 }
 
 func TestConditionalImport_DifferentSources(t *testing.T) {
+	t.Parallel()
 	// Create in-memory database
 	config := Config{
 		DBPath: ":memory:",
@@ -215,6 +219,7 @@ func TestConditionalImport_DifferentSources(t *testing.T) {
 }
 
 func TestConditionalImport_FileImport(t *testing.T) {
+	t.Parallel()
 	// Create in-memory database
 	config := Config{
 		DBPath: ":memory:",
@@ -260,6 +265,7 @@ func TestConditionalImport_FileImport(t *testing.T) {
 }
 
 func TestClearAllGTFSData(t *testing.T) {
+	t.Parallel()
 	// Create in-memory database
 	config := Config{
 		DBPath: ":memory:",

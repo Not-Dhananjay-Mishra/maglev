@@ -14,6 +14,7 @@ import (
 )
 
 func TestNew(t *testing.T) {
+	t.Parallel()
 	m := New()
 
 	assert.NotNil(t, m.Registry)
@@ -32,12 +33,14 @@ func TestNew(t *testing.T) {
 }
 
 func TestNewWithLogger(t *testing.T) {
+	t.Parallel()
 	m := NewWithLogger(nil)
 	assert.NotNil(t, m)
 	assert.Nil(t, m.logger)
 }
 
 func TestStartDBStatsCollector_NilProvider(t *testing.T) {
+	t.Parallel()
 	m := New()
 	// Should not panic with nil provider
 	m.StartDBStatsCollector(nil, time.Second)
@@ -46,6 +49,7 @@ func TestStartDBStatsCollector_NilProvider(t *testing.T) {
 }
 
 func TestStartDBStatsCollector_ProviderCanReturnNilDB(t *testing.T) {
+	t.Parallel()
 	m := New()
 	m.StartDBStatsCollector(func() *sql.DB { return nil }, 20*time.Millisecond)
 	defer m.Shutdown()
@@ -61,6 +65,7 @@ func TestStartDBStatsCollector_ProviderCanReturnNilDB(t *testing.T) {
 }
 
 func TestStartDBStatsCollector_NonPositiveInterval(t *testing.T) {
+	t.Parallel()
 	db, err := sql.Open(gtfsdb.DriverName, ":memory:")
 	require.NoError(t, err)
 	defer func() { _ = db.Close() }()
@@ -81,6 +86,7 @@ func TestStartDBStatsCollector_NonPositiveInterval(t *testing.T) {
 }
 
 func TestStartDBStatsCollector_Idempotent(t *testing.T) {
+	t.Parallel()
 	db, err := sql.Open(gtfsdb.DriverName, ":memory:")
 	require.NoError(t, err)
 	defer func() { _ = db.Close() }()
@@ -99,6 +105,7 @@ func TestStartDBStatsCollector_Idempotent(t *testing.T) {
 }
 
 func TestStartDBStatsCollector_CollectsStats(t *testing.T) {
+	t.Parallel()
 	db, err := sql.Open(gtfsdb.DriverName, ":memory:")
 	require.NoError(t, err)
 	defer func() { _ = db.Close() }()
@@ -123,6 +130,7 @@ func TestStartDBStatsCollector_CollectsStats(t *testing.T) {
 }
 
 func TestShutdown_StopsGoroutine(t *testing.T) {
+	t.Parallel()
 	db, err := sql.Open(gtfsdb.DriverName, ":memory:")
 	require.NoError(t, err)
 	defer func() { _ = db.Close() }()
@@ -146,6 +154,7 @@ func TestShutdown_StopsGoroutine(t *testing.T) {
 }
 
 func TestStartDBStatsCollector_FollowsDBSwap(t *testing.T) {
+	t.Parallel()
 	db1, err := sql.Open(gtfsdb.DriverName, ":memory:")
 	require.NoError(t, err)
 	defer func() { _ = db1.Close() }()
@@ -178,6 +187,7 @@ func TestStartDBStatsCollector_FollowsDBSwap(t *testing.T) {
 }
 
 func TestShutdown_SafeToCallMultipleTimes(t *testing.T) {
+	t.Parallel()
 	m := New()
 
 	// Should not panic when called multiple times
@@ -187,6 +197,7 @@ func TestShutdown_SafeToCallMultipleTimes(t *testing.T) {
 }
 
 func TestShutdown_SafeWithoutStartingCollector(t *testing.T) {
+	t.Parallel()
 	m := New()
 
 	// Should not panic even if collector was never started
@@ -194,6 +205,7 @@ func TestShutdown_SafeWithoutStartingCollector(t *testing.T) {
 }
 
 func TestHTTPMetrics_RecordRequest(t *testing.T) {
+	t.Parallel()
 	m := New()
 
 	// Record a request
@@ -206,6 +218,7 @@ func TestHTTPMetrics_RecordRequest(t *testing.T) {
 }
 
 func TestRecordDBQuery(t *testing.T) {
+	t.Parallel()
 	m := New()
 
 	m.RecordDBQuery("GetTrip", "query", nil)
@@ -222,6 +235,7 @@ func TestRecordDBQuery(t *testing.T) {
 }
 
 func TestRecordDBQuery_NilReceiverNoPanic(t *testing.T) {
+	t.Parallel()
 	var m *Metrics
 	m.RecordDBQuery("GetTrip", "query", nil)
 }

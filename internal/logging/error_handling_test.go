@@ -14,7 +14,9 @@ import (
 )
 
 func TestSafeClose(t *testing.T) {
+	t.Parallel()
 	t.Run("closes response body safely with error logging", func(t *testing.T) {
+		t.Parallel()
 		var buf bytes.Buffer
 		logger := NewStructuredLogger(&buf, slog.LevelInfo)
 
@@ -40,6 +42,7 @@ func TestSafeClose(t *testing.T) {
 	})
 
 	t.Run("logs error when close fails", func(t *testing.T) {
+		t.Parallel()
 		var buf bytes.Buffer
 		logger := NewStructuredLogger(&buf, slog.LevelInfo)
 
@@ -56,7 +59,9 @@ func TestSafeClose(t *testing.T) {
 }
 
 func TestSafeRollback(t *testing.T) {
+	t.Parallel()
 	t.Run("handles rollback errors gracefully", func(t *testing.T) {
+		t.Parallel()
 		var buf bytes.Buffer
 		logger := NewStructuredLogger(&buf, slog.LevelInfo)
 
@@ -72,6 +77,7 @@ func TestSafeRollback(t *testing.T) {
 	})
 
 	t.Run("ignores already committed/rolled back errors", func(t *testing.T) {
+		t.Parallel()
 		var buf bytes.Buffer
 		logger := NewStructuredLogger(&buf, slog.LevelInfo)
 
@@ -86,6 +92,7 @@ func TestSafeRollback(t *testing.T) {
 	})
 
 	t.Run("handles successful rollback silently", func(t *testing.T) {
+		t.Parallel()
 		var buf bytes.Buffer
 		logger := NewStructuredLogger(&buf, slog.LevelInfo)
 
@@ -101,7 +108,9 @@ func TestSafeRollback(t *testing.T) {
 }
 
 func TestHandleDeferredError(t *testing.T) {
+	t.Parallel()
 	t.Run("handles deferred errors in return statements", func(t *testing.T) {
+		t.Parallel()
 		var buf bytes.Buffer
 		logger := NewStructuredLogger(&buf, slog.LevelInfo)
 
@@ -123,6 +132,7 @@ func TestHandleDeferredError(t *testing.T) {
 	})
 
 	t.Run("preserves original error when deferred operation also fails", func(t *testing.T) {
+		t.Parallel()
 		var buf bytes.Buffer
 		logger := NewStructuredLogger(&buf, slog.LevelInfo)
 

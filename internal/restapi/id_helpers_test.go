@@ -15,6 +15,7 @@ import (
 )
 
 func TestExtractAndValidateID(t *testing.T) {
+	t.Parallel()
 	api := &RestAPI{
 		Application: &app.Application{
 			Clock: &clock.RealClock{},
@@ -76,6 +77,7 @@ func TestExtractAndValidateID(t *testing.T) {
 }
 
 func TestExtractAndValidateAgencyCodeID(t *testing.T) {
+	t.Parallel()
 	api := &RestAPI{
 		Application: &app.Application{
 			Clock: &clock.RealClock{},

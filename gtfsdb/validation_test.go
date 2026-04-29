@@ -37,6 +37,7 @@ func createValidGTFS() *gtfs.Static {
 }
 
 func TestValidateAndFilterGTFSData_Valid(t *testing.T) {
+	t.Parallel()
 	data := createValidGTFS()
 	err := ValidateAndFilterGTFSData(data, nil)
 	if err != nil {
@@ -45,6 +46,7 @@ func TestValidateAndFilterGTFSData_Valid(t *testing.T) {
 }
 
 func TestValidateAndFilterGTFSData_MissingEntities(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name        string
 		startNil    bool
@@ -86,6 +88,7 @@ func TestValidateAndFilterGTFSData_MissingEntities(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
 			var data *gtfs.Static
 			if !tc.startNil {
 				data = createValidGTFS()
@@ -104,6 +107,7 @@ func TestValidateAndFilterGTFSData_MissingEntities(t *testing.T) {
 }
 
 func TestValidateAndFilterGTFSData_CalendarDatesOnly(t *testing.T) {
+	t.Parallel()
 	data := createValidGTFS()
 
 	// Turn off all regular weekly service
@@ -127,6 +131,7 @@ func TestValidateAndFilterGTFSData_CalendarDatesOnly(t *testing.T) {
 }
 
 func TestValidateAndFilterGTFSData_ForeignKeys_Filtering(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name          string
 		mutate        func(*gtfs.Static)
@@ -214,6 +219,7 @@ func TestValidateAndFilterGTFSData_ForeignKeys_Filtering(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
 			data := createValidGTFS()
 			tc.mutate(data)
 
@@ -238,6 +244,7 @@ func TestValidateAndFilterGTFSData_ForeignKeys_Filtering(t *testing.T) {
 }
 
 func TestValidateAndFilterGTFSData_OrphanedParentStation(t *testing.T) {
+	t.Parallel()
 	data := createValidGTFS()
 
 	// Add a second stop that references a non-existent parent station.

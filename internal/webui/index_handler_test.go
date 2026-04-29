@@ -11,6 +11,8 @@ import (
 )
 
 func TestIndexHandler(t *testing.T) {
+	t.Parallel()
+
 	// Create a test WebUI instance
 	webUI := &WebUI{
 		Application: &app.Application{

@@ -17,6 +17,7 @@ import (
 )
 
 func TestHealthHandlerWithNilApplication(t *testing.T) {
+	t.Parallel()
 	// Create a minimal RestAPI with nil Application to simulate DB unavailable
 	api := &RestAPI{
 		Application: nil,
@@ -37,6 +38,7 @@ func TestHealthHandlerWithNilApplication(t *testing.T) {
 }
 
 func TestHealthHandlerReturnsOK(t *testing.T) {
+	t.Parallel()
 	// Use in-memory DB to test the health check successfully
 	db, err := sql.Open(gtfsdb.DriverName, ":memory:")
 	require.NoError(t, err)
@@ -82,6 +84,7 @@ func TestHealthHandlerReturnsOK(t *testing.T) {
 }
 
 func TestHealthHandlerReturnsExpired(t *testing.T) {
+	t.Parallel()
 
 	db, err := sql.Open(gtfsdb.DriverName, ":memory:")
 	require.NoError(t, err)
@@ -125,6 +128,7 @@ func TestHealthHandlerReturnsExpired(t *testing.T) {
 }
 
 func TestHealthHandlerStarting(t *testing.T) {
+	t.Parallel()
 	// Use in-memory DB to test the health check during startup
 	db, err := sql.Open(gtfsdb.DriverName, ":memory:")
 	require.NoError(t, err)
@@ -166,6 +170,7 @@ func TestHealthHandlerStarting(t *testing.T) {
 }
 
 func TestHealthHandlerVerboseMode(t *testing.T) {
+	t.Parallel()
 	db, err := sql.Open(gtfsdb.DriverName, ":memory:")
 	require.NoError(t, err)
 	defer func() { _ = db.Close() }()

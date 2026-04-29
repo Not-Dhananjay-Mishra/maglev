@@ -10,6 +10,8 @@ import (
 )
 
 func TestCurrentTimeModel(t *testing.T) {
+	t.Parallel()
+
 	// Create a sample CurrentTimeModel
 	timeModel := CurrentTimeModel{
 		ReadableTime: "2025-05-03T12:00:00Z",
@@ -42,6 +44,8 @@ func TestCurrentTimeModel(t *testing.T) {
 }
 
 func TestCurrentTimeData(t *testing.T) {
+	t.Parallel()
+
 	// Create a sample CurrentTimeData
 	entry := CurrentTimeModel{
 		ReadableTime: "2025-05-03T12:00:00Z",
@@ -92,6 +96,8 @@ func TestCurrentTimeData(t *testing.T) {
 }
 
 func TestNewCurrentTimeData(t *testing.T) {
+	t.Parallel()
+
 	// Test cases with different times
 	testCases := []struct {
 		name     string
@@ -113,6 +119,8 @@ func TestNewCurrentTimeData(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+
 			result := NewCurrentTimeData(tc.testTime)
 
 			// Verify the time fields
@@ -137,6 +145,8 @@ func TestNewCurrentTimeData(t *testing.T) {
 }
 
 func TestCurrentTimeDataEndToEnd(t *testing.T) {
+	t.Parallel()
+
 	// Create a fixed test time
 	testTime := time.Date(2025, 5, 3, 12, 0, 0, 0, time.UTC)
 

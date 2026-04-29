@@ -15,6 +15,7 @@ import (
 )
 
 func TestParallelRealtimeUpdates(t *testing.T) {
+	t.Parallel()
 	// Track server calls to verify parallelism
 	var mu sync.Mutex
 	callTimes := make([]time.Time, 0, 2)
@@ -103,6 +104,7 @@ func TestParallelRealtimeUpdates(t *testing.T) {
 }
 
 func TestParallelRealtimeUpdatesWithErrors(t *testing.T) {
+	t.Parallel()
 	// Test error handling in parallel updates
 	errorServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -134,6 +136,7 @@ func TestParallelRealtimeUpdatesWithErrors(t *testing.T) {
 }
 
 func TestParallelRealtimeUpdatesWithContextCancellation(t *testing.T) {
+	t.Parallel()
 	// Test context cancellation during parallel updates
 	slowServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Simulate a slow response
@@ -166,6 +169,7 @@ func TestParallelRealtimeUpdatesWithContextCancellation(t *testing.T) {
 }
 
 func TestRealTimeDataConsistency(t *testing.T) {
+	t.Parallel()
 	// Test that parallel updates to multiple feeds maintain data consistency
 	manager := newTestManager()
 

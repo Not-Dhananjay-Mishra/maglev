@@ -9,7 +9,9 @@ import (
 )
 
 func TestValidateStaticAgencyTimezones(t *testing.T) {
+	t.Parallel()
 	t.Run("valid timezone", func(t *testing.T) {
+		t.Parallel()
 		staticData := &gtfs.Static{
 			Agencies: []gtfs.Agency{
 				{Id: "a1", Timezone: "America/Los_Angeles"},
@@ -19,6 +21,7 @@ func TestValidateStaticAgencyTimezones(t *testing.T) {
 	})
 
 	t.Run("explicit UTC timezone is valid", func(t *testing.T) {
+		t.Parallel()
 		staticData := &gtfs.Static{
 			Agencies: []gtfs.Agency{
 				{Id: "a1", Timezone: "UTC"},
@@ -28,6 +31,7 @@ func TestValidateStaticAgencyTimezones(t *testing.T) {
 	})
 
 	t.Run("empty timezone string", func(t *testing.T) {
+		t.Parallel()
 		// Go treats LoadLocation("") as UTC, so we consider this an error for GTFS validation purposes
 		staticData := &gtfs.Static{
 			Agencies: []gtfs.Agency{
@@ -39,6 +43,7 @@ func TestValidateStaticAgencyTimezones(t *testing.T) {
 	})
 
 	t.Run("invalid timezone", func(t *testing.T) {
+		t.Parallel()
 		staticData := &gtfs.Static{
 			Agencies: []gtfs.Agency{
 				{Id: "a1", Timezone: "Invalid/Zone"},
@@ -50,6 +55,7 @@ func TestValidateStaticAgencyTimezones(t *testing.T) {
 	})
 
 	t.Run("whitespace-padded timezone is normalized and valid", func(t *testing.T) {
+		t.Parallel()
 		staticData := &gtfs.Static{
 			Agencies: []gtfs.Agency{
 				{Id: "a1", Timezone: "  America/Los_Angeles  "},
@@ -60,6 +66,7 @@ func TestValidateStaticAgencyTimezones(t *testing.T) {
 	})
 
 	t.Run("whitespace-only timezone is rejected", func(t *testing.T) {
+		t.Parallel()
 		staticData := &gtfs.Static{
 			Agencies: []gtfs.Agency{
 				{Id: "a1", Timezone: "   "},
@@ -70,6 +77,7 @@ func TestValidateStaticAgencyTimezones(t *testing.T) {
 	})
 
 	t.Run("multiple agencies second has invalid timezone", func(t *testing.T) {
+		t.Parallel()
 		staticData := &gtfs.Static{
 			Agencies: []gtfs.Agency{
 				{Id: "a1", Timezone: "America/Los_Angeles"},
@@ -81,6 +89,7 @@ func TestValidateStaticAgencyTimezones(t *testing.T) {
 	})
 
 	t.Run("empty agency list passes validation", func(t *testing.T) {
+		t.Parallel()
 		staticData := &gtfs.Static{
 			Agencies: []gtfs.Agency{},
 		}

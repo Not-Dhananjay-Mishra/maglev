@@ -12,6 +12,7 @@ import (
 )
 
 func TestBuildSituationReferencesCoverage(t *testing.T) {
+	t.Parallel()
 	api := &RestAPI{}
 
 	alerts := []gtfs.Alert{
@@ -32,6 +33,7 @@ func TestBuildSituationReferencesCoverage(t *testing.T) {
 }
 
 func TestResponseHelpersCoverage(t *testing.T) {
+	t.Parallel()
 	// We must inject the MockClock inside the embedded Application struct
 	// so models.ResponseCurrentTime doesn't panic
 	api := &RestAPI{

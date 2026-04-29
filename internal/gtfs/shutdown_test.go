@@ -12,6 +12,7 @@ import (
 )
 
 func TestManagerShutdown(t *testing.T) {
+	t.Parallel()
 	// Create a config that uses local file to avoid network calls in tests
 	testDataPath, err := filepath.Abs(filepath.Join("..", "..", "testdata", "raba.zip"))
 	require.NoError(t, err, "Failed to get test data path")
@@ -49,6 +50,7 @@ func TestManagerShutdown(t *testing.T) {
 }
 
 func TestManagerShutdownWithRealtime(t *testing.T) {
+	t.Parallel()
 	// Create a config with real-time enabled but invalid URLs to avoid network calls
 	testDataPath, err := filepath.Abs(filepath.Join("..", "..", "testdata", "raba.zip"))
 	require.NoError(t, err, "Failed to get test data path")
@@ -93,6 +95,7 @@ func TestManagerShutdownWithRealtime(t *testing.T) {
 }
 
 func TestManagerShutdownIdempotent(t *testing.T) {
+	t.Parallel()
 	// Create a basic config
 	testDataPath, err := filepath.Abs(filepath.Join("..", "..", "testdata", "raba.zip"))
 	require.NoError(t, err, "Failed to get test data path")

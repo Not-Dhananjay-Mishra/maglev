@@ -190,6 +190,7 @@ func mustGetStops(t testing.TB, api *RestAPI) []gtfsdb.Stop {
 }
 
 func TestCompressionMiddleware(t *testing.T) {
+	t.Parallel()
 	// Create a test handler that returns a large response
 	testHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Write a large response that would benefit from compression
@@ -199,6 +200,7 @@ func TestCompressionMiddleware(t *testing.T) {
 	})
 
 	t.Run("compresses response when gzip accepted", func(t *testing.T) {
+		t.Parallel()
 		// Create request with gzip acceptance
 		req := httptest.NewRequest("GET", "/test", nil)
 		req.Header.Set("Accept-Encoding", "gzip")
@@ -230,6 +232,7 @@ func TestCompressionMiddleware(t *testing.T) {
 	})
 
 	t.Run("does not compress when gzip not accepted", func(t *testing.T) {
+		t.Parallel()
 		req := httptest.NewRequest("GET", "/test", nil)
 		// No Accept-Encoding header
 
@@ -248,6 +251,7 @@ func TestCompressionMiddleware(t *testing.T) {
 	})
 
 	t.Run("handles empty responses", func(t *testing.T) {
+		t.Parallel()
 		emptyHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusNoContent)
 		})
@@ -265,6 +269,7 @@ func TestCompressionMiddleware(t *testing.T) {
 	})
 
 	t.Run("preserves content-type header", func(t *testing.T) {
+		t.Parallel()
 		jsonHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("Content-Type", "application/json")
 			// Use larger content to ensure compression happens
@@ -286,11 +291,13 @@ func TestCompressionMiddleware(t *testing.T) {
 }
 
 func TestCompressionMiddlewareIntegration(t *testing.T) {
+	t.Parallel()
 	// Create a test API instance
 	api := createTestApi(t)
 	defer api.Shutdown()
 
 	t.Run("API responses are compressed when requested", func(t *testing.T) {
+		t.Parallel()
 		// Use SetupAPIRoutes which includes the global compression middleware
 		server := httptest.NewServer(api.SetupAPIRoutes())
 		defer server.Close()
@@ -331,13 +338,16 @@ func TestCompressionMiddlewareIntegration(t *testing.T) {
 }
 
 func TestCompressionConfig(t *testing.T) {
+	t.Parallel()
 	t.Run("default config has sensible values", func(t *testing.T) {
+		t.Parallel()
 		config := DefaultCompressionConfig()
 		assert.Equal(t, 1024, config.MinSize)
 		assert.Equal(t, 6, config.Level)
 	})
 
 	t.Run("custom config is applied", func(t *testing.T) {
+		t.Parallel()
 		config := CompressionConfig{
 			MinSize: 2048,
 			Level:   9,

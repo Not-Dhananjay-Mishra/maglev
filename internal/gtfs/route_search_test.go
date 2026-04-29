@@ -9,6 +9,7 @@ import (
 )
 
 func TestBuildRouteSearchQuery(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name     string
 		input    string
@@ -78,6 +79,7 @@ func TestBuildRouteSearchQuery(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			got := buildRouteSearchQuery(tt.input)
 			assert.Equal(t, tt.expected, got)
 		})
@@ -85,6 +87,7 @@ func TestBuildRouteSearchQuery(t *testing.T) {
 }
 
 func TestSearchRoutes_MatchingResults(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 	manager, _ := getSharedTestComponents(t)
 	require.NotNil(t, manager)
@@ -101,6 +104,7 @@ func TestSearchRoutes_MatchingResults(t *testing.T) {
 }
 
 func TestSearchRoutes_NoMatch(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 	manager, _ := getSharedTestComponents(t)
 	require.NotNil(t, manager)
@@ -111,6 +115,7 @@ func TestSearchRoutes_NoMatch(t *testing.T) {
 }
 
 func TestSearchRoutes_EmptyInput(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 	manager, _ := getSharedTestComponents(t)
 	require.NotNil(t, manager)
@@ -121,6 +126,7 @@ func TestSearchRoutes_EmptyInput(t *testing.T) {
 }
 
 func TestSearchRoutes_WhitespaceOnlyInput(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 	manager, _ := getSharedTestComponents(t)
 	require.NotNil(t, manager)
@@ -131,6 +137,7 @@ func TestSearchRoutes_WhitespaceOnlyInput(t *testing.T) {
 }
 
 func TestSearchRoutes_DefaultLimit(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 	manager, _ := getSharedTestComponents(t)
 	require.NotNil(t, manager)

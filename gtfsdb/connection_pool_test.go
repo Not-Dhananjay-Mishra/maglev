@@ -11,6 +11,7 @@ import (
 )
 
 func TestDatabaseConnectionPoolSettings(t *testing.T) {
+	t.Parallel()
 	// Test that database connection pool is configured with appropriate settings
 	config := Config{
 		DBPath: ":memory:",
@@ -35,6 +36,7 @@ func TestDatabaseConnectionPoolSettings(t *testing.T) {
 }
 
 func TestConnectionPoolBehavior(t *testing.T) {
+	t.Parallel()
 	// Test connection pool behavior - note that :memory: databases use only 1 connection
 	// so concurrent queries will be serialized
 	config := Config{
@@ -68,6 +70,7 @@ func TestConnectionPoolBehavior(t *testing.T) {
 }
 
 func TestConnectionLifetime(t *testing.T) {
+	t.Parallel()
 	// Test that connection max lifetime is configured
 	config := Config{
 		DBPath: ":memory:",
@@ -98,6 +101,7 @@ func TestConnectionLifetime(t *testing.T) {
 }
 
 func TestConnectionPoolConfiguration(t *testing.T) {
+	t.Parallel()
 	// Test the specific configuration values for in-memory databases
 	db, err := sql.Open(DriverName, ":memory:")
 	require.NoError(t, err, "Should open database")

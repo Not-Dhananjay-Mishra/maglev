@@ -8,6 +8,8 @@ import (
 )
 
 func TestRouteCreation(t *testing.T) {
+	t.Parallel()
+
 	id := "1"
 	agencyID := "agency-1"
 	shortName := "A"
@@ -35,6 +37,8 @@ func TestRouteCreation(t *testing.T) {
 }
 
 func TestRouteJSON(t *testing.T) {
+	t.Parallel()
+
 	route := Route{
 		ID:                "2",
 		AgencyID:          "agency-2",
@@ -68,6 +72,8 @@ func TestRouteJSON(t *testing.T) {
 }
 
 func TestRouteWithEmptyValues(t *testing.T) {
+	t.Parallel()
+
 	route := NewRoute("", "", "", "", "", 0, "", "", "")
 
 	assert.Equal(t, "", route.ID)
@@ -83,6 +89,8 @@ func TestRouteWithEmptyValues(t *testing.T) {
 }
 
 func TestRouteWithNilValuesJSON(t *testing.T) {
+	t.Parallel()
+
 	route := Route{
 		ID:       "3",
 		AgencyID: "agency-3",
@@ -100,6 +108,8 @@ func TestRouteWithNilValuesJSON(t *testing.T) {
 }
 
 func TestRouteDataJSON(t *testing.T) {
+	t.Parallel()
+
 	route1 := NewRoute("1", "agency-1", "A", "Route A", "Description A", 3, "url-a", "FF0000", "FFFFFF")
 	route2 := NewRoute("2", "agency-1", "B", "Route B", "Description B", 2, "url-b", "00FF00", "000000")
 
@@ -123,6 +133,8 @@ func TestRouteDataJSON(t *testing.T) {
 }
 
 func TestRouteResponseJSON(t *testing.T) {
+	t.Parallel()
+
 	route := NewRoute("1", "agency-1", "A", "Route A", "Description A", 3, "url-a", "FF0000", "FFFFFF")
 
 	references := ReferencesModel{
@@ -171,6 +183,8 @@ func TestRouteResponseJSON(t *testing.T) {
 }
 
 func TestRouteNullSafeShortNameFallback(t *testing.T) {
+	t.Parallel()
+
 	// When shortName is empty, NullSafeShortName should fall back to longName
 	route := NewRoute("1", "agency-1", "", "Downtown Express", "", 3, "", "", "")
 	assert.Equal(t, "Downtown Express", route.NullSafeShortName)

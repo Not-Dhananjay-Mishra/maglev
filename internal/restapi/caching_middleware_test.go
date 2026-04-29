@@ -9,6 +9,7 @@ import (
 )
 
 func TestCacheControlHeaders(t *testing.T) {
+	t.Parallel()
 	api := createTestApi(t)
 
 	mux := http.NewServeMux()
@@ -57,6 +58,7 @@ func TestCacheControlHeaders(t *testing.T) {
 
 // TestCacheControlWriter_304PreservesCache proves the bug fix works
 func TestCacheControlWriter_304PreservesCache(t *testing.T) {
+	t.Parallel()
 	// Dummy handler that just returns 304 Not Modified
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotModified)
@@ -77,6 +79,7 @@ func TestCacheControlWriter_304PreservesCache(t *testing.T) {
 
 // TestETagMiddleware proves the conditional request logic works
 func TestETagMiddleware(t *testing.T) {
+	t.Parallel()
 	mockETag := `"test-hash-123"`
 	getETag := func() string { return mockETag }
 

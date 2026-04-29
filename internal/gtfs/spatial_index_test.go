@@ -9,6 +9,7 @@ import (
 )
 
 func TestQueryStopsInBounds_WithRABA(t *testing.T) {
+	t.Parallel()
 	manager, _ := getSharedTestComponents(t)
 	require.NotNil(t, manager)
 
@@ -32,6 +33,7 @@ func TestQueryStopsInBounds_WithRABA(t *testing.T) {
 }
 
 func TestQueryStopsInBounds_SwappedLat(t *testing.T) {
+	t.Parallel()
 	manager, _ := getSharedTestComponents(t)
 	require.NotNil(t, manager)
 	swappedLat := utils.CoordinateBounds{MinLat: 40.70, MaxLat: 40.50, MinLon: -122.50, MaxLon: -122.30}
@@ -42,6 +44,7 @@ func TestQueryStopsInBounds_SwappedLat(t *testing.T) {
 }
 
 func TestQueryStopsInBounds_SwappedLon(t *testing.T) {
+	t.Parallel()
 	manager, _ := getSharedTestComponents(t)
 	require.NotNil(t, manager)
 	swappedLon := utils.CoordinateBounds{MinLat: 40.50, MaxLat: 40.70, MinLon: -122.30, MaxLon: -122.50}
@@ -52,6 +55,7 @@ func TestQueryStopsInBounds_SwappedLon(t *testing.T) {
 }
 
 func TestQueryStopsInBounds_NoStops(t *testing.T) {
+	t.Parallel()
 	manager, _ := getSharedTestComponents(t)
 	require.NotNil(t, manager)
 

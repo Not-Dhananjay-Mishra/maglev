@@ -8,6 +8,7 @@ import (
 )
 
 func TestValidateID(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name    string
 		id      string
@@ -73,6 +74,7 @@ func TestValidateID(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			err := ValidateID(tt.id)
 			if tt.wantErr {
 				assert.Error(t, err, "ValidateID should return error for invalid ID")
@@ -85,6 +87,7 @@ func TestValidateID(t *testing.T) {
 }
 
 func TestValidateQuery(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name    string
 		query   string
@@ -138,6 +141,7 @@ func TestValidateQuery(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			err := ValidateQuery(tt.query)
 			if tt.wantErr {
 				assert.Error(t, err, "ValidateQuery should return error for invalid query")
@@ -150,6 +154,7 @@ func TestValidateQuery(t *testing.T) {
 }
 
 func TestValidateLatitude(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name    string
 		lat     float64
@@ -198,6 +203,7 @@ func TestValidateLatitude(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			err := ValidateLatitude(tt.lat)
 			if tt.wantErr {
 				assert.Error(t, err, "ValidateLatitude should return error for invalid latitude")
@@ -210,6 +216,7 @@ func TestValidateLatitude(t *testing.T) {
 }
 
 func TestValidateLongitude(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name    string
 		lon     float64
@@ -258,6 +265,7 @@ func TestValidateLongitude(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			err := ValidateLongitude(tt.lon)
 			if tt.wantErr {
 				assert.Error(t, err, "ValidateLongitude should return error for invalid longitude")
@@ -270,6 +278,7 @@ func TestValidateLongitude(t *testing.T) {
 }
 
 func TestValidateRadius(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name    string
 		radius  float64
@@ -312,6 +321,7 @@ func TestValidateRadius(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			err := ValidateRadius(tt.radius)
 			if tt.wantErr {
 				assert.Error(t, err, "ValidateRadius should return error for invalid radius")
@@ -324,6 +334,7 @@ func TestValidateRadius(t *testing.T) {
 }
 
 func TestValidateSpan(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name    string
 		span    float64
@@ -361,6 +372,7 @@ func TestValidateSpan(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			err := ValidateSpan(tt.span)
 			if tt.wantErr {
 				assert.Error(t, err, "ValidateSpan should return error for invalid span")
@@ -373,6 +385,7 @@ func TestValidateSpan(t *testing.T) {
 }
 
 func TestSanitizeInput(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name     string
 		input    string
@@ -412,6 +425,7 @@ func TestSanitizeInput(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			result := SanitizeInput(tt.input)
 			assert.Equal(t, tt.expected, result, "SanitizeInput should return expected result")
 		})
@@ -419,6 +433,7 @@ func TestSanitizeInput(t *testing.T) {
 }
 
 func TestValidateDate(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name    string
 		date    string
@@ -468,6 +483,7 @@ func TestValidateDate(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			err := ValidateDate(tt.date)
 			if tt.wantErr {
 				assert.Error(t, err, "ValidateDate should return error for invalid date")

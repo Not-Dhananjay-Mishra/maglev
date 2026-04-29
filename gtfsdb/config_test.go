@@ -8,6 +8,7 @@ import (
 )
 
 func TestNewConfig(t *testing.T) {
+	t.Parallel()
 	dbPath := "/path/to/database.db"
 	env := appconf.Production
 
@@ -18,6 +19,7 @@ func TestNewConfig(t *testing.T) {
 }
 
 func TestNewConfigWithDevelopmentEnv(t *testing.T) {
+	t.Parallel()
 	dbPath := ":memory:"
 	env := appconf.Development
 
@@ -28,6 +30,7 @@ func TestNewConfigWithDevelopmentEnv(t *testing.T) {
 }
 
 func TestNewConfigWithTestEnv(t *testing.T) {
+	t.Parallel()
 	dbPath := "test.db"
 	env := appconf.Test
 
@@ -38,6 +41,7 @@ func TestNewConfigWithTestEnv(t *testing.T) {
 }
 
 func TestNewConfigWithEmptyDBPath(t *testing.T) {
+	t.Parallel()
 	dbPath := ""
 	env := appconf.Development
 
@@ -48,6 +52,7 @@ func TestNewConfigWithEmptyDBPath(t *testing.T) {
 }
 
 func TestConfigStruct(t *testing.T) {
+	t.Parallel()
 	// Test that Config struct can be created directly
 	config := Config{
 		DBPath: "/custom/path.db",
@@ -59,6 +64,7 @@ func TestConfigStruct(t *testing.T) {
 }
 
 func TestNewConfigAllEnvironments(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name string
 		env  appconf.Environment
@@ -70,6 +76,7 @@ func TestNewConfigAllEnvironments(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			config := NewConfig("test.db", tt.env)
 
 			assert.Equal(t, "test.db", config.DBPath)
@@ -79,6 +86,7 @@ func TestNewConfigAllEnvironments(t *testing.T) {
 }
 
 func TestSafeBatchSize(t *testing.T) {
+	t.Parallel()
 	config := Config{}
 
 	tests := []struct {
@@ -116,6 +124,7 @@ func TestSafeBatchSize(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			if tt.expectPanic {
 				assert.Panics(t, func() { config.SafeBatchSize(tt.fieldsPerRow) })
 				return

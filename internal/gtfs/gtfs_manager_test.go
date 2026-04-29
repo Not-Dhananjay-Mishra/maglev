@@ -19,6 +19,7 @@ import (
 )
 
 func TestManager_GetAgencies(t *testing.T) {
+	t.Parallel()
 	// Use shared component to avoid reloading DB
 	manager, _ := getSharedTestComponents(t)
 	assert.NotNil(t, manager)
@@ -39,6 +40,7 @@ func TestManager_GetAgencies(t *testing.T) {
 }
 
 func TestManager_RoutesForAgencyID(t *testing.T) {
+	t.Parallel()
 	manager, _ := getSharedTestComponents(t)
 	assert.NotNil(t, manager)
 
@@ -51,6 +53,7 @@ func TestManager_RoutesForAgencyID(t *testing.T) {
 }
 
 func TestManager_GetStopsForLocation_UsesSpatialIndex(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 
 	testCases := []struct {
@@ -99,6 +102,7 @@ func TestManager_GetStopsForLocation_UsesSpatialIndex(t *testing.T) {
 }
 
 func TestManager_GetTrips(t *testing.T) {
+	t.Parallel()
 	manager, _ := getSharedTestComponents(t)
 	assert.NotNil(t, manager)
 
@@ -109,6 +113,7 @@ func TestManager_GetTrips(t *testing.T) {
 }
 
 func TestManager_FindAgency(t *testing.T) {
+	t.Parallel()
 	manager, _ := getSharedTestComponents(t)
 
 	agency, err := manager.FindAgency(context.Background(), "25")
@@ -123,6 +128,7 @@ func TestManager_FindAgency(t *testing.T) {
 }
 
 func TestManager_GetVehicleByID(t *testing.T) {
+	t.Parallel()
 	manager := &Manager{
 		realTimeMutex: sync.RWMutex{},
 		feedVehicles: map[string][]gtfs.Vehicle{
@@ -146,6 +152,7 @@ func TestManager_GetVehicleByID(t *testing.T) {
 }
 
 func TestGetVehicleForTrip_DirectTripIDLookup(t *testing.T) {
+	t.Parallel()
 	tripID := "trip-direct"
 	vehicleID := "v-direct"
 
@@ -169,6 +176,7 @@ func TestGetVehicleForTrip_DirectTripIDLookup(t *testing.T) {
 }
 
 func TestManager_GetTripUpdatesForTrip(t *testing.T) {
+	t.Parallel()
 	manager := &Manager{
 		realTimeTrips: []gtfs.Trip{
 			{
@@ -193,6 +201,7 @@ func TestManager_GetTripUpdatesForTrip(t *testing.T) {
 }
 
 func TestManager_GetVehicleLastUpdateTime(t *testing.T) {
+	t.Parallel()
 	now := time.Now()
 	vehicle := &gtfs.Vehicle{
 		Timestamp: &now,
@@ -211,6 +220,7 @@ func TestManager_GetVehicleLastUpdateTime(t *testing.T) {
 }
 
 func TestManager_GetTripUpdateByID(t *testing.T) {
+	t.Parallel()
 	manager := &Manager{
 		realTimeMutex: sync.RWMutex{},
 		feedTrips: map[string][]gtfs.Trip{
@@ -234,6 +244,7 @@ func TestManager_GetTripUpdateByID(t *testing.T) {
 }
 
 func TestManager_IsServiceActiveOnDate(t *testing.T) {
+	t.Parallel()
 	manager, _ := getSharedTestComponents(t)
 
 	// Get a trip to find a valid service ID
@@ -298,6 +309,7 @@ func TestManager_IsServiceActiveOnDate(t *testing.T) {
 }
 
 func TestManager_GetVehicleForTrip(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 
 	gtfsConfig := Config{
@@ -336,6 +348,7 @@ func TestManager_GetVehicleForTrip(t *testing.T) {
 }
 
 func TestRoutesForAgencyID_NonexistentId(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 
 	gtfsConfig := Config{
@@ -353,6 +366,7 @@ func TestRoutesForAgencyID_NonexistentId(t *testing.T) {
 }
 
 func TestRoutesForAgencyID_ValidId(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 
 	gtfsConfig := Config{
@@ -373,6 +387,7 @@ func TestRoutesForAgencyID_ValidId(t *testing.T) {
 }
 
 func TestRoutesForAgencyID_ConcurrentAccess(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 
 	gtfsConfig := Config{
@@ -448,6 +463,7 @@ func BenchmarkRoutesForAgencyID_MapLookup(b *testing.B) {
 }
 
 func TestInitGTFSManager_RetryLogic(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 
 	// Use an ultra-fast backoff schedule for the test to prevent it from hanging
@@ -479,6 +495,7 @@ func TestInitGTFSManager_RetryLogic(t *testing.T) {
 }
 
 func TestParseAndLogFeedExpiryLocked(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 
 	// In-memory sqlite db to mock
@@ -541,6 +558,7 @@ func TestParseAndLogFeedExpiryLocked(t *testing.T) {
 }
 
 func TestManager_DataFreshnessTracking(t *testing.T) {
+	t.Parallel()
 	manager := &Manager{
 		realTimeMutex: sync.RWMutex{},
 	}

@@ -33,6 +33,7 @@ func createFTSTestClient(t *testing.T) *Client {
 }
 
 func TestSearchRoutesByFullText(t *testing.T) {
+	t.Parallel()
 	client := createFTSTestClient(t)
 	defer func() { _ = client.Close() }()
 
@@ -189,6 +190,7 @@ func TestSearchRoutesByFullText(t *testing.T) {
 }
 
 func TestSearchRoutesByFullTextEmptyDB(t *testing.T) {
+	t.Parallel()
 	client := createFTSTestClient(t)
 	defer func() { _ = client.Close() }()
 
@@ -203,6 +205,7 @@ func TestSearchRoutesByFullTextEmptyDB(t *testing.T) {
 }
 
 func TestSearchStopsByName(t *testing.T) {
+	t.Parallel()
 	client := createFTSTestClient(t)
 	defer func() { _ = client.Close() }()
 
@@ -325,6 +328,7 @@ func TestSearchStopsByName(t *testing.T) {
 }
 
 func TestSearchStopsByNameEmptyDB(t *testing.T) {
+	t.Parallel()
 	client := createFTSTestClient(t)
 	defer func() { _ = client.Close() }()
 

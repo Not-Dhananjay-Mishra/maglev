@@ -21,6 +21,7 @@ import (
 )
 
 func TestParseAPIKeys(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name     string
 		input    string
@@ -60,6 +61,7 @@ func TestParseAPIKeys(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			result := ParseAPIKeys(tt.input)
 			assert.Equal(t, tt.expected, result)
 		})
@@ -67,6 +69,7 @@ func TestParseAPIKeys(t *testing.T) {
 }
 
 func TestBuildApplicationWithMemoryDB(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 
 	// Get path to test data
@@ -104,6 +107,7 @@ func TestBuildApplicationWithMemoryDB(t *testing.T) {
 }
 
 func TestBuildApplicationWithTestData(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 
 	// Get path to test data
@@ -136,6 +140,7 @@ func TestBuildApplicationWithTestData(t *testing.T) {
 }
 
 func TestCreateServer(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 
 	// Get path to test data
@@ -174,6 +179,7 @@ func TestCreateServer(t *testing.T) {
 }
 
 func TestCreateServerHandlerResponds(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 
 	// Get path to test data
@@ -216,6 +222,7 @@ func TestCreateServerHandlerResponds(t *testing.T) {
 }
 
 func TestRunServerStartsAndStopsCleanly(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 
 	// This is a lightweight integration test to verify the Run function can start and stop
@@ -265,6 +272,7 @@ func TestRunServerStartsAndStopsCleanly(t *testing.T) {
 }
 
 func TestParseAPIKeysEdgeCases(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name     string
 		input    string
@@ -299,6 +307,7 @@ func TestParseAPIKeysEdgeCases(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			result := ParseAPIKeys(tt.input)
 			assert.Equal(t, tt.expected, result)
 		})
@@ -306,6 +315,7 @@ func TestParseAPIKeysEdgeCases(t *testing.T) {
 }
 
 func TestRunWithPortZeroAndImmediateShutdown(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 
 	// This test verifies Run() can start and shutdown gracefully
@@ -364,9 +374,11 @@ func TestRunWithPortZeroAndImmediateShutdown(t *testing.T) {
 }
 
 func TestBuildApplicationErrorHandling(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 
 	t.Run("handles invalid GTFS path", func(t *testing.T) {
+		t.Parallel()
 		cfg := appconf.Config{
 			Port:    4000,
 			Env:     appconf.Test,
@@ -387,7 +399,9 @@ func TestBuildApplicationErrorHandling(t *testing.T) {
 }
 
 func TestConfigFileLoading(t *testing.T) {
+	t.Parallel()
 	t.Run("loads valid config file", func(t *testing.T) {
+		t.Parallel()
 		jsonConfig, err := appconf.LoadFromFile("../../testdata/config_valid.json")
 		require.NoError(t, err)
 		require.NotNil(t, jsonConfig)
@@ -408,6 +422,7 @@ func TestConfigFileLoading(t *testing.T) {
 	})
 
 	t.Run("loads full config file with GTFS-RT feed", func(t *testing.T) {
+		t.Parallel()
 		jsonConfig, err := appconf.LoadFromFile("../../testdata/config_full.json")
 		require.NoError(t, err)
 		require.NotNil(t, jsonConfig)
@@ -433,6 +448,7 @@ func TestConfigFileLoading(t *testing.T) {
 	})
 
 	t.Run("fails on invalid config file", func(t *testing.T) {
+		t.Parallel()
 		jsonConfig, err := appconf.LoadFromFile("../../testdata/config_invalid.json")
 		assert.Error(t, err)
 		assert.Nil(t, jsonConfig)
@@ -440,6 +456,7 @@ func TestConfigFileLoading(t *testing.T) {
 	})
 
 	t.Run("fails on malformed JSON", func(t *testing.T) {
+		t.Parallel()
 		jsonConfig, err := appconf.LoadFromFile("../../testdata/config_malformed.json")
 		assert.Error(t, err)
 		assert.Nil(t, jsonConfig)
@@ -447,6 +464,7 @@ func TestConfigFileLoading(t *testing.T) {
 	})
 
 	t.Run("fails on nonexistent file", func(t *testing.T) {
+		t.Parallel()
 		jsonConfig, err := appconf.LoadFromFile("../../testdata/nonexistent.json")
 		assert.Error(t, err)
 		assert.Nil(t, jsonConfig)
@@ -455,9 +473,11 @@ func TestConfigFileLoading(t *testing.T) {
 }
 
 func TestBuildApplicationWithConfigFile(t *testing.T) {
+	t.Parallel()
 	ctx := context.Background()
 
 	t.Run("builds app from valid config file", func(t *testing.T) {
+		t.Parallel()
 		// Skip if test data not available
 		testDataPath := filepath.Join("..", "..", "testdata", "raba.zip")
 		if _, err := os.Stat(testDataPath); os.IsNotExist(err) {
@@ -509,6 +529,7 @@ func TestBuildApplicationWithConfigFile(t *testing.T) {
 }
 
 func TestRun_GracefulShutdown(t *testing.T) {
+	t.Parallel()
 	ctx, cancel := context.WithCancel(context.Background())
 
 	logger := slog.New(slog.NewTextHandler(io.Discard, nil))
