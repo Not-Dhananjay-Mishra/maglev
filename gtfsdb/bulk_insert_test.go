@@ -255,7 +255,6 @@ func TestBulkInsertWithNullValues(t *testing.T) {
 }
 
 func TestBulkInsertPerformance(t *testing.T) {
-	t.Parallel()
 	if testing.Short() {
 		t.Skip("Skipping performance test in short mode")
 	}

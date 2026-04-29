@@ -272,6 +272,7 @@ func TestRunServerStartsAndStopsCleanly(t *testing.T) {
 }
 
 func TestParseAPIKeysEdgeCases(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name     string
 		input    string

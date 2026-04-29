@@ -7,6 +7,7 @@ import (
 )
 
 func TestDefaultValues(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name     string
 		got      string

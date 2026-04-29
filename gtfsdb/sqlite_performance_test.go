@@ -13,6 +13,7 @@ import (
 )
 
 func TestSQLitePerformancePragmasApplied(t *testing.T) {
+	t.Parallel()
 	config := Config{
 		DBPath: ":memory:",
 		Env:    appconf.Test,
@@ -47,6 +48,7 @@ func TestSQLitePerformancePragmasApplied(t *testing.T) {
 }
 
 func TestMemoryDatabaseConnectionPool(t *testing.T) {
+	t.Parallel()
 	config := Config{
 		DBPath: ":memory:",
 		Env:    appconf.Test,
@@ -63,6 +65,7 @@ func TestMemoryDatabaseConnectionPool(t *testing.T) {
 }
 
 func TestFileDatabaseConnectionPool(t *testing.T) {
+	t.Parallel()
 	// Create temporary directory for test database
 	tmpDir, err := os.MkdirTemp("", "gtfsdb_test_*")
 	require.NoError(t, err)
@@ -93,6 +96,7 @@ func TestFileDatabaseConnectionPool(t *testing.T) {
 }
 
 func TestConnectionPoolBehaviorWithFileDatabase(t *testing.T) {
+	t.Parallel()
 	// Create temporary directory for test database
 	tmpDir, err := os.MkdirTemp("", "gtfsdb_test_*")
 	require.NoError(t, err)
@@ -139,6 +143,7 @@ func TestConnectionPoolBehaviorWithFileDatabase(t *testing.T) {
 }
 
 func TestMemoryDatabaseIsolation(t *testing.T) {
+	t.Parallel()
 	// This test verifies that :memory: databases with 1 connection
 	// maintain proper isolation
 
@@ -168,6 +173,7 @@ func TestMemoryDatabaseIsolation(t *testing.T) {
 }
 
 func TestPerformancePragmasDoNotBreakFunctionality(t *testing.T) {
+	t.Parallel()
 	// Verify that performance pragmas don't break normal database operations
 
 	config := Config{
@@ -220,6 +226,7 @@ func TestPerformancePragmasDoNotBreakFunctionality(t *testing.T) {
 }
 
 func TestConfigureConnectionPoolWithDifferentConfigs(t *testing.T) {
+	t.Parallel()
 	testCases := []struct {
 		name            string
 		dbPath          string
@@ -250,6 +257,7 @@ func TestConfigureConnectionPoolWithDifferentConfigs(t *testing.T) {
 }
 
 func TestSQLitePerformanceWithBulkOperations(t *testing.T) {
+	t.Parallel()
 	if testing.Short() {
 		t.Skip("Skipping performance test in short mode")
 	}
