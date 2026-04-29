@@ -12,7 +12,6 @@ import (
 )
 
 func TestBulkInsertStopTimes(t *testing.T) {
-	t.Parallel()
 	config := Config{
 		DBPath: ":memory:",
 		Env:    appconf.Test,
@@ -135,7 +134,6 @@ func TestBulkInsertStopTimes(t *testing.T) {
 }
 
 func TestBulkInsertShapes(t *testing.T) {
-	t.Parallel()
 	config := Config{
 		DBPath: ":memory:",
 		Env:    appconf.Test,
@@ -207,7 +205,6 @@ func TestBulkInsertShapes(t *testing.T) {
 }
 
 func TestBulkInsertWithNullValues(t *testing.T) {
-	t.Parallel()
 	config := Config{
 		DBPath: ":memory:",
 		Env:    appconf.Test,
